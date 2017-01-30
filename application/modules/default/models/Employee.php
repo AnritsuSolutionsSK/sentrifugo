@@ -869,6 +869,14 @@ class Default_Model_Employee extends Zend_Db_Table_Abstract
       $data = $result->fetch();
       return $data['emp_count'];
     }
+    public function getEmployeeIdByUserEmpId($userEmpId)
+    {
+      $db = Zend_Db_Table::getDefaultAdapter();
+      $query = "select e.user_id as user_id from main_employees e inner join main_users u on e.user_id = u.id where u.employeeId='".$userEmpId."';";
+      $result = $db->query($query);
+      $data = $result->fetch();
+      return $data['user_id'];
+    }
     // to get hr employees
     public function getHrEmployees()
     {

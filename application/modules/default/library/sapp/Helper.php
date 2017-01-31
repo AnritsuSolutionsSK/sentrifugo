@@ -539,9 +539,9 @@ class sapp_Helper
                         $err_msg = "Employee Id cannot be empty at row ".$i.".";
                         break;
                     }
-                    if (!empty($rowData[3]) && strlen($rowData[3]) > 4)
+                    if (!empty($rowData[3]) && strlen($rowData[3]) > 8)
                     {
-                        $err_msg = "Employee Id length should be less than or equal to four at row ".$i.".";
+                        $err_msg = "Employee Id length should be less than or equal to eight at row ".$i.".";
                         break;
                     }                    
                     if(empty($rowData[4]))
@@ -612,7 +612,7 @@ class sapp_Helper
                         $err_msg = "Last name is not a valid format at row ".$i.".";
                         break;
                     }
-                    if (!preg_match("/^[0-9]+?$/", $rowData[3])  && !empty($rowData[3]))
+                    if (!preg_match("/^[0-9a-zA-Z]+?$/", $rowData[3])  && !empty($rowData[3]))
                     {
                         $err_msg = "Employee Id is not a valid format at row ".$i.".";
                         break;

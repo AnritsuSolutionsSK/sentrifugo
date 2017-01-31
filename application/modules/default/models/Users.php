@@ -34,7 +34,16 @@ class Default_Model_Users extends Zend_Db_Table_Abstract
 	 */
 	public function isLdapUser($username) {
 			
-		return false;
+		$db = Zend_Db_Table::getDefaultAdapter();
+		$sql = $db->query("select um.emppassword from main_users um where um.employeeId='".$username."' ");
+		$result = $sql->fetch();
+        
+        if($result['emppassword'] == md5("ldap"))
+        {
+            return true;
+        }
+            
+		return false;  
 	}
 
 	public function getUserObject($username)

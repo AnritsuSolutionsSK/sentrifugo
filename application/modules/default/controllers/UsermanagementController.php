@@ -281,7 +281,7 @@ class Default_UsermanagementController extends Zend_Controller_Action
         {
             if($emp_identity_code == '')
             {
-                $err_messages['employeeId'] = "Identity codes are not configured yet.";
+                //$err_messages['employeeId'] = "Identity codes are not configured yet.";
             }
             if(count($roles_arr) == 0)
             {

@@ -35,10 +35,11 @@ class Default_Form_Identitycodes extends Zend_Form
 		
         $empCode->addFilter(new Zend_Filter_StringTrim());
 		$empCode->setAttrib('maxLength', 5);
-		$empCode->setRequired(true);
-        $empCode->addValidator('NotEmpty', false, array('messages' => 'Please enter employee code.')); 
+		$empCode->setRequired(false);
+		//$empCode->setRequired(true);
+        //$empCode->addValidator('NotEmpty', false, array('messages' => 'Please enter employee code.')); 
 		$empCode->addValidators(array(array('StringLength',false,
-								array('min' => 1,
+								array('min' => 0,
 									  'max' => 5,
 									  'messages' => array(
 									   Zend_Validate_StringLength::TOO_LONG =>

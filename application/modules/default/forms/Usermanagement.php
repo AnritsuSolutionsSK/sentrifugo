@@ -34,11 +34,11 @@ class Default_Form_Usermanagement extends Zend_Form
         $employeeId->setRegisterInArrayValidator(false);        
         $employeeId->setLabel("User Type");        
         $employeeId->setAttrib("class", "formDataElement");
-        if($id_val == '')
+        /*if($id_val == '')
         {
             $employeeId->setRequired(true);        
             $employeeId->addValidator('NotEmpty', false, array('messages' => 'Please configure identity codes.'));
-        }
+        }*/
 		/*$userfullname = new Zend_Form_Element_Text("userfullname");
         $userfullname->setLabel("Full Name");	
         $userfullname->setAttrib("class", "formDataElement");

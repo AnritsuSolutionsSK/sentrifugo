@@ -560,8 +560,8 @@ public function editAction()
         else 
         {
             $emp_id = '';
-            $msgarray['employeeId'] = 'Identity codes are not configured yet.';
-            $flag = 'false';
+            //$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+            //$flag = 'false';
         }	
 		
         $form->employeeId->setValue($emp_id);
@@ -1399,8 +1399,8 @@ public function editAction()
 			else 
 			{
 				$emp_id = '';
-				$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-				$flag = 'false';
+				//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+				//$flag = 'false';
 			}			
 			$form->employeeId->setValue($emp_id);
 			

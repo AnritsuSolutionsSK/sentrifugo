@@ -210,12 +210,12 @@ class Default_Form_employee extends Zend_Form
                 //fields from user management
                 //for emp code
                 $employeeId = new Zend_Form_Element_Text("employeeId");
-                $employeeId->setRequired("true");
+                $employeeId->setRequired(false);
                 $employeeId->setLabel("Employee Code");        
                 $employeeId->setAttrib("class", "formDataElement");
                 $employeeId->setAttrib("readonly", "readonly");
 				$employeeId->setAttrib('onfocus', 'this.blur()');
-				$employeeId->addValidator('NotEmpty', false, array('messages' => 'Identity codes are not configured yet.'));
+				//$employeeId->addValidator('NotEmpty', false, array('messages' => 'Identity codes are not configured yet.'));
 
                 //for emp id
                 $employeeNumId = new Zend_Form_Element_Text("employeeNumId");

@@ -141,7 +141,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 			else
 			{
 				$emp_id = '';
-				$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+				//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
 			}
 
 
@@ -214,8 +214,9 @@ class Default_EmployeeController extends Zend_Controller_Action
 					}
 					else
 					{
-						$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-						$flag = 'false';			
+						//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+						//$flag = 'false';
+                        $emp_id = $employeeNumId;
 					}
 					//duplicate emp id check
 					$where_condition = "";
@@ -397,8 +398,8 @@ class Default_EmployeeController extends Zend_Controller_Action
 			else 
 			{
 				$emp_id = '';
-				$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-				$flag = 'false';
+				//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+				//$flag = 'false';
 			}			
 			$form->employeeId->setValue($emp_id);
 			
@@ -475,8 +476,9 @@ class Default_EmployeeController extends Zend_Controller_Action
 				}
 				else
 				{
-					$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-					$flag = 'false';			
+					//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+					//$flag = 'false';			
+                    $emp_id = $employeeNumId;
 				}
 
 				if($orghead_repmangr == '')
@@ -781,7 +783,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 		else
 		{
 			$emp_id = '';
-			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+			//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
 		}
 
 		$employeeform->employeeId->setValue($emp_id);
@@ -1743,8 +1745,9 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		}
 		else
 		{
-			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-			$flag = 'false';			
+			//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+			//$flag = 'false';
+            $emp_id = $employeeNumId;
 		}
 		//duplicate emp id check
 		$where_condition = "";
@@ -2456,8 +2459,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 		else 
 		{
 			$emp_id = '';
-			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-			$flag = 'false';
+			//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+			//$flag = 'false';
 		}			
 		$emp_form->employeeId->setValue($emp_id);
 		
@@ -2579,8 +2582,9 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				}
 				else
 				{
-					$msgarray['employeeId'] = 'Identity codes are not configured yet.';
-					$flag = 'false';			
+					//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+					//$flag = 'false';	
+                    $emp_id = $employeeNumId;
 				}
 				//duplicate emp id check
 				$where_condition = "";

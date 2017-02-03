@@ -1634,7 +1634,7 @@ class Default_MyemployeesController extends Zend_Controller_Action
 		else
 		{
 			$emp_id = '';
-			$msgarray['employeeId'] = 'Identity codes are not configured yet.';
+			//$msgarray['employeeId'] = 'Identity codes are not configured yet.';
 		}
 
 		$employeeform->employeeId->setValue($emp_id);

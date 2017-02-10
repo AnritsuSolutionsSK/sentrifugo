@@ -15,14 +15,14 @@
                 <tr>
                     <?php 
                         $organizationImg = new Zend_Session_Namespace('organizationinfo');
-                        $orgLogoImg = MEDIA_PATH.'images/hrms-logo-new.png';
-                        if(isset($organizationImg->orgimg) && !empty($organizationImg->orgimg) && file_exists(BASE_PATH.'/uploads/organisation/'.$organizationImg->orgimg))
+                        $orgLogoImg = MEDIA_PATH.'images/anritsu-logo.jpg';
+                        /*if(isset($organizationImg->orgimg) && !empty($organizationImg->orgimg) && file_exists(BASE_PATH.'/uploads/organisation/'.$organizationImg->orgimg))
                         {
                             $orgLogoImg = DOMAIN.'public/uploads/organisation/'.$organizationImg->orgimg ; 
-                        }
+                        }*/
                     ?>
                     <td width="400"><img src="<?php echo $orgLogoImg; ?>"></td>
-                    <td width="400" align="right"><font face="'Arial', sans-serif" size="3">Employee Appraisal</font></td>
+                    <td width="400" align="right"><font face="'Arial', sans-serif" size="3">Personal Review</font></td>
                 </tr>
             </table>
         </td>
@@ -31,27 +31,30 @@
         <td>
             <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse;">
                 <tr>
-                    <td width="150"><font face="'Arial', sans-serif" size="2">Employee Name:</font></td>
+                    <td width="150"><font face="'Arial', sans-serif" size="2">Name:</font></td>
                     <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['userfullname'])?$this->empAppraisalData[0]['userfullname']:'';?></strong></font></td>
-                    <td width="150"><font face="'Arial', sans-serif" size="2">Business Unit:</font></td>
-                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['businessunit_name'])?$this->empAppraisalData[0]['businessunit_name']:'';?></strong></font></td>
+                    <td width="150"><font face="'Arial', sans-serif" size="2">Job Title:</font></td>
+                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['jobtitle_name'])?$this->empAppraisalData[0]['jobtitle_name']:'';?></strong></font></td>
+                    
+                    <!--<td width="150"><font face="'Arial', sans-serif" size="2">Business Unit:</font></td>
+                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['businessunit_name'])?$this->empAppraisalData[0]['businessunit_name']:'';?></strong></font></td>-->
                 </tr>
-                <tr>
+                <!--<tr>
                     <td width="150"><font face="'Arial', sans-serif" size="2">Employee ID:</font></td>
                     <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['employeeId'])?$this->empAppraisalData[0]['employeeId']:'';?></strong></font></td>
                     <td width="150"><font face="'Arial', sans-serif" size="2">Department:</font></td>
                     <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['department_name'])?$this->empAppraisalData[0]['department_name']:'';?></strong></font></td>
-                </tr>
+                </tr>-->
                 <tr>
-                    <td width="150"><font face="'Arial', sans-serif" size="2">Appraisal Mode:</font></td>
+                    <td width="150"><font face="'Arial', sans-serif" size="2">Review Mode:</font></td>
                     <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->empAppraisalData[0]['appraisal_mode'])?$this->empAppraisalData[0]['appraisal_mode']:'';?></strong></font></td>
-                    <td width="150"><font face="'Arial', sans-serif" size="2">Year:</font></td>
+                    <td width="150"><font face="'Arial', sans-serif" size="2">Review Year:</font></td>
                     <td width="250"><font face="'Arial', sans-serif" size="2"><strong><?php echo (!empty($this->empAppraisalData[0]['from_year']) && !empty($this->empAppraisalData[0]['to_year']))?($this->empAppraisalData[0]['from_year'].'-'.$this->empAppraisalData[0]['to_year']):'';?></strong></font></td>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td width="150"><font face="'Arial', sans-serif" size="2">Period:</font></td>
                     <td width="250" colspan="3"><font face="'Arial', sans-serif" size="2"><strong><?php echo !empty($this->appText)?$this->appText:'';?></strong></font></td>
-                </tr>
+                </tr>-->
             </table>
         </td>
     </tr>
@@ -129,8 +132,8 @@
                             <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse;">
                                 <tr>
                                     <td width="300"><font face="'Arial', sans-serif" size="2"><strong>Question</strong></font></td>
-                                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Employee Rating & Comment</strong></font></td>
-                                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong>L1 Manager Rating & Comment</strong></font></td>
+                                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Employee Comment</strong></font></td>
+                                    <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Manager Comment</strong></font></td>
                                 </tr>
                                 <?php 
                                 if(!empty($values))
@@ -222,20 +225,29 @@
         <td>
             <table cellspacing="0" cellpadding="0" width="800" border="0" >
                 <tr>
-                    <td width="375" height="26" align="left"><font face="'Arial', sans-serif" size="2">Employee Comments</font></td>
-                    <td width="50" height="26" ></td>
-                    <td width="375" height="26" align="right"><font face="'Arial', sans-serif" size="2">Manager Comments</font></td>
+                    <td width="375" height="26" align="left"><font face="'Arial', sans-serif" size="2">Manager's Feedback</font></td>
                 </tr>                
                 <tr>
                     <td width="375" height="80"  style="border: 1px solid;"></td>
-                    <td width="50" height="80" ></td>
-                    <td width="375" height="80" style="border: 1px solid;"></td>
                 </tr>
-
             </table>
         </td>
     </tr>
     <tr>
+        <td>
+            <table cellspacing="0" cellpadding="0" width="800" border="0" >
+                <tr>
+                    <td width="375" height="26" align="left"><font face="'Arial', sans-serif" size="2">Employee's Feedback</font></td>
+                </tr>                
+                <tr>
+                    <td width="375" height="80"  style="border: 1px solid;"></td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    
+                    
+    <!--<tr>
         <td>
             <table cellspacing="0" cellpadding="0" width="800" border="0" >
                 <tr>
@@ -250,7 +262,7 @@
                 </tr>
             </table>
         </td>
-    </tr>
+    </tr>-->
      <?php   } ?>
 </table>
 </body>

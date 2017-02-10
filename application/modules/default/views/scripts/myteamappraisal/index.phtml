@@ -172,14 +172,14 @@ else
 ?>                  <form name="frm_manager_response_<?php echo $key;?>" id="idfrm_manager_response_<?php echo $key;?>" method="post" action="">
 <?php                 
                 //}
-?>                
-                <div class="add_manager_response" id="id_add_manager_response_<?php echo $key;?>">
+?>              
+                <!--<div class="add_manager_response" id="id_add_manager_response_<?php echo $key;?>">
                     <div class="l_manager_txt">L<?php echo $edata['line_status'];?> Manager Overall Rating</div>
-                    <input class="app_req_field_<?php echo $key;?> li_rating_class_<?php echo $key;?>" type="hidden" id="consol_rating_<?php echo $key;?>" name="consol_rating" value="<?php echo $edata['line_rating_'.$edata['line_status']];?>">
+                    <input class="li_rating_class_<?php echo $key;?>" type="hidden" id="consol_rating_<?php echo $key;?>" name="consol_rating" value="<?php echo $edata['line_rating_'.$edata['line_status']];?>">
                     <div onclick="removeValidationMessage(this)" id="id_rate_<?php echo $key;?>" class="rateit" data-rateit-backingfld="#consol_rating_<?php echo $key;?>" data-rateit-step="1" 
                          data-rateit-resetable="false" data-rateit-min="<?php echo $ratingMin;?>" 
                          data-rateit-max="<?php echo $ratingMax;?>" alt=""></div>
-                    <textarea onkeyup="removeValidationMessage(this)" class="app_req_field_<?php echo $key;?> exp-textarea_<?php echo $key;?> appri_textarea" name="consol_comments" style="margin-top: 4px; height: 27px;" id="idconsol_comments_<?php echo $key;?>" alt=""><?php echo $edata['line_comment_'.$edata['line_status']];?></textarea>
+                    <textarea onkeyup="removeValidationMessage(this)" class="exp-textarea_<?php echo $key;?> appri_textarea" name="consol_comments" style="margin-top: 4px; height: 27px;" id="idconsol_comments_<?php echo $key;?>" alt=""><?php echo $edata['line_comment_'.$edata['line_status']];?></textarea>
 				<?php        
                 if($edata['line_status'] > 1)
                 {                    
@@ -192,7 +192,7 @@ else
 				<?php     
                 }
 				?>				
-                </div>
+                </div>-->
 <?php        
                 if($edata['line_status'] > 1)
                 {                    

@@ -417,7 +417,7 @@ defined('SERVICEDOMAIN') || define('SERVICEDOMAIN', $domain);
 
 defined('IMAGE_UPLOAD_PATH') || define('IMAGE_UPLOAD_PATH',realpath(dirname(__FILE__)).'/uploads/organisation');
 
-defined('DONOTREPLYEMAIL') || define('DONOTREPLYEMAIL', 'donot-reply@example.com');
+defined('DONOTREPLYEMAIL') || define('DONOTREPLYEMAIL', 'no-reply@anritsu.com');
 
 defined('DONOTREPLYNAME') || define('DONOTREPLYNAME', 'Do-not-reply');
 

@@ -31,7 +31,7 @@ class sapp_Mail
 	
 	public static function _email($options = array()) {
 		
-		$options['fromEmail'] = (!empty($options['fromEmail']))?$options['fromEmail']:SUPERADMIN_EMAIL;
+		$options['fromEmail'] = (!empty($options['fromEmail']))?$options['fromEmail']:DONOTREPLYEMAIL;
 		$options['fromName'] = (!empty($options['fromName']))?$options['fromName']:DONOTREPLYNAME;
 		
 		$orglogo = '';
@@ -42,10 +42,10 @@ class sapp_Mail
 		if(!empty($orglogoArr))
 		$orglogo = $orglogoArr['org_image']; 
 		
-		if(!empty($orglogo))
-		   $imgsource = DOMAIN.'public/uploads/organisation/'.$orglogo ;
-		else
-		   $imgsource = MEDIA_PATH.'images/mail_pngs/hrms_logo.png';
+		/*if(!empty($orglogo))
+		   $imgsource = DOMAIN.'public/uploads/organisation/'.$orglogo ;*/
+		//else
+        $imgsource = MEDIA_PATH.'images/mail_pngs/anritsu-logo.jpg';
 		
 		$header="";
 		$footer="";
@@ -174,8 +174,8 @@ public static function _checkMail($options = array()) {
 			
     	$htmlcontentdata = '
 		<div style="width:100%;">
-            <div style="background-color:#eeeeee; width:800px; margin:0 auto; position:relative;">
-            <div style="float:right;"><img src="'.$imgsource.'" onError="this.src='.MEDIA_PATH.'images/mail_pngs/hrms_logo.png" height="62" width="319" /></div>
+            <div style="background-color:#ffffff; width:800px; margin:0 auto; position:relative;">
+            <div style="float:right;"><img src="'.$imgsource.'" onError="this.src='.MEDIA_PATH.'images/mail_pngs/hrms_logo.png" height="62" width="172" /></div>
             <div style="padding:20px 20px 50px 20px;">
                     <div>
                         <h1 style="font-family:Arial, Helvetica, sans-serif; font-size:18px; font-weight:bold; border-bottom:1px dashed #999; padding-bottom:15px;">'.$options['header'].'</h1>

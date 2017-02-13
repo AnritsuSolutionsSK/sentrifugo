@@ -85,13 +85,13 @@ class Default_Form_Organisationhead extends Zend_Form
         $employeeNumId = new Zend_Form_Element_Text("employeeNumId");
         $employeeNumId->setRequired("true");
         $employeeNumId->setLabel("Employee Id");
-        $employeeNumId->setAttrib('maxLength', 4);       
+        $employeeNumId->setAttrib('maxLength', 9);       
         $employeeNumId->setAttrib("class", "formDataElement");
         $employeeNumId->addValidator('NotEmpty', false, array('messages' => 'Please enter the Employee Id.'));
         $employeeNumId->addValidator("regex",true,array(                          
-                   'pattern'=>'/^[0-9]+$/',
+                   'pattern'=>'/^[0-9a-zA-Z]+$/',
                    'messages'=>array(
-                       'regexNotMatch'=>'Please enter only numbers.'
+                       'regexNotMatch'=>'Please enter only numbers and letters.'
                    )));   		
 		
 		/*$employeeId = new Zend_Form_Element_Text("employeeId");

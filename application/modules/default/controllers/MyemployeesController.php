@@ -1969,7 +1969,7 @@ class Default_MyemployeesController extends Zend_Controller_Action
 					$this->view->base_url=$base_url;
 					$text = $view->render('mailtemplates/newpassword.phtml');
 					$options['subject'] = APPLICATION_NAME.': Login Credentials';
-					$options['header'] = 'Greetings from Sentrifugo';
+					$options['header'] = 'Greetings from '.APPLICATION_NAME;
 					$options['toEmail'] = $emailaddress;
 					$options['toName'] = $this->view->emp_name;
 					$options['message'] = $text;

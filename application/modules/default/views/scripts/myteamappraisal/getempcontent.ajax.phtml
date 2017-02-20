@@ -126,12 +126,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							</td>
                                                         <?php if(empty($this->history_flag)) {?>
 							<td>                            
-								<input tabindex="-1" <?php if($priv_data['MR'] == 1){echo 'class="app_req_field_'.$main_key.' app_ratings_text_'.$main_key.'"';}else{echo 'class=""';}?> type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating;?>">
+								<input tabindex="-1" <?php if($priv_data['MR'] == 1){echo 'class="app_req_field_'.$main_key.' app_ratings_text_'.$main_key.'"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating;?>">
 								<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" data-rateit-step="1" data-rateit-resetable="false" data-rateit-min="<?php echo $ratingMin;?>"  data-rateit-max="<?php echo $ratingMax;?>">
 								</div>
 							</td>
 							<td>
-								<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea"';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
+								<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea app_non_req_field"';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
 							</td>
                                                         <?php } ?>
 						</tr>
@@ -347,7 +347,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 
     
     $(document).ready(function(){
-		
+		$("input.app_non_req_field").each(function(){
+        $(this).next().css("visibility", "hidden");
+        });
+        $("textarea.app_non_req_field").each(function(){
+            $(this).css("visibility", "hidden");
+        });
         $(".tabs_<?php echo $main_key;?>").tabs();
         $('div.rateit, span.rateit').rateit();
     

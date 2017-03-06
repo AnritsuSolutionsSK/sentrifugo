@@ -155,7 +155,7 @@
                                             <br>
                                             <br>
 
-                                            <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?'Comments - '.$employee_response[$v['question_id']]['comment']:'';?></font>
+                                            <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';?></font>
                                         </td>
                                         <td width="250"  valign="top">
                                         <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
@@ -163,7 +163,7 @@
                                             <font face="'Arial', sans-serif" size="1"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$v['question_id']]['rating']]['rating_text']:"";?></font>
                                             <br>
                                             <br>
-                                            <font face="'Arial', sans-serif" size="1"><?php echo !empty($qcomment)?'Comments - '.$qcomment:'';?></font>
+                                            <font face="'Arial', sans-serif" size="1"><?php echo !empty($qcomment)?$qcomment:'';?></font>
                                         <?php } ?>
                                         </td>
                                     </tr>

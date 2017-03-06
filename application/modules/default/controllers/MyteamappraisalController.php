@@ -436,6 +436,10 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
             $app_config_id = sapp_Global::_decrypt($post_values['app_config_id']);
             $app_ratings = sapp_Global::_decrypt($post_values['app_rating']);
             $emp_status = sapp_Global::_decrypt($post_values['emp_status']);
+            
+            $app_rating_model = new Default_Model_Appraisalratings();
+            $checkRatingsExists = $app_rating_model->getAppraisalRatingsbyInitId($appraisal_id);
+            
             $history_flag = isset($post_values['history_flag'])?sapp_Global::_decrypt($post_values['history_flag']):'';
             $key = $post_values['key'];
             $appEmpRatingsModel = new Default_Model_Appraisalemployeeratings();
@@ -472,6 +476,7 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
             $this->view->manager_id = $manager_id;
             $this->view->app_config_id = $app_config_id;
             $this->view->history_flag = $history_flag;
+            $this->view->check_ratings_exists = $checkRatingsExists;
         }
     }
     public function indexAction()

@@ -79,6 +79,17 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 					
 					// get all questions data based on above question ids
 					$questions_data = $appEmpRatingsModel->getAppQuesDataByIDs($ques_csv);
+                    
+                    $hr_ques_previs = array();
+                    $mgr_ques_previs = array();
+                                    $ratingType = array();
+                    if($appEmpQuesPrivData[0]['hr_group_qs_privileges'])
+                        $hr_ques_previs = json_decode($appEmpQuesPrivData[0]['hr_group_qs_privileges'],true);
+
+                    if($appEmpQuesPrivData[0]['manager_qs_privileges'])
+                        $mgr_ques_previs = json_decode($appEmpQuesPrivData[0]['manager_qs_privileges'],true);
+
+                    $question_previs = $hr_ques_previs + $mgr_ques_previs;
 					
 					// Employee and Manager response
 					$emp_response = array();
@@ -147,6 +158,7 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 					$this->view->appEmpRatingsData = $appEmpRatingsData;					
 					$this->view->categories_data = $categories_data;
 					$this->view->questions_data = $questions_data;
+                    $this->view->question_previs = $question_previs;
 					$this->view->ratingType = $ratingType;
 					$this->view->ratingTextDisplay = $ratingTextDisplay;
 					$this->view->ratingText = json_encode($ratingText);

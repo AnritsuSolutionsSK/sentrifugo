@@ -35,6 +35,7 @@ $userfullname=$this->userfullname;
 //$key=sapp_Global::_encrypt($main_key);
 $appid=sapp_Global::_encrypt($appraisal_id);
 $userid=sapp_Global::_encrypt($user_id);
+sapp_PerformanceHelper::display_ratings_div($this->app_ratings,$this->check_ratings_exists);
 
 if(count($data) > 0 && !empty($data['rating_arr']))
 {
@@ -57,6 +58,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 ?>
 	<input type="hidden" name="ratingsmin" id="ratingsmin" value="<?php echo $ratingMin;?>" />
 	<input type="hidden" name="ratingsmax"  id="ratingsmax" value="<?php echo $ratingMax;?>" />
+    <div class="new-form-ui-submit employee_appraisal_submit" style="top: 2px; right: 6px; position: absolute;">
+        <input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
+    </div>
 	<?php if($this->manager_id == $ratings_data['line_manager_1'] || $this->manager_id == $ratings_data['line_manager_2'] || $this->manager_id == $ratings_data['line_manager_3'] || $this->manager_id == $ratings_data['line_manager_4'] || $this->manager_id == $ratings_data['line_manager_5'])
                 {?>
         

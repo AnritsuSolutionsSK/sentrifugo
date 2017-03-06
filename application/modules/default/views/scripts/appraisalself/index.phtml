@@ -32,6 +32,8 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 	//echo '<pre>';print_r($empRatData);
 	$catData = $this->categories_data;
 	$qData = $this->questions_data;
+    $qpData = $this->question_previs;
+    
 	$empRes = $this->emp_response;
 	$mgrRes = $this->mgr_response;
 	$ratVal = $this->ratingValues;
@@ -190,7 +192,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 							{
 								foreach ($qData as $qd)
 								{
-									
+								$priv_data = $qpData[$qd['id']];
 									if($cd['id'] == $qd['pa_category_id'])
 									{
 										$tmpQuestionsFlag = 1;
@@ -205,10 +207,12 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 											<!-- <td><?php //echo $qd['description'];?></td> -->
 											<?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
 												<td>
-													<div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
+													<?php if($priv_data['ER'] == 1): ?>
+                                                        <div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
+                                                    <?php endif; ?>
 												</td>
 												<td>
-													<span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+													   <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
 												</td>
 											<?php }else{?>
 												<td>

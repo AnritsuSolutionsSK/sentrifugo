@@ -124,9 +124,13 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 								</div>
 							</td>
 							<td>
-								<span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:''):"";?></span>
-								<span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:''):"";?></span>
-								<div class="rating_comments"><?php echo $employee_response[$ques['question_id']]['comment'];?></div>
+                                <?php if($priv_data['ER'] == 1): ?>
+								    <span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:''):"0";?></span>
+                                    <span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:''):"Not Rated";?></span>
+                                <?php endif; ?>
+                                <?php if($priv_data['EC'] == 1): ?>
+								    <div class="rating_comments"><?php echo $employee_response[$ques['question_id']]['comment'];?></div>
+                                <?php endif; ?>
 							</td>
                                                         <?php if(empty($this->history_flag)) {?>
 							<td>                            
@@ -187,7 +191,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 								</td>                        
 								<td>
 									<input tabindex="-1" class="app_req_field_<?php echo $main_key;?> cls_srating_<?php echo $main_key;?>" type="hidden" id="skill_rating_<?php echo $i;?>" name="skill_rating[]" value="<?php echo isset($sk_rating)?$sk_rating:'';?>">
-									<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#skill_rating_<?php echo $i;?>" data-rateit-step="1" data-rateit-resetable="false" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>"></div>
+									<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#skill_rating_<?php echo $i;?>" data-rateit-step="1" data-rateit-resetable="true" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>"></div>
 								</td>
 								<td><span class='cls_close_skill' onclick = "delete_skill('<?php echo $i;?>')" >Close</span></td>
 							</tr>
@@ -505,14 +509,23 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 				<span class="appri_desc"><?php echo $ques['description']; ?></span>
 				</div></td>
                         <td>
-                        	<span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:"";?></span>
-                            <span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:"";?></span>
-                            <br>
-                            <?php echo $employee_response[$ques['question_id']]['comment'];?>
+                            <?php if($priv_data['ER'] == 1): ?>
+                                <span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:"0";?></span>
+                                <span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:"Not Rated";?></span>
+                                <br>
+                            <?php endif; ?>
+                            <?php if($priv_data['EC'] == 1): ?>
+                                <?php echo $employee_response[$ques['question_id']]['comment'];?>
+                            <?php endif; ?>
                         </td>
-                        <td><span class="rating_value"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value']:'';?></span>
-                            <span class="rating_txt"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$ques['question_id']]['rating']]['rating_text']:"";?></span>
-                            <br><?php echo $qcomment;?>
+                        <td>
+                            <?php if($priv_data['MR'] == 1): ?>
+                                <span class="rating_value"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value']:"0";?></span>
+                                <span class="rating_txt"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$ques['question_id']]['rating']]['rating_text']:"Not Rated";?></span>
+                            <?php endif; ?>
+                            <?php if($priv_data['MC'] == 1): ?>
+                                <br><?php echo $qcomment;?>
+                            <?php endif; ?>
                         </td>
                     </tr>
 <?php                    

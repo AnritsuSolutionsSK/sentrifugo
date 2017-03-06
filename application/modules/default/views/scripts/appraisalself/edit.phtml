@@ -52,7 +52,7 @@ if(empty($this->check_ratings_exists)) { ?>
 						$(this).removeClass('borderclass');
 				}
 		    });
-		    $(".app_ratings_text").each(function(){
+		    /*$(".app_ratings_text").each(function(){
                 var qval = $(this).val();
                 var qid = $(this).prop('id');
                 if(qval == '')
@@ -64,7 +64,7 @@ if(empty($this->check_ratings_exists)) { ?>
 	                    }
 					
                 }
-            });
+            });*/
 		    $('.appri_textarea').each(function(){
                 var qval = $(this).val();
                 var qid = $(this).prop('id');
@@ -233,8 +233,8 @@ if(empty($this->check_ratings_exists)) { ?>
 												<!-- <td><?php //echo $qd['description'];?></td> -->
 												<?php $priv_data = $qpData[$qd['id']];?>
 												<td>
-													<input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field app_ratings_text"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
-													<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="false" 
+													<input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field_rating app_ratings_text"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
+													<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="true" 
 														data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" ></div>
 												</td>
 												<td>

@@ -33,7 +33,7 @@ Note all DIVs are generated and should not be hard-coded
 box-shadow:         0px 2px 3px 0px rgba(0, 0, 0, 0.74);*/} 
 
 .home_menu .menu-head {/* width:100%; */margin:0 auto; padding:8px 0 9px 10px; height:24px;
-background:/*url(../images/black-pattren-bg.png) repeat*/ #3498db;  
+background:/*url(../images/black-pattren-bg.png) repeat*/ #289b7d;  
 /*-webkit-border-bottom-right-radius: 5px;
 -webkit-border-bottom-left-radius: 5px;
 -moz-border-radius-bottomright: 5px;
@@ -42,7 +42,8 @@ border-bottom-right-radius: 5px;
 border-bottom-left-radius: 5px;
 -webkit-box-shadow: inset 1px 0 0 0 #686868 ; 
 box-shadow: inset 1px 0 0 0 #686868; 
-border:1px solid #000000;*/ border-top:0; border-top:1px solid #e9eef3;
+border:1px solid #000000;*/
+border-top:0; border-top:1px solid #287760;
 }
 
 .side-menu {
@@ -425,4 +426,4 @@ border:1px solid #000000;*/ border-top:0; border-top:1px solid #e9eef3;
 .menu-head  ul li b{ font-family: 'Roboto Regular';   font-size:15px;  color:#fff; font-weight:normal; cursor:pointer;}
 .menu-head  ul li.flexMenu-viewMore a{ font-family: 'Roboto Regular';   font-size:15px;  color:#fff; font-weight:normal; cursor:pointer; text-decoration:none; background:url(../images/more_dots.png) no-repeat right center; padding-right:17px;}
 .menu-head  ul.flexMenu-popup li.clickable_menu a{ background:transparent none repeat scroll 0 0; padding-right:5px;}
-.menu-head  ul li.link-selected b{ background: #253f51 none repeat scroll 0 0; color: #fff; padding: 8px 15px 12px 15px;}
+.menu-head  ul li.link-selected b{ background: #2d8068 none repeat scroll 0 0; color: #fff; padding: 8px 15px 12px 15px;}

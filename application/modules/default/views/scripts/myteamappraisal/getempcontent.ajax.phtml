@@ -132,6 +132,14 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							</td>
 							<td>
 								<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea"';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
+                                <?php if($cat_name == "Objectives"): ?>
+                                    <label for="achievement">Achievement: </label>
+                                    <select name="achievement[<?php echo $ques['question_id'];?>]">
+                                        <option value="Achieved">Achieved</option>
+                                        <option value="Partially Achieved">Partially Achieved</option>
+                                        <option value="Not Achieved">Not Achieved</option>
+                                    </select>
+                                <?php endif; ?>
 							</td>
                                                         <?php } ?>
 						</tr>

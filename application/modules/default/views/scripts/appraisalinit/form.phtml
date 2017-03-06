@@ -524,7 +524,7 @@ function year_change()
 						$('#appraisal_ratings').html('');
 						if(response.rating_type == 1)
 						{
-							rating_text = '1-5';
+							rating_text = '1-6';
 						}
 						else if(response.rating_type == 2)
 						{
@@ -539,7 +539,7 @@ function year_change()
 						$('#appraisal_mode').html("<option value=''>Select appraisal mode</option><option value='Quarterly'>Quarterly</option><option value='Half-yearly'>Half-yearly</option><option value='Yearly'>Yearly</option>");
 						$('#appraisal_period').val('');
 						$('#appraisal_ratings').html('');
-						$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-5</option><option value='2'>1-10</option>");					
+						$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-6</option><option value='2'>1-10</option>");					
 					}
 				}
 				else if(response.status === 'fail')
@@ -615,7 +615,7 @@ function clearvalues(flag)
 	$("select#appraisal_mode").select2('data', {id:'',text:'Select appraisal mode'});
 	$('#appraisal_period').val('');
 	$('#appraisal_ratings').html('');
-	$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-5</option><option value='2'>1-10</option>");
+	$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-6</option><option value='2'>1-10</option>");
 	$("select#appraisal_ratings").select2('data', {id:'',text:'Select ratings'});
 }
 
@@ -627,7 +627,7 @@ function clearsearchvalues()
 	$("select#appraisal_mode").select2('data', {id:'',text:'Select appraisal mode'});
 	$('#appraisal_period').val('');
 	$('#appraisal_ratings').html('');
-	$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-5</option><option value='2'>1-10</option>");
+	$('#appraisal_ratings').html("<option value=''>Select ratings</option><option value='1'>1-6</option><option value='2'>1-10</option>");
 	$("select#appraisal_ratings").select2('data', {id:'',text:'Select ratings'});
 }
 

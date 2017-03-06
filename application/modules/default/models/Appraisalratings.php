@@ -46,8 +46,8 @@ class Default_Model_Appraisalratings extends Zend_Db_Table_Abstract
 		}
 		$appraisalRatingsData = $this->select()
     					   ->setIntegrityCheck(false)	
-                           ->from(array('r'=>'main_pa_ratings'),array('r.*','rating' =>'concat(r.rating_value,"-",r.rating_text)','rating_type'=>'if (r.rating_type=1,"1-5","1-10")'))
-							->joinInner(array('i'=>'main_pa_initialization'), 'i.id = r.pa_initialization_id', array('appr_period'=>'concat(case when i.appraisal_mode = "Yearly" then "Y" when i.appraisal_mode = "Half-yearly" then "H" when i.appraisal_mode = "Quarterly" then "Q" end,"",i.appraisal_period," Appraisal, ",i.to_year)','i.enable_step','i.employee_response','i.initialize_status','appraisal_ratings'=>'if (i.appraisal_ratings=1,"1-5","1-10")', new Zend_Db_Expr("CASE WHEN i.status=1 THEN 'Open' WHEN i.status=2 THEN 'Closed' ELSE 'Force Closed' END as status "),
+                           ->from(array('r'=>'main_pa_ratings'),array('r.*','rating' =>'concat(r.rating_value,"-",r.rating_text)','rating_type'=>'if (r.rating_type=1,"1-6","1-10")'))
+							->joinInner(array('i'=>'main_pa_initialization'), 'i.id = r.pa_initialization_id', array('appr_period'=>'concat(case when i.appraisal_mode = "Yearly" then "Y" when i.appraisal_mode = "Half-yearly" then "H" when i.appraisal_mode = "Quarterly" then "Q" end,"",i.appraisal_period," Appraisal, ",i.to_year)','i.enable_step','i.employee_response','i.initialize_status','appraisal_ratings'=>'if (i.appraisal_ratings=1,"1-6","1-10")', new Zend_Db_Expr("CASE WHEN i.status=1 THEN 'Open' WHEN i.status=2 THEN 'Closed' ELSE 'Force Closed' END as status "),
 							new Zend_Db_Expr("case when initialize_status = 1 then case when i.enable_step = 1 then 'Enabled to Managers' when i.enable_step = 2 then 'Enabled to Employees' end when initialize_status = 2 then 'Initialize later' when initialize_status is null then 'In progress' end as appraisal_process_status")))
                            ->joinLeft(array('b'=>'main_businessunits'), 'i.businessunit_id = b.id', array('deptname'=>'ifnull(d.deptname,"--")'))
                            ->joinLeft(array('d'=>'main_departments'), 'i.department_id = d.id', array('b.unitname'))
@@ -103,7 +103,7 @@ class Default_Model_Appraisalratings extends Zend_Db_Table_Abstract
 							'search_filters' => array(                            
 								'rating_type' => array(
 										'type' => 'select',
-										'filter_data' => array('' => 'All',1 => '1-5', 2 => '1-10')
+										'filter_data' => array('' => 'All',1 => '1-6', 2 => '1-10')
 									),
 								'status' => array(
 								'type' => 'select',

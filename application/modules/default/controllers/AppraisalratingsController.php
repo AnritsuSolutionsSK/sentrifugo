@@ -121,7 +121,7 @@ class Default_AppraisalratingsController extends Zend_Controller_Action
 			{
 				$initializationid = !empty($checkActiveApp['id'])?$checkActiveApp['id']:0;
 				$check = $appraisalratingsmodel->getAppraisalRatingsbyInitId($initializationid);
-				$appraisal_rating = ((isset($checkActiveApp['appraisal_ratings']) && $checkActiveApp['appraisal_ratings'] == 1)?5:10);
+				$appraisal_rating = ((isset($checkActiveApp['appraisal_ratings']) && $checkActiveApp['appraisal_ratings'] == 1)?6:10);
 			}
 			else
 			{
@@ -179,7 +179,7 @@ class Default_AppraisalratingsController extends Zend_Controller_Action
 				if(!empty($ratings))
 				{
 					$appraisal_rating = !empty($ratings[0]['appraisal_ratings'])?$ratings[0]['appraisal_ratings']:0;  
-					$appraisal_rating = ($appraisal_rating == 1 ? 5:10);
+					$appraisal_rating = ($appraisal_rating == 1 ? 6:10);
 					$data = $appraisalratingsmodel->getAppraisalRatingsbyInitId($config_id);
 					if(!empty($data))
 					{
@@ -373,7 +373,7 @@ class Default_AppraisalratingsController extends Zend_Controller_Action
 			{
 				$appraisal_rating = $result['appraisal_ratings'];
 			}
-			$appraisal_rating = ($appraisal_rating == 1 ? 5:10);
+			$appraisal_rating = ($appraisal_rating == 1 ? 6:10);
 			try
 			{		
 				if($id)

@@ -1240,7 +1240,7 @@ public static function manager_questions_privileges($questionarray,$appraisalid,
 			   {
 			   	if($ratingtype == 1)
 			   	{
-			   	 	$ratingsstar = 5;
+			   	 	$ratingsstar = 6;
 			   	 	$ratingclass = "rating_star_class rating_star_";
 			   	 	$ratingtextclass = "rating_text_";
 			   	} 

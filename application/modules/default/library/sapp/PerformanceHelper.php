@@ -1253,6 +1253,10 @@ public static function manager_questions_privileges($questionarray,$appraisalid,
 			   	
 			   	 ?>
 			   	 <div id="ratingsdiv" class="ratings_div" style="display: none;">
+                
+                 <div class="ratings_block">
+                    <span><?php echo "0 - Not Rated" ?> </span>
+                 </div>
 	   <?php 	
 			   	 for($i=0;$i<$ratingsstar;$i++)
 			   	 {

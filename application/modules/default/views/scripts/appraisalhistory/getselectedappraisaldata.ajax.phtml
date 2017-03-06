@@ -162,7 +162,7 @@ if(isset($this->selectedAppraisals[0]))
 								</td>
 								<td>
 									<div>
-									<?php  $emp_rating_val = isset($this->ratingsData[$tmpArr['rating_id']]['rating_value'])? $this->ratingsData[$tmpArr['rating_id']]['rating_value']:'' ; ?>
+									<?php  $emp_rating_val = isset($this->ratingsData[$tmpArr['rating_id']]['rating_value'])? $this->ratingsData[$tmpArr['rating_id']]['rating_value']:"0" ; ?>
 										<span class="appri_ques <?php echo $rate_star_class.$emp_rating_val;?>">
 											<?php 
 											if(isset($tmpArr['rating_id']) && isset($this->ratingsData[$tmpArr['rating_id']]))
@@ -189,7 +189,7 @@ if(isset($this->selectedAppraisals[0]))
 								</td>
 								<td>
 									<div>
-									 <?php  $mgr_rating_val = isset($this->ratingsData[$tmpManagerArr['rating']]['rating_value'])? $this->ratingsData[$tmpManagerArr['rating']]['rating_value']:'' ; ?>
+									 <?php  $mgr_rating_val = isset($this->ratingsData[$tmpManagerArr['rating']]['rating_value'])? $this->ratingsData[$tmpManagerArr['rating']]['rating_value']:"0" ; ?>
 										<span class="appri_ques <?php echo $rate_star_class.$mgr_rating_val?>">
 										
 											<?php 

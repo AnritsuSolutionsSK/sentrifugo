@@ -490,8 +490,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 <?php
                 foreach($questions as $ques)
                 {
-					$qrating = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['rating']:"";
-					$qcomment = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['comment']:"";
+					$qrating = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['rating']:"0";
+					$qcomment = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['comment']:"Not Rated";
+                    $priv_data = $qpData[$ques['question_id']];
 ?>
                     <tr>
                         <td><div>
@@ -549,8 +550,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                             <div class="rateit" data-rateit-min="<?php //echo $ratingMin;?>" 
                          data-rateit-max="<?php //echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php //echo $rating_arr[$sk_rating]['rating_value'];?>"></div></td>-->
                          
-                        <td><span class="rating_value"><?php echo isset($rating_arr[$sk_rating]['rating_value'])?$rating_arr[$sk_rating]['rating_value']:'';?></span>
-							<span class="rating_txt"><?php echo isset($rating_arr[$sk_rating]['rating_text'])?$rating_arr[$sk_rating]['rating_text']:'';?></span></td>                        
+                        <td><span class="rating_value"><?php echo isset($rating_arr[$sk_rating]['rating_value'])?$rating_arr[$sk_rating]['rating_value']:"0";?></span>
+							<span class="rating_txt"><?php echo isset($rating_arr[$sk_rating]['rating_text'])?$rating_arr[$sk_rating]['rating_text']:'Not Rated';?></span></td>                        
                     </tr>
 <?php          
                     $i++;

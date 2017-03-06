@@ -35,6 +35,7 @@ $userfullname=$this->userfullname;
 //$key=sapp_Global::_encrypt($main_key);
 $appid=sapp_Global::_encrypt($appraisal_id);
 $userid=sapp_Global::_encrypt($user_id);
+sapp_PerformanceHelper::display_ratings_div($this->app_ratings,$this->check_ratings_exists);
 
 if(count($data) > 0 && !empty($data['rating_arr']))
 {
@@ -48,7 +49,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
         
     if($app_ratings == 1)
     {
-        $ratingMin = 0; $ratingMax = 5;
+        $ratingMin = 0; $ratingMax = 6;
     } 
     else 
     {
@@ -57,6 +58,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 ?>
 	<input type="hidden" name="ratingsmin" id="ratingsmin" value="<?php echo $ratingMin;?>" />
 	<input type="hidden" name="ratingsmax"  id="ratingsmax" value="<?php echo $ratingMax;?>" />
+    <div class="new-form-ui-submit employee_appraisal_submit" style="top: 2px; right: 6px; position: absolute;">
+        <input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
+    </div>
 	<?php if($this->manager_id == $ratings_data['line_manager_1'] || $this->manager_id == $ratings_data['line_manager_2'] || $this->manager_id == $ratings_data['line_manager_3'] || $this->manager_id == $ratings_data['line_manager_4'] || $this->manager_id == $ratings_data['line_manager_5'])
                 {?>
         
@@ -491,8 +495,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 <?php
                 foreach($questions as $ques)
                 {
-					$qrating = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['rating']:"";
-					$qcomment = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['comment']:"";
+					$qrating = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['rating']:"0";
+					$qcomment = isset($manager_response[$ques['question_id']])?$manager_response[$ques['question_id']]['comment']:"Not Rated";
+                    $priv_data = $qpData[$ques['question_id']];
 ?>
                     <tr>
                         <td><div>
@@ -550,8 +555,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                             <div class="rateit" data-rateit-min="<?php //echo $ratingMin;?>" 
                          data-rateit-max="<?php //echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php //echo $rating_arr[$sk_rating]['rating_value'];?>"></div></td>-->
                          
-                        <td><span class="rating_value"><?php echo isset($rating_arr[$sk_rating]['rating_value'])?$rating_arr[$sk_rating]['rating_value']:'';?></span>
-							<span class="rating_txt"><?php echo isset($rating_arr[$sk_rating]['rating_text'])?$rating_arr[$sk_rating]['rating_text']:'';?></span></td>                        
+                        <td><span class="rating_value"><?php echo isset($rating_arr[$sk_rating]['rating_value'])?$rating_arr[$sk_rating]['rating_value']:"0";?></span>
+							<span class="rating_txt"><?php echo isset($rating_arr[$sk_rating]['rating_text'])?$rating_arr[$sk_rating]['rating_text']:'Not Rated';?></span></td>                        
                     </tr>
 <?php          
                     $i++;
@@ -577,6 +582,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             $('div.rateit, span.rateit').rateit();
 		});
 	</script>
+    <script type="text/javascript" src="<?php echo MEDIA_PATH;?>js/pa.js"></script>
 <?php     
     }
 }

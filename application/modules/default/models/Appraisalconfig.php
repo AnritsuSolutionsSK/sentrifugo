@@ -121,7 +121,7 @@ select max(id) FROM `main_pa_initialization` GROUP BY `pa_configured_id`
 		
 		 $appraisalConfigData = $this->select()
     					   ->setIntegrityCheck(false)	
-                           ->from(array('c'=>'main_pa_implementation'),array('c.*','performance_app_flag'=>'if (c.performance_app_flag=1,"Business Unit wise","Department Wise")','approval_selection'=>'if (c.approval_selection=1,"HR","Manager")','appraisal_ratings'=>'if (c.appraisal_ratings=1,"1-5","1-10")'))
+                           ->from(array('c'=>'main_pa_implementation'),array('c.*','performance_app_flag'=>'if (c.performance_app_flag=1,"Business Unit wise","Department Wise")','approval_selection'=>'if (c.approval_selection=1,"HR","Manager")','appraisal_ratings'=>'if (c.appraisal_ratings=1,"1-6","1-10")'))
                            ->joinLeft(array('b'=>'main_businessunits'), 'c.businessunit_id = b.id', array('deptname'=>'ifnull(d.deptname,"")'))
                            ->joinLeft(array('d'=>'main_departments'), 'c.department_id = d.id', array('b.unitname'))
                            ->joinLeft(array('e'=> $tmpQuery), 'c.id = e.pa_configured_id', array(
@@ -205,7 +205,7 @@ select max(id) FROM `main_pa_initialization` GROUP BY `pa_configured_id`
                             ),
                             'appraisal_ratings' => array(
                                 'type' => 'select',
-                                'filter_data' => array('' => 'All',1 => '1-5', 2 => '1-10')
+                                'filter_data' => array('' => 'All',1 => '1-6', 2 => '1-10')
                             ),
                             'status' => array(
                                 'type' => 'select',

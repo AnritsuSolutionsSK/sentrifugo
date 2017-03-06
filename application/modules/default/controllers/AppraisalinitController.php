@@ -78,7 +78,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 				$app_ratings_type = isset($app_data[0]['appraisal_ratings'])?$app_data[0]['appraisal_ratings']:'';
 				$app_id = isset($app_data[0]['id'])?$app_data[0]['id']:0;
                 if($app_ratings_type == 1)
-                	$ratings = '1-5';
+                	$ratings = '1-6';
                 else
                 	$ratings = '1-10';	
                 $result['ratings'] = $ratings;
@@ -1418,7 +1418,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                           $data['status']="Force Closed";
                           }	
                         if($data['appraisal_ratings'] == 1) {
-                    	   $data['appraisal_ratings']="1-5";
+                    	   $data['appraisal_ratings']="1-6";
                           }else {
                           $data['appraisal_ratings']="1-10";
                           }	

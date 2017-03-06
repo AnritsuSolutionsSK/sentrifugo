@@ -207,7 +207,7 @@ class Default_Form_Appraisalinit extends Zend_Form
 		$appraisal_ratings->setLabel("Appraisal Ratings");
         $appraisal_ratings->setAttrib('class', 'selectoption');
         $appraisal_ratings->addMultiOptions(array('' => 'Select ratings',
-        										'1'=> '1-5',
+        										'1'=> '1-6',
         										'2'=> '1-10'));
 		$appraisal_ratings->setRegisterInArrayValidator(false);
 		$appraisal_ratings->setRequired(true);

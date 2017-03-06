@@ -123,7 +123,7 @@
     
 	    $(document).ready(function(){
 		    
-			var maxval = '<?php echo (isset($ratingType) && $ratingType == 1)?5:10;?>';
+			var maxval = '<?php echo (isset($ratingType) && $ratingType == 1)?6:10;?>';
 			$('.rateit').rateit('max',maxval);	
 			var tooltipvalues = '<?php echo json_encode($this->ratingText);?>';
 			$(".rateit").bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value - 1]); });		

@@ -1240,7 +1240,7 @@ public static function manager_questions_privileges($questionarray,$appraisalid,
 			   {
 			   	if($ratingtype == 1)
 			   	{
-			   	 	$ratingsstar = 5;
+			   	 	$ratingsstar = 6;
 			   	 	$ratingclass = "rating_star_class rating_star_";
 			   	 	$ratingtextclass = "rating_text_";
 			   	} 
@@ -1253,6 +1253,10 @@ public static function manager_questions_privileges($questionarray,$appraisalid,
 			   	
 			   	 ?>
 			   	 <div id="ratingsdiv" class="ratings_div" style="display: none;">
+                
+                 <div class="ratings_block">
+                    <span><?php echo "0 - Not Rated" ?> </span>
+                 </div>
 	   <?php 	
 			   	 for($i=0;$i<$ratingsstar;$i++)
 			   	 {

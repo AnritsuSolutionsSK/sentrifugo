@@ -746,7 +746,7 @@ class Default_AppraisalmanagerController extends Zend_Controller_Action
                           $appraisal_data['status']="Force Closed";
                           }	
                         if($appraisal_data['appraisal_ratings'] == 1) {
-                    	   $appraisal_data['appraisal_ratings']="1-5";
+                    	   $appraisal_data['appraisal_ratings']="1-6";
                           }else {
                           $appraisal_data['appraisal_ratings']="1-10";
                           }	

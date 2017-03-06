@@ -225,7 +225,7 @@ class Default_AppraisalconfigController extends Zend_Controller_Action
 		   		$data['performance_app_flag']="Business unit wise";
 		   }
 	 if($data['appraisal_ratings']=='1'){
-		   	$data['appraisal_ratings']="1-5";
+		   	$data['appraisal_ratings']="1-6";
 		   }else{
 		   		$data['appraisal_ratings']="1-10";
 		   }

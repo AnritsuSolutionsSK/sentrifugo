@@ -208,7 +208,11 @@ if(empty($this->check_ratings_exists)) { ?>
 								<tr>
 									<th>Question</th>
 									<!-- <th>Description</th> -->
-									<th>Rating</th>
+                                    <?php if(in_array($cd['category_name'], array("Objectives", "Values"))): ?> 
+									   <th style="visibility:hidden; width:0; height:0"></th>
+                                    <?php else: ?>
+                                       <th>Rating</th>
+                                    <?php endif; ?>
 									<th>Comments</th>
 								</tr>
 							</thead>
@@ -232,7 +236,11 @@ if(empty($this->check_ratings_exists)) { ?>
 												</td>
 												<!-- <td><?php //echo $qd['description'];?></td> -->
 												<?php $priv_data = $qpData[$qd['id']];?>
-												<td>
+												<?php if(in_array($cd['category_name'], array("Objectives", "Values"))): ?> 
+                                                    <td style="visibility:hidden; width:0; height:0">
+                                                <?php else: ?>
+                                                    <td>
+                                                <?php endif; ?>
 													<input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field_rating app_ratings_text"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
 													<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="true" 
 														data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" ></div>
@@ -285,9 +293,9 @@ $(document).ready(function(){
     $("input.app_non_req_field").each(function(){
         $(this).next().css("visibility", "hidden");
     });
-    $("textarea.app_non_req_field").each(function(){
+    /*$("textarea.app_non_req_field").each(function(){
         $(this).css("visibility", "hidden");
-    });
+    });*/
 	$("#tabs").tabs();
 	var tooltipvalues = <?php echo $this->ratingText;?>;
 	$(".rateit").bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value - 1]); });

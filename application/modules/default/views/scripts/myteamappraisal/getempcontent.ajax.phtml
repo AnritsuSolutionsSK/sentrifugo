@@ -131,15 +131,30 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 								</div>
 							</td>
 							<td>
-								<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea"';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
-                                <?php if($cat_name == "Objectives"): ?>
+                                <?php if(in_array($cat_name, array("Objectives", "Values"))): ?>
+                                    <?php 
+                                        if($qcomment != "") 
+                                        {
+                                            if(strpos($qcomment, "-") !== false)
+                                            {
+                                                $draftAchievement = substr($qcomment, 0, strpos($qcomment, "-") - 1);
+                                                $qcomment = substr($qcomment, strpos($qcomment, "-") + 2);
+                                            } 
+                                            else
+                                            {
+                                                $draftAchievement = $qcomment;
+                                                $qcomment = "";
+                                            }
+                                        }
+                                    ?>
                                     <label for="achievement">Achievement: </label>
                                     <select name="achievement[<?php echo $ques['question_id'];?>]">
-                                        <option value="Achieved">Achieved</option>
-                                        <option value="Partially Achieved">Partially Achieved</option>
-                                        <option value="Not Achieved">Not Achieved</option>
+                                        <option value="Achieved" <?php if($draftAchievement == "Achieved"){echo 'selected';}?>>Achieved</option>
+                                        <option value="Partially Achieved" <?php if($draftAchievement == "Partially Achieved"){echo 'selected';}?>>Partially Achieved</option>
+                                        <option value="Not Achieved" <?php if($draftAchievement == "Not Achieved"){echo 'selected';}?>>Not Achieved</option>
                                     </select>
                                 <?php endif; ?>
+								<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea"';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
 							</td>
                                                         <?php } ?>
 						</tr>

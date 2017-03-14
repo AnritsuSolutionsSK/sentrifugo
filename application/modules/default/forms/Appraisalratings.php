@@ -45,7 +45,7 @@ class Default_Form_Appraisalratings extends Zend_Form
         	
         $rating_text = new Zend_Form_Element_Text("Rating Text");
 		$rating_text->setLabel("Rating Text");
-		$rating_text->setAttrib('maxLength', 30);
+		$rating_text->setAttrib('maxLength', 50);
 		$rating_text->addFilter(new Zend_Filter_StringTrim());
 		$rating_text->setRequired(true);
         $rating_text->addValidator('NotEmpty', false, array('messages' => 'Please enter rating text.'));

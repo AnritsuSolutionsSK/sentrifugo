@@ -91,7 +91,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 ?>		
 				<li><a href="#tabs-<?php echo $key;?>"><?php echo $cat_name;?></a></li>
 <?php		}
-?>          	<li><a href="#tabs-<?php echo $key+1;?>">Skill set</a></li>
+?>          	<!--<li><a href="#tabs-<?php echo $key+1;?>">Skill set</a></li>-->
 			</ul> 
 <?php 
 		$i = 0;
@@ -175,66 +175,6 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 <?php         
 		}
 ?>
-        <div id="tabs-<?php echo $i++;?>" style="position: relative;">
-            <?php if(empty($this->history_flag)) {?>
-            <div class="addnewqs" id="id_add_skill" style="margin-right: 0px; position: absolute; top: -37px; right: 6px;">+Add skill</div>
-            <?php } ?>
-            <input type="hidden" id="id_skill_increment" value="0" />
-            <table id="idskill_table" width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
-                <thead>
-                    <tr>
-                        <th>Skill</th>                        
-                        <th>Rating</th>                        
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-<?php
-				if($ratings_data['skill_response'] != '')
-				{
-					$skill_response = json_decode($ratings_data['skill_response'],true);
-					if(count($skill_response) > 0)
-					{
-						$i=1;
-						$skill_rating = '';
-						$sk_rating = 0;
-						//echo "<pre>"; print_r($skill_response);
-						foreach($skill_response as $sk_id => $sk_data)
-						{
-							$sk_rating = isset($rating_arr[$sk_data]['rating_value'])?$rating_arr[$sk_data]['rating_value']:0;
-                                                    if(empty($this->history_flag)) {
-?>
-							<tr  id='idtr_skill_<?php echo $i;?>' class='cls_skillrow'>
-								<td><select class='cls_sel_skills' name='sel_skill[]' id='idsel_skill_<?php echo $i;?>' disabled="disabled"><?php echo $skill_options;?></select>
-								<!--
-								  <select name="sel_skill[]" > Attribute 'disabled' was added to stop showing dropdown values in 'Skill set' tab.
-								  So element <input name="emp_skills" /> was added to post skills. 
-								 -->
-									<input tabindex="-1" class="app_req_field_<?php echo $main_key;?> cls_srating_<?php echo $main_key;?>" type="hidden" id="id_emp_skills_<?php echo $i;?>" name="emp_skills[]" value="<?php echo isset($sk_id)?$sk_id:'';?>">                     		
-								</td>                        
-								<td>
-									<input tabindex="-1" class="app_req_field_<?php echo $main_key;?> cls_srating_<?php echo $main_key;?>" type="hidden" id="skill_rating_<?php echo $i;?>" name="skill_rating[]" value="<?php echo isset($sk_rating)?$sk_rating:'';?>">
-									<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#skill_rating_<?php echo $i;?>" data-rateit-step="1" data-rateit-resetable="true" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>"></div>
-								</td>
-								<td><span class='cls_close_skill' onclick = "delete_skill('<?php echo $i;?>')" >Close</span></td>
-							</tr>
-<?php                                               }
-							$i++;
-						}
-					}
-				}
-				else
-				{       
-?>       
-					<tr id="idskills_norows">
-						<td colspan="3"><div class="managerresponsediv_msg"> No skills found.</div></td>
-					</tr>
-<?php 			
-				} 
-?>             
-                </tbody>
-            </table>
-        </div>
     </div>
     <?php if(empty($this->history_flag)) { ?>            
     <div class="new-form-ui-submit">

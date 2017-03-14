@@ -1360,7 +1360,7 @@ function saveInitilize(flag)
 				errorcount++;
 			}            
 		});
-		if(j > 0)
+		if(false/*j > 0*/)
 		{
 			jAlert("Please select atleast one privilege to proceed.");
 		}	

@@ -177,7 +177,11 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 									<th>Question</th>
 									<!-- <th>Description</th> -->
 								<?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-									<th>Rating</th>
+									<?php if(in_array($cd['category_name'], array("Objectives", "Values"))): ?> 
+                                       <th style="visibility:hidden; width:0; height:0"></th>
+                                    <?php else: ?>
+                                        <th>Rating</th>
+                                    <?php endif; ?>
 									<th>Comments</th>
 								<?php } else {?>
 									<th>Employee Rating</th>
@@ -237,7 +241,10 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 															if(isset($mgrRes[$qd['id']]['rating']) && isset($ratVal[$mgrRes[$qd['id']]['rating']]))
 															{
 																echo $ratVal[$mgrRes[$qd['id']]['rating']];
-															}
+															} else {
+                                                                if($cd['category_name'] == "Overall rating")
+                                                                    echo "0";
+                                                            }
 														?>
 														</span>
 														<span>
@@ -251,7 +258,10 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 															**/
 															if(isset($mgrRes[$qd['id']]['rating']) && isset($ratVal[$mgrRes[$qd['id']]['rating']])){
 																echo $this->ratingTextDisplay[$mgrRes[$qd['id']]['rating']];
-															}
+															} else {
+                                                                if($cd['category_name'] == "Overall rating")
+                                                                    echo "Not Rated";
+                                                            }
 														?>
 														</span>
 													</div>

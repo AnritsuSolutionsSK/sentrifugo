@@ -47,11 +47,16 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
 		
         $appQuestionsData = $this->select()
                                 ->setIntegrityCheck(false)	
-                                ->from(array('aq'=>'main_pa_questions'),array('aq.*'))
+                                ->from(array('aq'=>'main_pa_questions'),array('aq.*', 'type' => new Zend_Db_Expr(
+                                    "CASE aq.pa_type_id 
+                                                    WHEN 1 THEN 'Comment' 
+                                                    WHEN 2 THEN 'Achievement'
+                                                    WHEN 3 THEN 'Rating'
+                                                ELSE 'None' END")))
                                 ->joinInner(array('ac'=>'main_pa_category'), 'aq.pa_category_id = ac.id', array('category_name' => 'ac.category_name'))
                                 ->where($where)
                                 ->order("$by $sort") 
-                                ->limitPage($pageNo, $perPage);        
+                                ->limitPage($pageNo, $perPage);
         return $appQuestionsData;       		
     }
 	
@@ -81,9 +86,9 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
 			
 		$objName = 'appraisalquestions';
 		
-		$tableFields = array('action'=>'Action','category_name'=>'Parameter','question' => 'Question','description' => 'Description');
+		$tableFields = array('action'=>'Action','category_name'=>'Parameter','question' => 'Question','description' => 'Description','type' => 'Type');
 		
-		$tablecontent = $this->getAppraisalQuestionData($sort, $by, $pageNo, $perPage,$searchQuery);     
+		$tablecontent = $this->getAppraisalQuestionData($sort, $by, $pageNo, $perPage, $searchQuery);
 		
 		$dataTmp = array(
 			'sort' => $sort,
@@ -124,7 +129,12 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
 			
 	    $select = $this->select()
 						->setIntegrityCheck(false)
-						->from(array('aq'=>'main_pa_questions'),array('aq.*'))
+						->from(array('aq'=>'main_pa_questions'),array('aq.*', 'type' => new Zend_Db_Expr(
+                            "CASE aq.pa_type_id 
+                                           WHEN 1 THEN 'Comment' 
+                                           WHEN 2 THEN 'Achievement'
+                                           WHEN 3 THEN 'Rating'
+                                       ELSE 'None' END")))
 					    ->where($where);
 		return $this->fetchAll($select)->toArray();	
 	}

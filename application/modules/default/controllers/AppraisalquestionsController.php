@@ -196,7 +196,11 @@ public function addpopupAction()
 		if(sapp_Global::_checkprivileges(APPRAISALCATEGORIES,$loginuserGroup,$loginuserRole,'add') == 'Yes'){
                 array_push($popConfigPermission,'appraisalcategories');
         }
-	 	
+
+        $appraisalquestionsform->pa_type_id->addMultiOption(1,utf8_encode("Comment"));
+        $appraisalquestionsform->pa_type_id->addMultiOption(2,utf8_encode("Checkboxes"));
+        $appraisalquestionsform->pa_type_id->addMultiOption(3,utf8_encode("Rating"));
+
 	 	$appraisalCategoriesData = $appraisalCategoryModel->getAppraisalCategorysData();
 	 		if(sizeof($appraisalCategoriesData) > 0)
             { 			
@@ -334,7 +338,12 @@ public function addpopupAction()
 								foreach ($appraisalCategoriesData as $ac){
 									$appraisalquestionsform->pa_category_id->addMultiOption($ac['id'],utf8_encode($ac['category_name']));
 								}
-							}  
+							}
+
+                            $appraisalquestionsform->pa_type_id->addMultiOption(1,utf8_encode("Comment"));
+                            $appraisalquestionsform->pa_type_id->addMultiOption(2,utf8_encode("Checkboxes"));
+                            $appraisalquestionsform->pa_type_id->addMultiOption(3,utf8_encode("Rating"));
+
 							$appraisalquestionsform->populate($data);
 							$appraisalquestionsform->setDefault('pa_category_id',$data['pa_category_id']);
 							$appraisalquestionsform->setAttrib('action',BASE_URL.'appraisalquestions/edit/id/'.$id);
@@ -418,12 +427,14 @@ public function addpopupAction()
             try{
             $id = $this->_request->getParam('id');
             $pa_category_id = $this->_request->getParam('pa_category_id');
+            $pa_type_id = $this->_request->getParam('pa_type_id');
 			$actionflag = 1;
 			$tableid  = ''; 
 			$where = '';
 			for($i=0;$i<sizeof($question_arr);$i++)
 			{
 			   $data = array('pa_category_id'=>$pa_category_id,
+			                 'pa_type_id'=>$pa_type_id,
 			                 'question'=>trim($question_arr[$i]), 
 							 'description'=>($description_arr[$i]!=''?trim($description_arr[$i]):NULL),
 							  'modifiedby'=>$loginUserId,
@@ -483,11 +494,13 @@ public function addpopupAction()
             try{
             $id = $this->_request->getParam('id');
             $pa_category_id = $this->_request->getParam('pa_category_id');
+            $pa_type_id = $this->_request->getParam('pa_type_id');
             $question = trim($this->_request->getParam('question'));	
 			$description = trim($this->_request->getParam('description'));
 			$actionflag = '';
 			$tableid  = ''; 
 			   $data = array('pa_category_id'=>$pa_category_id,
+			                 'pa_type_id'=>$pa_type_id,
 			                 'question'=>$question, 
 							 'description'=>($description!=''?$description:NULL),			   
 							 'module_flag'=>1, // 1 - Performance Appraisal

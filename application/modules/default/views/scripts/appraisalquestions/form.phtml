@@ -64,6 +64,7 @@ if($this->ermsg !='')
 		<?php echo $this->form->id; ?>
         <div class="total-form-controller <?php echo $viewclass;?>">
 			<?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'pa_category_id','', '','required',$departmentArr);?>
+            <?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'pa_type_id','', '','required', array());?>
 			<?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'question',"Special characters allowed are - ? &#39; . , / # @ $ & * ( ) !", '','required',array());?>
 			<?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'description','', 'textareaheight','',array());?>
 					

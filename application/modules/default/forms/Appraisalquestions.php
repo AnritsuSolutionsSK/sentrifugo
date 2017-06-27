@@ -38,6 +38,14 @@ class Default_Form_Appraisalquestions extends Zend_Form
         $category->setRegisterInArrayValidator(false);
         $category->setRequired(true);
 		$category->addValidator('NotEmpty', false, array('messages' => 'Please select parameter.'));
+
+		$type = new Zend_Form_Element_Select('pa_type_id');
+		$type->setLabel("Question type");
+		$type->setAttrib('class', 'selectoption');
+        $type->addMultiOption('', 'Select type');
+        $type->setRegisterInArrayValidator(false);
+        $type->setRequired(true);
+        $type->addValidator('NotEmpty', false, array('messages' => 'Please select question type.'));
 		
 		$postid = Zend_Controller_Front::getInstance()->getRequest()->getParam('id');
 		if($postid !='')
@@ -79,9 +87,9 @@ class Default_Form_Appraisalquestions extends Zend_Form
 		$submitadd->setLabel('Save');
 		
 		if($postid !='')
-			 $this->addElements(array($id,$category,$question,$description,$submit));
+			 $this->addElements(array($id,$category,$type,$question,$description,$submit));
 	    else		 
-		 	$this->addElements(array($id,$category,$submitadd));
+		 	$this->addElements(array($id,$category,$type,$submitadd));
          $this->setElementDecorators(array('ViewHelper')); 
 	}
 }

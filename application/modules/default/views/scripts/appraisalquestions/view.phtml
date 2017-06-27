@@ -71,7 +71,7 @@ if($this->ermsg == '')  { ?>
    <?php 
 sapp_Helper::viewHeader();
 sapp_Helper::viewBody('alt','Parameter',(!empty( $pa_category_name))? $pa_category_name:"...",'Question',(!empty($this->data['question']))?$this->data['question']:"...");
-sapp_Helper::viewBody('nor','Description',(!empty($this->data['description']))?$this->data['description']:"...",'','');
+sapp_Helper::viewBody('nor','Description',(!empty($this->data['description']))?$this->data['description']:"...",'Type',(!empty($this->data['type']))?$this->data['type']:"...");
 sapp_Helper::viewFooter();
 ?>
  

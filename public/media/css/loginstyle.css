@@ -50,7 +50,7 @@ button:hover, button:active, input[type="submit"]:hover, input[type="submit"]:ac
 button:active, input[type="submit"]:active, a.button:active, .customfile-focus button {}
 .forgot  { color:#208bbd; text-decoration: none ; font-size:13px;  text-shadow: 0 1px 0 #ffffff; }
 .forgot:hover  {  color: #3b3b3b;}
-.errorMsg{ color: #ff0000; float:left; width:100%; clear:both; font-family: 'PTSansRegular', sans-serif; font-size:13px; }
+.errorMsg{ color: #000; float:left; width:100%; clear:both; font-family: 'PTSansRegular', sans-serif; font-size:13px; }
 .succMsg{	color: green; float:left; width:100%; clear:both; font-family: 'PTSansRegular', sans-serif; font-size:13px; }
 .heading {
     -moz-border-bottom-colors: none;
@@ -144,7 +144,7 @@ box-shadow:  1px 1px 6px 1px rgba(0, 0, 0, 0.25);}
     box-shadow:  -1px 0px 3px 1px rgba(0, 0, 0, 0.3); }
 
 .login-fields { margin:0 0px 7px 0; padding:0; float:left; width:287px; } 
-.login-fields label { margin: 0 0 10px 0; float:left; width:100%; font-family: 'latoregular',sans-serif; font-size: 16px; color: #3b3b3b; }
+.login-fields label { margin: 0 0 10px 0; float:left; width:100%; font-family: 'latoregular',sans-serif; font-size: 16px; color: #ffffff; }
 .login-fields label span { color:#FF0000; font-family:Arial, Helvetica, sans-serif; }
 .login-fields input[type="text"] { border: 1px solid #c6c6c6; width:243px; float: left; background: #ffffff url(../images/login-user-icon.png) no-repeat 98% center; height:34px;  
 padding:0 32px 0 10px; -webkit-box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10);  box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.10); color: #afafaf;  float: left;  
@@ -160,7 +160,7 @@ font-family: 'latoregular',sans-serif; font-size: 14px;  /* line-height: 34px; *
 
 
 .login-button { float:left; margin-top:2px; margin-right:20px; }
-.login-button input[type="button"], .login-button input[type="submit"] { background-color: #f38a28; border:0 none; height:39px; padding: 0 17px; 
+.login-button input[type="button"], .login-button input[type="submit"] { background-color: #2d8068; border:0 none; height:39px; padding: 0 17px; 
 font-size: 16px; text-transform:uppercase; /* text-shadow: 0 1px 0 #006391; */ font-family: 'latobold', sans-serif; color:#ffffff; cursor: pointer; float:left; font-weight:normal; }
 #login-page input[type="button"], #login-page input[type="submit"] { background-color: #f38a28; border:0 none;  -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; height:39px; padding: 0 17px; 
 font-size: 16px; text-transform:uppercase; /* text-shadow: 0 1px 0 #006391; */ font-family: 'latobold', sans-serif; color:#ffffff; cursor: pointer; float:left; font-weight:normal; }
@@ -247,11 +247,11 @@ header, .login-header { width: 960px; }
 
 .one{ height:100%; width:100%; display:table; position:relative;}
 .two{ display:table-cell; vertical-align:middle; width:100%;}
-.three{ padding:20px 50px 30px 50px; width:290px; margin:0 auto; background:#eeeeee; overflow:hidden; 
+.three{ padding:20px 50px 30px 50px; width:290px; margin:0 auto; background:#289b7d; overflow:hidden; 
 }
-.three h1{ text-align:center; margin:0px 10px 20px 10px; padding:0; font-size:24px; line-height:30px; font-family: 'latobold', sans-serif; text-transform:uppercase; font-weight:normal;}
-.bg_new{position:absolute; height:50%; width:100%; background: url(../images/login-bg-new.jpg); background-size:cover; background-repeat: no-repeat; background-position:bottom;}
+.three h1{ text-align:center; margin:0px 10px 20px 10px; padding:0; font-size:24px; line-height:30px; font-family: 'latobold', sans-serif; text-transform:uppercase; font-weight:normal; color:#ffffff}
+.bg_new{position:absolute; height:50%; width:100%; background: url(../images/login-bg-new-empty.jpg); background-size:cover; background-repeat: no-repeat; background-position:bottom;}
 .logonew{ margin:0 auto; width:200px; height:80px; position:absolute; top:0px; width:100%;}
-.logonew_place{ margin:0 auto; width:238px; height:52px; background: url(../images/sentrifugo-login-logo.png); position:relative; top:20px; background-size:100%; }
-.help_icon{ font-family: 'latoregular', sans-serif; text-decoration:none; padding:5px 10px 5px 30px; font-size:18px; position:absolute; right:20px; top:20px; font-weight:normal; z-index:1; background: url(../images/help_icon.png) #fff no-repeat 8px 7px;}
-.help_icon:hover{ background: url(../images/help_icon.png) #f38a28 no-repeat 8px 7px;}
+.logonew_place{ margin:0 auto; width:154px; height:50px; background: url(../images/logo-anritsu-3.png); position:relative; top:20px; background-size:100%; }
+.help_icon{ font-family: 'latoregular', sans-serif; text-decoration:none; padding:5px 10px 5px 30px; font-size:18px; position:absolute; right:20px; top:20px; font-weight:normal; z-index:1; background: url(../images/help_icon.png) #289b7d no-repeat 8px 7px; color: #fff;}
+.help_icon:hover{ background: url(../images/help_icon.png) #2d8068 no-repeat 8px 7px;}

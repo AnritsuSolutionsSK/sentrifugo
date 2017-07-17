@@ -121,7 +121,7 @@
 	
 	$('#username').blur(function(e) {
 	  var usernameval = $.trim($('#username').val());
-	  if(usernameval == '' || usernameval == 'Enter your username or email')
+	  if(usernameval == '' || usernameval == 'Enter your username')
 	    {
 	     $('#username').removeClass("text_color");
 		 $('#username').val('');
@@ -131,7 +131,7 @@
 		   	$('#username').siblings('.errorMsg').html('&nbsp;');
 			$('#username').siblings('.errorMsg').css('display','none');			
 		}else{
-			$('#username').siblings('.errorMsg').html('Please enter username or email.');
+			$('#username').siblings('.errorMsg').html('Please enter username.');
 			$('#username').siblings('.errorMsg').css('display','block');
 			$('#username').siblings('#errrMsg').html('');
 			return false;
@@ -162,10 +162,10 @@
 		var password = $.trim($('#password').val());
 		
 		 var flag = 'yes';
-		if(username == undefined || username == '' || username == null || username == 'Enter your username or email'){
+		if(username == undefined || username == '' || username == null || username == 'Enter your username'){
 		    
 			$('#username').siblings('.errorMsg').css('display','block');
-			$('#username').siblings('.errorMsg').html('Please enter username or email.');
+			$('#username').siblings('.errorMsg').html('Please enter username.');
 			
 			flag = 'no';
 		}

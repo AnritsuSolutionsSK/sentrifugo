@@ -1051,10 +1051,14 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 		$appraisalInitForm->eligibility_hidden->setAttrib("disabled", "disabled");
         $category_model = new Default_Model_Appraisalcategory();
         $category_data = $category_model->getAppraisalCategorysData();
+
         foreach($category_data as $cdata)
         {
             $appraisalInitForm->category_id->addMultiOption($cdata['id'],$cdata['category_name']);
         }
+        //select all by default, since we don't want it to be configurable
+        $appraisalInitForm->category_id->setValue(array_column($category_data, 'id'));
+
         $msgarray = array();
         $appraisalInitForm->setAttrib('action',BASE_URL.'appraisalinit/add');
         $this->view->form = $appraisalInitForm; 

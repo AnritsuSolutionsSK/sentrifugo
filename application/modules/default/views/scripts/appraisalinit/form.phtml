@@ -210,10 +210,10 @@ If the appraisal is directly made available for the employees, they will be able
 			<?php echo $this->form->eligibilityflag; ?>
 			<?php echo $this->form->eligibility_value; ?>  
 			
-			<?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'category_id','Select the parameters applicable to the employees for the appraisal process.',' new-form-ui-multi ','required',array());?>
 			<?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'appraisal_ratings','The ratings configured in appraisal setting for a business unit or department will be auto-populated.You can configure the Ratings text, once the appraisal is configured.','','required',array());?>
-			
-			<div class="new-form-ui-submit" style="margin-left: 0px;">
+            <?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'category_id','Select the parameters applicable to the employees for the appraisal process.',' new-form-ui-multi ','required',array(), false);?>
+
+            <div class="new-form-ui-submit" style="margin-left: 0px;">
 				<?php echo $this->form->submit; ?>
 				<?php if($actionName == 'view'){?>
 					<input type="button" onclick="changeeditscreen('<?php echo $this->controllername;?>',<?php echo $this->id;?>);" value="Edit" />

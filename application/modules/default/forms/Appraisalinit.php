@@ -163,7 +163,7 @@ class Default_Form_Appraisalinit extends Zend_Form
         $eligibility_value = new Zend_Form_Element_Hidden('eligibility_value');
         
         $category_id = new Zend_Form_Element_Multiselect('category_id');
-        $category_id->setLabel("Parameters");        
+        $category_id->setLabel("Parameters");
         $category_id->setMultiOptions(array(''=>'Select Parameters'));
         $category_id->setRegisterInArrayValidator(false);
         $category_id->setRequired(true);

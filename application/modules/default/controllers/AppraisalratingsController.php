@@ -626,7 +626,10 @@ class Default_AppraisalratingsController extends Zend_Controller_Action
 				
 			}
 			//echo "<pre>";print_r($empArr);die();
-			$options['subject'] = APPLICATION_NAME.': Performance Appraisal Ratings '.ucfirst($msg_add_update);
+
+            //we don't want this
+
+			/*$options['subject'] = APPLICATION_NAME.': Performance Appraisal Ratings '.ucfirst($msg_add_update);
 			$options['header'] 	= 'Performance Appraisal : Ratings';
 			$options['bcc'] 	= $empArr; 
 			$options['toEmail'] = SUPERADMIN_EMAIL; 
@@ -636,7 +639,7 @@ class Default_AppraisalratingsController extends Zend_Controller_Action
 			<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal ratings have been $msg_add_update for the year <b>$to_year</b> for business unit <b>$bunit</b> $dept_str by ".$loginUserfullname.$emp_id_str." </div>
 			<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account.</div>
 			</div> ";
-			$mail_id =  sapp_Global::_sendEmail($options);
+			$mail_id =  sapp_Global::_sendEmail($options);*/
 			/**
 			* End mails sending
 			*/	

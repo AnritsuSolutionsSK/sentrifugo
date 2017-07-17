@@ -380,14 +380,14 @@ class sapp_Helper
      * @param array $popup_arr     = array of parameters that can form link for popup.
      * @return string HTML content
      */
-    public static function sd_form_helper($msg_array,$form,$element,$imgtitle,$extra_class,$required,$popup_arr)
+    public static function sd_form_helper($msg_array,$form,$element,$imgtitle,$extra_class,$required,$popup_arr,$visible=true)
     {
     	if($imgtitle !='')
     	   $labelimg = "<img class='tooltip' title='".$imgtitle."' src='".DOMAIN."public/media/images/help.png' />";
     	else
     	   $labelimg = '';       		
 ?>
-        <div class="new-form-ui <?php echo $extra_class;?>">
+        <div class="new-form-ui <?php echo $extra_class;?>" <?php echo !$visible?"style='visibility:hidden'":""?>>
             <label class="<?php echo $required;?>"><?php echo $form->$element->getLabel();?> <?php echo $labelimg;?></label>
             <div class="division"><?php echo $form->$element; ?>
                 <?php if(isset($msg_array[$element])){?>

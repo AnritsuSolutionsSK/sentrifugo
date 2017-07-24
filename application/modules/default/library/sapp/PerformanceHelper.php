@@ -105,7 +105,7 @@ class sapp_PerformanceHelper
     	
 			<div class="total-form-controller_" id="parentqsdiv">		
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;margin-top: 0px;" class="requisition-table employee_appraisal-table">
-				 <tr>
+				 <!--<tr>
 				   <th class="check_field"><input type="checkbox" class ="selectallcls" name="selectall" value="selectall" id="selectall">Check All</th>
 				   <th class="question_field">Questions</th>
 				   <th class="field_width">
@@ -114,7 +114,7 @@ class sapp_PerformanceHelper
 				   	<div class="comments_div_fiel"> <input type="checkbox" class ="empcmntcls" name="empcmnt" value="" id="empcmnt">Employee Comments</div>
 				   	<div class="comments_div_fiel"><input type="checkbox" class ="empratingcls" name="empratings" value="" id="empratings" >Employee Ratings</div>
 				   </th>
-				 </tr>
+				 </tr>-->
 		 <?php foreach($questionarray as $key => $question)
 		 		{
 		 			$check = '';
@@ -144,11 +144,40 @@ class sapp_PerformanceHelper
 			 			} 
 		 			}else
 		 			{
- 							 $check = 'checked';	
-	 			   			 $mgrcheck = 'checked';
-	 			   			 $mgrrate = 'checked';		 
-	 			   			 $empratcheck = 'checked';
-	 			   			 $empcmntcheck = 'checked';
+ 							 $check = 'checked';
+ 							 switch($question['pa_type_id']){
+                                 case QUESTION_TYPE_COMMENT_RATING:
+                                     $mgrcheck = 'checked';
+                                     $mgrrate = 'checked';
+                                     $empratcheck = 'checked';
+                                     $empcmntcheck = 'checked';
+                                     break;
+                                 case QUESTION_TYPE_COMMENTONLY:
+                                     $mgrcheck = 'checked';
+                                     $mgrrate = '';
+                                     $empratcheck = '';
+                                     $empcmntcheck = 'checked';
+                                     break;
+                                 case QUESTION_TYPE_COMMENT_ACHIEVEMENT:
+                                     $mgrcheck = 'checked';
+                                     $mgrrate = 'checked';
+                                     $empratcheck = '';
+                                     $empcmntcheck = '';
+                                     break;
+                                 case QUESTION_TYPE_RATINGONLY:
+                                     $mgrcheck = '';
+                                     $mgrrate = 'checked';
+                                     $empratcheck = '';
+                                     $empcmntcheck = '';
+                                     break;
+                                 case QUESTION_TYPE_OBJECTIVE:
+                                     $mgrcheck = 'checked';
+                                     $mgrrate = 'checked';
+                                     $empratcheck = '';
+                                     $empcmntcheck = '';
+                                     break;
+                             }
+
 		 			}  
 		 ?>
 				 <tr id="questiontr_<?php echo $question['id'];?>">
@@ -160,10 +189,10 @@ class sapp_PerformanceHelper
 				   </div>
 				   </td>
 				   <td class="field_width">
-                    <div class="comments_div_fiel"><input type="checkbox" class ="mgrcmntcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="mgrcmnt_<?php echo $question['id'];?>" name="mgrcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $mgrcheck;?> onclick="checkparenttd(this)">Manager Comments</div>
-				   	    <div class="comments_div_fiel"><input type="checkbox" class ="mgrratingcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="mgrrating_<?php echo $question['id'];?>" name="mgrrating[<?php echo $question['id'];?>]" value="1" <?php echo $mgrrate;?> onclick="checkparenttd(this)" >Manager Ratings</div>	
-				   	   <div class="comments_div_fiel"> <input type="checkbox" class ="empcmntcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="empcmnt_<?php echo $question['id'];?>" name="empcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $empcmntcheck;?> onclick="checkparenttd(this)">Employee Comments</div>
-				   	   <div class="comments_div_fiel"> <input type="checkbox" class ="empratingcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="empratings_<?php echo $question['id'];?>" name="empratings[<?php echo $question['id'];?>]" value="1"  <?php echo $empratcheck;?> onclick="checkparenttd(this)">Employee Ratings</div>
+                        <div class="comments_div_fiel"><input type="checkbox" class ="mgrcmntcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="mgrcmnt_<?php echo $question['id'];?>" name="mgrcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $mgrcheck;?> onclick="checkparenttd(this)">Manager Comments</div>
+                        <div class="comments_div_fiel"><input type="checkbox" class ="mgrratingcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="mgrrating_<?php echo $question['id'];?>" name="mgrrating[<?php echo $question['id'];?>]" value="1" <?php echo $mgrrate;?> onclick="checkparenttd(this)" >Manager Ratings</div>
+                        <div class="comments_div_fiel"><input type="checkbox" class ="empcmntcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="empcmnt_<?php echo $question['id'];?>" name="empcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $empcmntcheck;?> onclick="checkparenttd(this)">Employee Comments</div>
+				   	    <div class="comments_div_fiel"><input type="checkbox" class ="empratingcls qprivileges_<?php echo $question['id'];?>" ques_id ="<?php echo $question['id'];?>" id="empratings_<?php echo $question['id'];?>" name="empratings[<?php echo $question['id'];?>]" value="1"  <?php echo $empratcheck;?> onclick="checkparenttd(this)">Employee Ratings</div>
 				  </td>
 				  	<?php sapp_PerformanceHelper::check_selected_Qs($check,$mgrcheck,$mgrrate,$empratcheck,$empcmntcheck,$question['id']); ?>
 				 </tr>
@@ -507,8 +536,8 @@ class sapp_PerformanceHelper
                         <td class="field_width">
                             <div class="comments_div_fiel"><input type="checkbox" class ="mgrcmntcls" ques_id ="<?php echo $question['id'];?>" id="mgrcmnt_<?php echo $question['id'];?>" name="mgrcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $mgrcheck;?> disabled >Manager Comments</div>
                             <div class="comments_div_fiel"><input type="checkbox" class ="mgrratingcls" ques_id ="<?php echo $question['id'];?>" id="mgrrating_<?php echo $question['id'];?>" name="mgrrating[<?php echo $question['id'];?>]" value="1" <?php echo $mgrrate;?> disabled >Manager Ratings</div>	
-                            <div class="comments_div_fiel"> <input type="checkbox" class ="empcmntcls" ques_id ="<?php echo $question['id'];?>" id="empcmnt_<?php echo $question['id'];?>" name="empcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $empcmntcheck;?> disabled >Employee Comments</div>
-                            <div class="comments_div_fiel"> <input type="checkbox" class ="empratingcls" ques_id ="<?php echo $question['id'];?>" id="empratings_<?php echo $question['id'];?>" name="empratings[<?php echo $question['id'];?>]" value="1"  <?php echo $empratcheck;?> disabled >Employee Ratings</div>
+                            <div class="comments_div_fiel"><input type="checkbox" class ="empcmntcls" ques_id ="<?php echo $question['id'];?>" id="empcmnt_<?php echo $question['id'];?>" name="empcmnt[<?php echo $question['id'];?>]" value="1"  <?php echo $empcmntcheck;?> disabled >Employee Comments</div>
+                            <div class="comments_div_fiel"><input type="checkbox" class ="empratingcls" ques_id ="<?php echo $question['id'];?>" id="empratings_<?php echo $question['id'];?>" name="empratings[<?php echo $question['id'];?>]" value="1"  <?php echo $empratcheck;?> disabled >Employee Ratings</div>
                         </td>				  	
                     </tr>
 <?php

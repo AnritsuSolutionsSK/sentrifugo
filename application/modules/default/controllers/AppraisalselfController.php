@@ -329,6 +329,8 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 			
             	$emp_rating_arr = $this->_request->getParam('emp_rating');
             	$emp_comment_arr = $this->_request->getParam('emp_comment');
+            	$emp_achievement_arr = $this->_request->getParam('emp_achievement');
+
             	$emp_response = array();
 	            if(sizeof($emp_rating_arr)>0 || sizeof($emp_comment_arr)>0){
 	            	foreach($emp_rating_arr as $qid=>$val){
@@ -336,12 +338,11 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 	            			$rating_id = array_search($emp_rating_arr[$qid], $ratingValues);
 	            		else
 	            			$rating_id = '';
-	            		$emp_response[$qid] = array('comment'=>$emp_comment_arr[$qid],'rating_id'=>$rating_id);
+	            		$emp_response[$qid] = array('comment'=>$emp_comment_arr[$qid],'rating_id'=>$rating_id, 'achievement' => isset($emp_achievement_arr[$qid])?$emp_achievement_arr[$qid]:"");
 	            	}
 	            }
 	            
 	            $appData['employee_response'] = json_encode($emp_response,true);
-            
 			$curent_level = array_search($app_status, $this->app_status_array);
 			if($flag == 'submit')
 			{				

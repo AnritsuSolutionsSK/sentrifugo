@@ -59,6 +59,14 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
                                 ->limitPage($pageNo, $perPage);
         return $appQuestionsData;       		
     }
+
+    public function getAppraisalQuestionTypeData(){
+        return array(array('id' => QUESTION_TYPE_COMMENT_RATING, 'question_type_title' => utf8_encode("Comment + Rating (default)")),
+                     array('id' => QUESTION_TYPE_COMMENTONLY, 'question_type_title' => utf8_encode("Comment only")),
+                     array('id' => QUESTION_TYPE_RATINGONLY, 'question_type_title' => utf8_encode("Rating only")),
+                     array('id' => QUESTION_TYPE_COMMENT_ACHIEVEMENT, 'question_type_title' => utf8_encode("Achievement + Comment")),
+                     array('id' => QUESTION_TYPE_OBJECTIVE, 'question_type_title' => utf8_encode("Objective + Achievement + Comment")));
+    }
 	
 	public function getGrid($sort,$by,$perPage,$pageNo,$searchData,$call,$dashboardcall,$a='',$b='',$c='',$d='')
 	{		

@@ -186,7 +186,8 @@ public function addpopupAction()
 			$this->_helper->layout->disableLayout();
 		$appraisalquestionsform = new Default_Form_Appraisalquestions();
 		$appraisalCategoryModel = new Default_Model_Appraisalcategory();
-		$msgarray = array();
+        $appraisalquestionsmodel = new Default_Model_Appraisalquestions();
+        $msgarray = array();
 		$popConfigPermission = array();
 		
 	 	if(sapp_Global::_checkprivileges(APPRAISALQUESTIONS,$loginuserGroup,$loginuserRole,'add') == 'Yes'){
@@ -197,11 +198,8 @@ public function addpopupAction()
                 array_push($popConfigPermission,'appraisalcategories');
         }
 
-        $appraisalquestionsform->pa_type_id->addMultiOption(1,utf8_encode("Comment"));
-        $appraisalquestionsform->pa_type_id->addMultiOption(2,utf8_encode("Checkboxes"));
-        $appraisalquestionsform->pa_type_id->addMultiOption(3,utf8_encode("Rating"));
-
 	 	$appraisalCategoriesData = $appraisalCategoryModel->getAppraisalCategorysData();
+	 	$appraisalQuestionTypeData = $appraisalquestionsmodel->getAppraisalQuestionTypeData();
 	 		if(sizeof($appraisalCategoriesData) > 0)
             { 			
 				foreach ($appraisalCategoriesData as $ac){
@@ -213,6 +211,12 @@ public function addpopupAction()
 				$msgarray['pa_category_id'] = 'Parameter names are not configured yet.';
 				$this->view->configuremsg = 'notconfigurable';
 			}
+        if(sizeof($appraisalQuestionTypeData) > 0)
+        {
+            foreach ($appraisalQuestionTypeData as $aqt){
+                $appraisalquestionsform->pa_type_id->addMultiOption($aqt['id'],utf8_encode($aqt['question_type_title']));
+            }
+        }
 	 	$this->view->popConfigPermission = $popConfigPermission;
 		$appraisalquestionsform->setAttrib('action',BASE_URL.'appraisalquestions/add');
 		$this->view->form = $appraisalquestionsform; 
@@ -333,19 +337,23 @@ public function addpopupAction()
 							$this->view->ermsg = 'norecord';
 						} else {
 							$appraisalCategoriesData = $appraisalCategoryModel->getAppraisalCategorysData();
+							$appraisalQuestionTypesData = $appraisalquestionsmodel->getAppraisalQuestionTypeData();
 					 		if(sizeof($appraisalCategoriesData) > 0)
 				            { 			
 								foreach ($appraisalCategoriesData as $ac){
 									$appraisalquestionsform->pa_category_id->addMultiOption($ac['id'],utf8_encode($ac['category_name']));
 								}
 							}
-
-                            $appraisalquestionsform->pa_type_id->addMultiOption(1,utf8_encode("Comment"));
-                            $appraisalquestionsform->pa_type_id->addMultiOption(2,utf8_encode("Checkboxes"));
-                            $appraisalquestionsform->pa_type_id->addMultiOption(3,utf8_encode("Rating"));
+                            if(sizeof($appraisalQuestionTypesData) > 0)
+                            {
+                                foreach ($appraisalQuestionTypesData as $aqt){
+                                    $appraisalquestionsform->pa_type_id->addMultiOption($aqt['id'],utf8_encode($aqt['question_type_title']));
+                                }
+                            }
 
 							$appraisalquestionsform->populate($data);
 							$appraisalquestionsform->setDefault('pa_category_id',$data['pa_category_id']);
+							$appraisalquestionsform->setDefault('pa_type_id',$data['pa_type_id']);
 							$appraisalquestionsform->setAttrib('action',BASE_URL.'appraisalquestions/edit/id/'.$id);
 	                        $this->view->data = $data;							
 						}

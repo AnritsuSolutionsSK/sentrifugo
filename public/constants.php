@@ -597,5 +597,16 @@ defined('ASSETS_DELETE')|| define('ASSETS_DELETE','asset category');
 
 
 defined('MYEMPLOYEEEXPENSES_DELETE')|| define('MYEMPLOYEEEXPENSES_DELETE','employee expenses'); 
+
+/**
+ * APPRAISAL CONSTANTS GOES FROM HERE
+ * =========================================
+ */
+defined('QUESTION_TYPE_COMMENT_RATING')|| define('QUESTION_TYPE_COMMENT_RATING', 0);
+defined('QUESTION_TYPE_COMMENTONLY')|| define('QUESTION_TYPE_COMMENTONLY', 1);
+defined('QUESTION_TYPE_COMMENT_ACHIEVEMENT')|| define('QUESTION_TYPE_COMMENT_ACHIEVEMENT', 2);
+defined('QUESTION_TYPE_RATINGONLY')|| define('QUESTION_TYPE_RATINGONLY', 3);
+defined('QUESTION_TYPE_OBJECTIVE')|| define('QUESTION_TYPE_OBJECTIVE', 4);
+//==========================END FOR APPRAISALS CONSTANTS=============================
  
 

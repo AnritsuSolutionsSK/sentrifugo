@@ -411,7 +411,7 @@ class sapp_menuBuilder
 		
 		if($pageName == '')
 		{
-			$breadCrumbsData .= '';
+			$breadCrumbsData = '';
 		}
 		else if($pageName == 'dashboard')
 		{

@@ -749,7 +749,7 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
             
             $mpdf->list_indent_first_level = 0;
             $mpdf->SetDisplayMode('fullpage');
-            $mpdf->pagenumPrefix = 'Generated using Sentrifugo'.str_repeat(" ",72);
+            $mpdf->pagenumPrefix = str_repeat(" ",98);
             $mpdf->pagenumSuffix = '';
             $mpdf->nbpgPrefix = ' of ';
             $mpdf->nbpgSuffix = '';

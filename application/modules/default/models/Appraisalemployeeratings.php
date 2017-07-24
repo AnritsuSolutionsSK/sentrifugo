@@ -288,7 +288,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
 	{
 		$select = $this->select()
     					   ->setIntegrityCheck(false)	
-                           ->from(array('aq'=>'main_pa_questions'),array('aq.id','aq.pa_category_id','aq.question','aq.description'))
+                           ->from(array('aq'=>'main_pa_questions'),array('aq.id','aq.pa_category_id','aq.question','aq.description', 'aq.pa_type_id'))
                            ->where("aq.isactive = 1 AND aq.module_flag = 1 AND aq.id in (".$ques_ids.")");
                            
 		return $this->fetchAll($select)->toArray();       		

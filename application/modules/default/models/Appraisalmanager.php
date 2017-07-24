@@ -345,7 +345,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
 			$category_arr = array();
 			if(!empty($emp_ques))
 			{
-					$ques_query = "select q.id question_id,q.description,c.category_name,q.question from main_pa_questions q 
+					$ques_query = "select q.id question_id,q.description,q.pa_type_id,c.category_name,q.question from main_pa_questions q 
 							   inner join main_pa_category c on q.pa_category_id = c.id and c.isactive = 1 
 							   where q.isactive = 1 and q.module_flag = 1 and q.id in (". implode(',', $emp_ques).")";
 					$ques_result = $db->query($ques_query)->fetchAll();
@@ -353,7 +353,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
 				{
 					foreach($ques_result as $ques)
 					{
-						$category_arr[$ques['category_name']][] = array('question_id' => $ques['question_id'],'question' => $ques['question'],'description' => $ques['description']); 
+						$category_arr[$ques['category_name']][] = array('question_id' => $ques['question_id'],'question' => $ques['question'],'description' => $ques['description'], 'question_type' => $ques['pa_type_id']);
 					}
 				}
             }

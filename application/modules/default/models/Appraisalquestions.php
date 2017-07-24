@@ -49,9 +49,11 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
                                 ->setIntegrityCheck(false)	
                                 ->from(array('aq'=>'main_pa_questions'),array('aq.*', 'type' => new Zend_Db_Expr(
                                     "CASE aq.pa_type_id 
-                                                    WHEN 1 THEN 'Comment' 
-                                                    WHEN 2 THEN 'Achievement'
-                                                    WHEN 3 THEN 'Rating'
+                                                    WHEN 0 THEN 'Comment + Rating' 
+                                                    WHEN 1 THEN 'Comment only' 
+                                                    WHEN 2 THEN 'Comment + Achievement'
+                                                    WHEN 3 THEN 'Rating only'
+                                                    WHEN 4 THEN 'Objective + Achievement + Comment'
                                                 ELSE 'None' END")))
                                 ->joinInner(array('ac'=>'main_pa_category'), 'aq.pa_category_id = ac.id', array('category_name' => 'ac.category_name'))
                                 ->where($where)
@@ -226,7 +228,7 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
             if($qsids !='')
                 $where.=" AND p.id IN($qsids)";
 	     	
-             $qry = "select p.id,p.pa_category_id,p.question,p.description,c.category_name from main_pa_questions p
+             $qry = "select p.id,p.pa_category_id,p.pa_type_id,p.question,p.description,c.category_name from main_pa_questions p
                     inner join main_pa_category c on p.pa_category_id=c.id
                     where $where order by p.id ";
             $res = $db->query($qry)->fetchAll();            	

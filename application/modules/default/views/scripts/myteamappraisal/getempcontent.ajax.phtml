@@ -370,12 +370,6 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 
     
     $(document).ready(function(){
-		$("input.app_non_req_field").each(function(){
-        $(this).next().css("visibility", "hidden");
-        });
-        $("textarea.app_non_req_field").each(function(){
-            $(this).css("visibility", "hidden");
-        });
         $(".tabs_<?php echo $main_key;?>").tabs();
         $('div.rateit, span.rateit').rateit();
     

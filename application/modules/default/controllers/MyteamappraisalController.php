@@ -266,8 +266,7 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
 					$skill_ids = isset($post_values['emp_skills'])?$post_values['emp_skills']:'';
 					$skill_rating = isset($post_values['skill_rating'])?$post_values['skill_rating']:'';
 					$flag = $post_values['hid_btn_flag'];
-                    $achievement = isset($post_values['achievement'])?$post_values['achievement']:'';
-                    
+
 					$ratings_ids_arr = $model->getRatingsByInitId($appraisal_id);
 					$mng_response_arr = array();
 					$skill_response_arr = array();
@@ -280,9 +279,7 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
 		                    foreach($question_comments as $qid => $qc)
 		                    {
 		                    	// if($qc!='')
-                                  $mng_response_arr[$qid]['comment'] = (isset($achievement[$qid]))?($achievement[$qid]):'';
-                                  $divider = (strlen($mng_response_arr[$qid]['comment']) > 0)?' - ':'';
-		                          $mng_response_arr[$qid]['comment'] .= (isset($qc) && trim($qc) != '')?$divider.$qc:'';
+		                          $mng_response_arr[$qid]['comment'] = (isset($qc) && trim($qc) != '')?$qc:'';
 		                        // if($qid!='' && $question_rating[$qid]!='') 
 		                          $mng_response_arr[$qid]['rating'] = isset($ratings_ids_arr[$question_rating[$qid]])?$ratings_ids_arr[$question_rating[$qid]]:'';
 		                          $mng_response_arr[$qid]['achievement'] = isset($question_achievements[$qid])?$question_achievements[$qid]:'';

@@ -172,12 +172,10 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
 						<thead>
 							<tr>
-									<th>Question</th>
-									<!-- <th>Description</th> -->
 								<?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-									<th>Rating</th>
-									<th>Comments</th>
+
 								<?php } else {?>
+                                    <th>Question</th>
 									<th>Employee Rating</th>
 									<th>Manager Rating</th>
 								<?php }?>
@@ -198,25 +196,71 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 										<tr>
 											<td>
 												<div>
-													<span class="appri_ques"><?php echo $qd['question'];?></span>
-													<span class="appri_desc"><?php echo $qd['description'];?></span>
+                                                    <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
+                                                        <?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
+                                                            <span class="appri_desc"><?php echo $qd['question']." - Only manager will fill.";?></span>
+                                                        <?php } else { ?>
+                                                            <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($mgrRes[$qd['id']]['objective'])){echo $mgrRes[$qd['id']]['objective'];} ?></span>
+                                                        <?php } ?>
+                                                    <?php } else {?>
+                                                        <span class="appri_ques"><?php echo $qd['question'];?></span>
+                                                        <span class="appri_desc"><?php echo $qd['description'];?></span>
+													<?php } ?>
 												</div>
 											</td>
 											<!-- <td><?php //echo $qd['description'];?></td> -->
 											<?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-												<td>
-													<div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
-												</td>
-												<td>
-													<span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
-												</td>
+												<?php if($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_RATING){?>
+                                                    <td>
+                                                        <?php if($priv_data['ER'] == 1): ?>
+                                                            <div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                           <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+                                                    </td>
+                                                <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENTONLY){ ?>
+                                                    <td colspan="2">
+                                                        <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only manager will fill.";} ?>
+                                                    </td>
+                                                <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
+                                                    <td>
+                                                        <span><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></span>
+                                                        <?php if($priv_data['ER'] == 0){echo "No rating yet - only manager will fill.";} ?>
+                                                    </td>
+                                                    <td>
+                                                        <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only manager will fill.";} ?>
+                                                    </td>
+                                                <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){ ?>
+                                                    <td>
+                                                        <?php if($priv_data['ER'] == 1): ?>
+                                                            <div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
+                                                        <?php else: ?>
+                                                            <span>No rating yet - only manager will fill.</span>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td>
+                                                        Check "Rating Definition" in upper right corner if needed.
+                                                    </td>
+                                                <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
+                                                    <td>
+                                                        No rating yet - only manager will fill.
+                                                    </td>
+                                                    <td>
+                                                        No comment yet - only manager will fill.
+                                                    </td>
+                                                <?php } ?>
 											<?php }else{?>
 												<td>
 													<div>
 														<span  class="appri_numb"><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?></span>
 														<span><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $this->ratingTextDisplay[$empRes[$qd['id']]['rating_id']];}?></span>
 													</div>
+                                                    <div><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></div>
 													<div><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></div>
+                                                    <div><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "(not applicable)";} ?></div>
 												</td>
 												<td>
 													<div>
@@ -230,8 +274,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 																echo $ratVal[$mgrRes[$qd['id']]['rating_id']];
 															}
 															**/
-															if(isset($mgrRes[$qd['id']]['rating']) && isset($ratVal[$mgrRes[$qd['id']]['rating']]))
-															{
+															if(isset($mgrRes[$qd['id']]['rating']) && isset($ratVal[$mgrRes[$qd['id']]['rating']])) {
 																echo $ratVal[$mgrRes[$qd['id']]['rating']];
 															}
 														?>
@@ -251,7 +294,9 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 														?>
 														</span>
 													</div>
-													<div><?php if(isset($mgrRes[$qd['id']]['comment'])){echo $mgrRes[$qd['id']]['comment'];}?></div>
+                                                    <div><?php if(isset($mgrRes[$qd['id']]['achievement'])){echo $mgrRes[$qd['id']]['achievement'];}?></div>
+                                                    <div><?php if(isset($mgrRes[$qd['id']]['comment'])){echo $mgrRes[$qd['id']]['comment'];}?></div>
+                                                    <div><?php if($priv_data['MR'] == 0 && $priv_data['MC'] == 0){echo "(not applicable)";} ?></div>
 												</td>
 											<?php }?>
 										</tr>				

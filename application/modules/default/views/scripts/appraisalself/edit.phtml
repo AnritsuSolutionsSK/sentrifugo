@@ -204,14 +204,14 @@ if(empty($this->check_ratings_exists)) { ?>
 			?>
 					<div id="tabs-<?php echo $cd['id'];?>">
 						<table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
-							<thead>
+							<!--<thead>
 								<tr>
 									<th>Question</th>
-									<!-- <th>Description</th> -->
-									<th>Rating</th>
+									<th>Description</th>
+                                    <th>Rating</th>
 									<th>Comments</th>
 								</tr>
-							</thead>
+							</thead>-->
 							<tbody>
 								<?php 
 								$tmpQuestionsFlag = 0;
@@ -221,28 +221,89 @@ if(empty($this->check_ratings_exists)) { ?>
 									{
 										if($cd['id'] == $qd['pa_category_id'])
 										{
-											$tmpQuestionsFlag = 1;
-								?>						
-											<tr>
-												<td>
-													<div>
-														<span class="appri_ques"><?php echo $qd['question'];?></span>
-														<span class="appri_desc"><?php echo $qd['description'];?></span>
-													</div>
-												</td>
-												<!-- <td><?php //echo $qd['description'];?></td> -->
+											$tmpQuestionsFlag = 1; ?>
+                                            <tr>
+                                            <td>
+                                                <div>
+                                                <?php if($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_RATING){ ?>
+                                                    <span class="appri_desc"><?php echo $qd['question'] . " - Only manager will fill.";?></span>
+                                                <?php } else { ?>
+                                                    <span class="appri_ques"><?php echo $qd['question'];?></span>
+                                                    <span class="appri_desc"><?php echo $qd['description'];?></span>
+                                                <?php } ?>
+                                                </div>
+                                            </td>
+                                            <?php
+											if($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_RATING){ ?>
 												<?php $priv_data = $qpData[$qd['id']];?>
-												<td>
-													<input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field app_ratings_text"';}else{echo 'class=""';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
-													<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="false" 
-														data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" ></div>
+
+                                                <td>
+													<input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field_rating app_ratings_text"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
+													<div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="true" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" ></div>
 												</td>
 												<td>
 													<textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new"';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="2" cols="15"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
 												</td>
-											</tr>				
-								<?php 	
-										}
+								            <?php
+										    } elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENTONLY){ ?>
+                                                    <td colspan="2">
+                                                        <?php $priv_data = $qpData[$qd['id']];?>
+                                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new app_non_req_field" placeholder="Only manager will fill this." style="background-color:silver" readonly';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="6" cols="15" style="height: 200px"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
+                                                        <input class="app_non_req_field" type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>" />
+                                                    </td>
+                                            <?php
+                                            } elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
+                                                    <td>
+                                                        <?php $priv_data = $qpData[$qd['id']];?>
+                                                        <select name="emp_achievement[<?php echo $qd['id'];?>]" <?php if($priv_data['EC'] != 1) echo 'readonly';?>>
+                                                            <option disabled value selected> -- Achievement -- </option>
+                                                            <option value="Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Achieved") echo "selected"; ?>>Achieved</option>
+                                                            <option value="Partially Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
+                                                            <option value="Not Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Not Achieved") echo "selected"; ?>>Not Achieved</option>
+                                                        </select>
+                                                    </td>
+                                                    <td colspan="3">
+                                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new app_non_req_field" readonly placeholder="Only manager will fill this." style="background-color:silver"';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="2" cols="15"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
+                                                        <input class="app_non_req_field" type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>" />
+                                                    </td>
+
+                                                <?php
+                                            } elseif($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){ ?>
+                                                    <td>
+                                                        <?php $priv_data = $qpData[$qd['id']];?>
+                                                        <?php if($priv_data['ER'] == 1){ ?>
+                                                            <div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="true"
+                                                                 data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" ></div>
+                                                        <?php } else { ?>
+                                                            <div onclick="removeValidationMessage(this)" class="rateit" data-rateit-backingfld="#emp_rating_<?php echo $qd['id'];?>" data-rateit-step="1" data-rateit-resetable="true"
+                                                                 data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true"></div>
+                                                            Only manager will rate this.
+                                                        <?php }?>
+                                                        <input <?php if($priv_data['ER'] == 1){echo 'class="app_req_field_rating app_ratings_text"';}else{echo 'class="app_non_req_field"';}?> type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>">
+
+                                                        <input type="hidden" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new app_non_req_field"';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" value />
+                                                    </td>
+                                                    <td>
+                                                        Check "Ratings Definition" in upper right corner if needed.
+                                                    </td>
+                                                <?php
+                                            } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
+                                                <td>
+                                                        <?php $priv_data = $qpData[$qd['id']];?>
+                                                <select name="emp_achievement[<?php echo $qd['id'];?>]" <?php if($priv_data['EC'] != 1) echo 'readonly';?>>
+                                                    <option value="" selected> -- Achievement -- </option>
+                                                    <option value="Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Achieved") echo "selected"; ?>>Achieved</option>
+                                                    <option value="Partially Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
+                                                    <option value="Not Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Not Achieved") echo "selected"; ?>>Not Achieved</option>
+                                                </select>
+                                                </td>
+                                                <td colspan="3">
+                                                    <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new app_non_req_field" readonly placeholder="Only manager will fill this." style="background-color:silver"';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="2" cols="15"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
+                                                    <input class="app_non_req_field" type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>" />
+                                                </td>
+                                           <?php } ?>
+                                            </tr>
+										<?php }
 									} }
 									if($tmpQuestionsFlag == 0)
 									{

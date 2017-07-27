@@ -1038,7 +1038,7 @@ if($loginuserRole == SUPERADMINROLE)
     }
     
 ?>
- <div class="shortcuts"><h1>Shortcuts</h1><div class="short-text-ctrl"><?php echo $this->shortcuticons($loginUserId); ?></div></div>
+ <!--<div class="shortcuts"><h1>Shortcuts</h1><div class="short-text-ctrl"><?php /*echo $this->shortcuticons($loginUserId);*/ ?></div></div>-->
                                         
 </div>
 <div id="page-content-wrapper">
@@ -1054,7 +1054,7 @@ if($loginuserRole == SUPERADMINROLE)
 	echo sapp_Helper::policyDocsBreadcrum();	
     }
     else
-	    echo $this->breadcrumbs($baseUrl);
+	    //echo $this->breadcrumbs($baseUrl);
     /* $emptabarr = array('dependencydetails','creditcarddetails','visaandimmigrationdetails','workeligibilitydetails','disabilitydetails','empcommunicationdetails','empskills','empleaves','empholidays','medicalclaims','educationdetails','experiencedetails','trainingandcertificationdetails','emppersonaldetails','empperformanceappraisal','emppayslips','empbenefits','emprenumerationdetails','emprequisitiondetails','empadditionaldetails','empsecuritycredentials','empsalarydetails','empjobhistory');
        if(in_array($controllerName,$emptabarr))
        {?>
@@ -1084,7 +1084,7 @@ $appraisalmenuArr = array('appraisalcategory','appraisalskills','appraisalquesti
 /**
 ** declare array of controller names for which Pin to shortcut icon is not required
 **/
-$notdraggablemenuArr = array('viewsettings','dashboard','welcome','index','policydocuments');
+/*$notdraggablemenuArr = array('viewsettings','dashboard','welcome','index','policydocuments');
    
 if(!in_array($controllerName,$notdraggablemenuArr) && $actionName == 'index'){ 
 ?>
@@ -1112,7 +1112,7 @@ if(!in_array($controllerName,$notdraggablemenuArr) && $actionName == 'index'){
 			</div>	
 		<?php }
 		?>
-<?php }?>
+<?php }*/?>
 									
     <div id="maincontentdiv">	
         <div id="dialog-confirm" style="display:none;">

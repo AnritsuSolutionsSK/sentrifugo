@@ -189,7 +189,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 							{
 								foreach ($qData as $qd)
 								{
-								$priv_data = $qpData[$qd['id']];
+								    $priv_data = $qpData[$qd['id']];
 									if($cd['id'] == $qd['pa_category_id'])
 									{
 										$tmpQuestionsFlag = 1;
@@ -243,7 +243,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                         <?php endif; ?>
                                                     </td>
                                                     <td>
-                                                        Check "Rating Definition" in upper right corner if needed.
+                                                        Check "Ratings Definition" in upper right corner if needed.
                                                     </td>
                                                 <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                     <td>

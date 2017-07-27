@@ -4060,7 +4060,7 @@ color:#fff!important;
 .ratings_block .rating_star_3{ background:url(../images/star_rate_info/star-3.png) no-repeat left center; width:61px; height:18px; display:inline-block;}
 .ratings_block .rating_star_4{ background:url(../images/star_rate_info/star-4.png) no-repeat left center; width:82px; height:18px; display:inline-block;}
 .ratings_block .rating_star_5{ background:url(../images/star_rate_info/star-5.png) no-repeat left center; width:103px; height:18px; display:inline-block;}
-.ratings_block .rating_star_6{ background:url(../images/star_rate_info/star_6.png) no-repeat left center; width:124px; height:18px; display:inline-block;}
+.ratings_block .rating_star_6{ background:url(../images/star_rate_info/star_6_custom.png) no-repeat left center; width:124px; height:18px; display:inline-block;}
 
 .rating_star-1{ background:url(../images/star_rate_info/star_1.png) no-repeat left center; width:19px; height:18px; display:inline-block;}
 .rating_star-2{ background:url(../images/star_rate_info/star_2.png) no-repeat left center; width:40px; height:18px; display:inline-block;}
@@ -4079,6 +4079,7 @@ color:#fff!important;
 .rating_text_3{display:inline-block; color:#e3b905;}
 .rating_text_4{display:inline-block; color:#7bc343;}
 .rating_text_5{display:inline-block; color:#00a84f;}
+.rating_text_6{display:inline-block; color:#009747;}
 .rating_text-1{display:inline-block; color:#dc3836;}
 .rating_text-2{display:inline-block; color:#dc3836;}
 .rating_text-3{display:inline-block; color:#ff6000;}

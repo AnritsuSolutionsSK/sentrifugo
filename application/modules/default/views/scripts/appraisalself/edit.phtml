@@ -162,7 +162,7 @@ if(empty($this->check_ratings_exists)) { ?>
 					</div>
 					<div class="appraisal_due_date"><span>Due Date :</span> <?php echo sapp_Global::change_date($empRatData[0]['employees_due_date'],'view');?></div>
 					<div class="new-form-ui-submit employee_appraisal_submit">
-						<input type="button" class="rating_help_txt" value="Rating Definition" onclick="checkratingstext();"/>
+						<input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
 					</div>
 				
 				</div>
@@ -170,7 +170,7 @@ if(empty($this->check_ratings_exists)) { ?>
 				<div class="appraisal_managers_list">
 					<?php for($i=0;$i<count($managerNames);$i++) {?>
 						<div class="appraisal_managers_div">
-							<div class="appraisal_managers_title">L<?php echo $i+1;?> Manager</div>
+							<div class="appraisal_managers_title">Line Manager</div>
 							<div class="appraisal_managers_name"><?php echo $managerNames[$i];?></div>
 						</div>
 					<?php }?>

@@ -137,7 +137,7 @@ else
 						<span class="member_id"><?php echo $edata['employeeId'];?></span>
 						<span class="member_jname"><?php echo $edata['jobtitle_name'];?></span>
 					</div>
-					<div class="status_div_block"><span>Appraisal Status</span><div class="status_div <?php echo $edata['appraisal_status']=='Completed'?'completed':'pending';?>"><?php echo $edata['appraisal_status']=='Completed'?'Completed':$edata['appraisal_status'];?></div></div>
+					<div class="status_div_block"><span>Appraisal Status</span><div class="status_div <?php echo $edata['appraisal_status']=='Completed'?'completed':'pending';?>"><?php echo $edata['appraisal_status']=='Pending L1 ratings'?'Pending line manager ratings':$edata['appraisal_status'];?></div></div>
 					<?php 
 							for($i=1;$i<=5;$i++)
 							{

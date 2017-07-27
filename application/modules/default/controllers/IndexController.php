@@ -264,7 +264,7 @@ class Default_IndexController extends Zend_Controller_Action
 				 /*** Previous URL redirection after login - end ***/
 				}
 				else
-				$this->_redirect('/index/welcome');
+				$this->_redirect('/appraisalself');
 
 			}
 			else

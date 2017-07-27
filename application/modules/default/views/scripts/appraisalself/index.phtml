@@ -92,9 +92,9 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 					if(isset($empRatData[0][$lineManager]) && isset($managerNames[$empRatData[0][$lineManager]])){	
 				?>
 					<div class="appraisal_managers_div">
-						<div class="appraisal_managers_title">L<?php echo $i;?> Manager</div>
+						<div class="appraisal_managers_title">Line Manager</div>
 						<div class="appraisal_managers_name"><?php echo $managerNames[$empRatData[0][$lineManager]];?></div>
-						<?php if($appStatus != APP_PENDING_EMP){?>
+						<?php /*if($appStatus != APP_PENDING_EMP){?>
 							<div class="appr_rat">Appraisal Rating</div>
 							<?php 
 							$col = 'line_rating_'.($i);
@@ -102,7 +102,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 								<div class="appr_rat_num"><span><?php echo $empRatData[0][$col];?></span></div>
 							<?php } else {?>
 								<div class="appr_pending"><span>Pending</span></div>
-						<?php }}?>
+						<?php }}*/?>
 					</div>
 				<?php }}?>
 				<div class="clear"></div>
@@ -110,7 +110,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 			
 			
 			
-			<?php if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){ ?>
+			<?php /*if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){ ?>
 			<div class="final_rating_div">
 				<div class="final_rating_txt">
 					<span class="rating_num"><?php echo $empRatData[0]['consolidated_rating']+0;?></span>
@@ -125,7 +125,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 				<div class="final_rating_stars"><div class="rateit" data-rateit-readonly="true" data-rateit-value="<?php echo $empRatData[0]['consolidated_rating'];?>"></div></div>
 				<a href="#" id="view_comments">View Comments</a>
 			</div>
-			<?php }?>
+			<?php }*/?>
 			<div class="clear"></div>
 			<?php if($this->login_user_id == $empRatData[0]['employee_id']) {?>
 				<div>

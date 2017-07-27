@@ -124,6 +124,18 @@ class Default_AppraisalhistoryselfController extends Zend_Controller_Action {
                                 $ques_csv .= $appEmpQuesPrivData[0]['manager_qs'];
                             }
 
+                            // merging HR and Manager questions privileges
+                            $hr_ques_previs = array();
+                            $mgr_ques_previs = array();
+                            $ratingType = array();
+                            if($appEmpQuesPrivData[0]['hr_group_qs_privileges'])
+                                $hr_ques_previs = json_decode($appEmpQuesPrivData[0]['hr_group_qs_privileges'],true);
+
+                            if($appEmpQuesPrivData[0]['manager_qs_privileges'])
+                                $mgr_ques_previs = json_decode($appEmpQuesPrivData[0]['manager_qs_privileges'],true);
+
+                            $question_previs = $hr_ques_previs + $mgr_ques_previs;
+
                             // get all questions data based on above question ids
                             $questions_data = $appEmpRatingsModel->getAppQuesDataByIDs($ques_csv);
 
@@ -194,6 +206,7 @@ class Default_AppraisalhistoryselfController extends Zend_Controller_Action {
                             $this->view->appEmpRatingsData = $appEmpRatingsData;
                             $this->view->categories_data = $categories_data;
                             $this->view->questions_data = $questions_data;
+                            $this->view->question_previs = $question_previs;
                             $this->view->ratingType = $ratingType;
                             $this->view->ratingTextDisplay = $ratingTextDisplay;
                             $this->view->ratingText = json_encode($ratingText);

@@ -121,9 +121,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							<td>
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <span class="appri_desc"><?php echo $ques['question']; ?></span>
-                                        <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_text_<?php echo $ques['question_id']; ?>" name="question_objectives[<?php echo $ques['question_id'];?>]" id="idquestion_objectives_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height:100px"><?php echo $qobjective; ?></textarea>
-									<?php } else { ?>
+                                        <?php if(empty($this->history_flag)) {?>
+                                            <span class="appri_desc"><?php echo $ques['question']; ?></span>
+                                            <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_text_<?php echo $ques['question_id']; ?>" name="question_objectives[<?php echo $ques['question_id'];?>]" id="idquestion_objectives_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height:100px"><?php echo $qobjective; ?></textarea>
+                                        <?php } else {?>
+                                            <span class="appri_ques"><?php echo $ques['question']." - ".$qobjective; ?></span>
+                                    <?php }} else { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                         <span class="appri_desc"><?php echo $ques['description']; ?></span>
                                     <?php } ?>
@@ -133,7 +136,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php if($ques['question_type'] == QUESTION_TYPE_COMMENT_RATING){ ?>
                                     <?php if($priv_data['ER'] == 1): ?>
                                         <span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:''):"0";?></span>
-                                        <span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:''):"Not Rated";?></span>
+                                        <span class="rating_text"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:''):"Not Rated";?></span>
                                     <?php endif; ?>
                                         <div class="rating_comments"><?php echo $employee_response[$ques['question_id']]['comment'];?></div>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENTONLY){ ?>
@@ -150,7 +153,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <?php } ?>
                                     <?php if($priv_data['EC'] == 1){ ?>
                                         <div class="rating_comments"><?php echo $employee_response[$ques['question_id']]['comment'];?></div>
-                                    <?php } else { ?>
+                                    <?php } elseif($priv_data['ER'] == 1) { ?>
                                         <div class="rating_comments">(Not available to employees)</div>
                                     <?php } ?>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_RATINGONLY){ ?>
@@ -161,7 +164,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                         <div class="rating_text">(Not available to employees)</div>
                                 <?php }} elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                         <div class="rating_text">(Not available to employees)</div>
-                                    <?php } ?>
+                                <?php } ?>
 							</td>
                             <?php if(empty($this->history_flag)) {?>
                                 <?php if($ques['question_type'] == QUESTION_TYPE_COMMENT_RATING){ ?>
@@ -176,7 +179,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENTONLY){ ?>
                                     <td colspan="2">
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea" placeholder="Only employee fills this." style="background-color:silver" readonly';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
+                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea" placeholder="Only for employees." style="background-color:silver" readonly';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
                                     </td>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
                                     <td>
@@ -216,6 +219,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                         <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_comment_<?php echo $ques['question_id']; ?>" name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
                                     </td>
                                 <?php } ?>
+                            <?php } else { ?>
+                                <td colspan="2">
+                                    <span class="rating_value"><?php echo $rating_arr[$qrating]?></span>
+                                    <span class="rating_text"><?php echo $qrating?></span>
+                                    <div class="rating_comments"><?php echo $qcomment;?></div>
+                                </td>
                             <?php } ?>
 						</tr>
 <?php                    
@@ -500,7 +509,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     <tr>
                         <th>Question</th>
                         <th>Employee Rating/Comment</th>
-                        <th>Line Manager Rating/Comment</th>
+                        <th>Manager Rating/Comment</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -563,7 +572,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } ?>
                                 <?php if($priv_data['EC'] == 1){ ?>
                                     <br><?php echo $employee_response[$ques['question_id']]['comment'];?>
-                                <?php } else { ?>
+                                <?php } elseif($priv_data['ER'] == 1) { ?>
                                     <br>(not applicable)
                                 <?php } ?>
                             </td>
@@ -575,7 +584,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } ?>
                                 <?php if($priv_data['MC'] == 1){ ?>
                                     <br><?php echo $qcomment;?>
-                                <?php } else { ?>
+                                <?php } elseif($priv_data['ER'] == 1) { ?>
                                     <br>(not applicable)
                                 <?php } ?>
                             </td>

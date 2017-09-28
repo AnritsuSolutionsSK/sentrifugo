@@ -199,7 +199,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 												<div>
                                                     <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                         <?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-                                                            <span class="appri_desc"><?php echo $qd['question']." - Only manager will fill.";?></span>
+                                                            <span class="appri_desc"><?php echo $qd['question']." - Only for managers.";?></span>
                                                         <?php } else { ?>
                                                             <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($mgrRes[$qd['id']]['objective'])){echo $mgrRes[$qd['id']]['objective'];} ?></span>
                                                         <?php } ?>
@@ -223,23 +223,23 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                 <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENTONLY){ ?>
                                                     <td colspan="2">
                                                         <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
-                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only manager will fill.";} ?>
+                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only for managers.";} ?>
                                                     </td>
                                                 <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
                                                     <td>
                                                         <span><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></span>
-                                                        <?php if($priv_data['ER'] == 0){echo "No rating yet - only manager will fill.";} ?>
+                                                        <?php if($priv_data['ER'] == 0){echo "No rating yet - only for managers.";} ?>
                                                     </td>
                                                     <td>
                                                         <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
-                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only manager will fill.";} ?>
+                                                        <?php if($priv_data['EC'] == 0){echo "No comment yet - only for managers.";} ?>
                                                     </td>
                                                 <?php }elseif($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){ ?>
                                                     <td>
                                                         <?php if($priv_data['ER'] == 1): ?>
                                                             <div class="rateit" data-rateit-min="<?php echo $ratingMin;?>" data-rateit-max="<?php echo $ratingMax;?>" data-rateit-readonly="true" data-rateit-value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>"></div>
                                                         <?php else: ?>
-                                                            <span>No rating yet - only manager will fill.</span>
+                                                            <span>No rating yet - only for managers.</span>
                                                         <?php endif; ?>
                                                     </td>
                                                     <td>
@@ -247,10 +247,10 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                     </td>
                                                 <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                     <td>
-                                                        No rating yet - only manager will fill.
+                                                        No rating yet - only for managers.
                                                     </td>
                                                     <td>
-                                                        No comment yet - only manager will fill.
+                                                        No comment yet - only for managers.
                                                     </td>
                                                 <?php } ?>
 											<?php }else{?>

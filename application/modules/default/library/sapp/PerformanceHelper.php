@@ -77,9 +77,9 @@ class sapp_PerformanceHelper
         </ul> 
      
      <?php if(isset($initializationdata['poppermission']) && $initializationdata['poppermission']=='yes') { ?>
-	     <div class="addnewqs" onclick="addnewqspopup(1,'<?php echo $appraisalid; ?>');">
+	     <!--<div class="addnewqs" onclick="addnewqspopup(1,'<?php echo $appraisalid; ?>');">
 	     		 + Add New Question
-	     </div>
+	     </div>-->
 	     
      <?php 
      			sapp_PerformanceHelper::question_div(1);

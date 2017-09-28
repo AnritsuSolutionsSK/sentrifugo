@@ -730,7 +730,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
             }
             if($red_result !== '' )
             {                
-                $this->_helper->FlashMessenger()->setNamespace('conf_success')->addMessage($message); 
+                $this->_helper->FlashMessenger->setNamespace('conf_success')->addMessage($message);
                 $this->_redirect('appraisalinit/confmanagers/i/'.sapp_Global::_encrypt($init_id));
             }
         }
@@ -1184,11 +1184,11 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 					if($Id == 'update')
 					{
 						$tableid = $id;                    
-						$this->_helper->FlashMessenger()->setNamespace('appinit_success')->addMessage('Appraisal process updated successfully'); 
+						$this->_helper->FlashMessenger->setNamespace('appinit_success')->addMessage('Appraisal process updated successfully');
 					}   
 					else
 					{
-						$this->_helper->FlashMessenger()->setNamespace('appinit_success')->addMessage('Appraisal process added successfully'); 
+						$this->_helper->FlashMessenger->setNamespace('appinit_success')->addMessage('Appraisal process added successfully');
 						$tableid = $Id; 	                    
 					}   
 					$menuID =INITIALIZE_APPRAISAL;
@@ -3917,7 +3917,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
             if($red_result === 'saved')
             {      
             	$message = "Appraisal process updated successfully";          
-                $this->_helper->FlashMessenger()->setNamespace('conf_success')->addMessage($message); 
+                $this->_helper->FlashMessenger->setNamespace('conf_success')->addMessage($message);
                 $this->_redirect('appraisalinit/confmanagers/i/'.sapp_Global::_encrypt($init_id));
             }
 		}

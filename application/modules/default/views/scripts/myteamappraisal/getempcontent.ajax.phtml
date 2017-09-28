@@ -172,7 +172,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENTONLY){ ?>
                                     <td colspan="2">
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea" placeholder="Only employee fills this." style="background-color:silver" readonly';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
+                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea" placeholder="Only for employees." style="background-color:silver" readonly';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
                                     </td>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
                                     <td>
@@ -557,7 +557,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     <tr>
                         <th>Question</th>
                         <th>Employee Rating/Comment</th>
-                        <th>Line Manager Rating/Comment</th>
+                        <th>Manager Rating/Comment</th>
                     </tr>
                 </thead>
                 <tbody>

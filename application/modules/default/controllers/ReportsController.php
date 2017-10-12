@@ -6224,5 +6224,18 @@ $menuArray = array();
 		return $this->_helper->json(array('file_name'=>$data['file_name']));
 	}
 
+	public function exportmyteamappraisalstatusesAction(){
+        $auth = Zend_Auth::getInstance();
+        if($auth->hasIdentity())
+        {
+            $loginUserId = $auth->getStorage()->read()->id;
+        }
+	    $model = new Default_Model_Appraisalmanager();
+        $emp_data = $model->getEmpdata_managerapp($loginUserId);
+
+	    $this->_helper->layout->disableLayout();
+	    sapp_Global::export_to_excel($emp_data, array('userfullname' => 'Full Name', 'employeeId' => 'Employee ID', 'appraisal_status' => 'Appraisal status', 'line_rating_1' => 'Manager Rating', 'businessunit_name' => 'BU', 'department_name' => 'Department'),"MyTeamAppraisalStatuses.xlsx");
+        exit;
+    }
 	
 }

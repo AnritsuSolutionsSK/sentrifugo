@@ -1194,6 +1194,9 @@ protected function _getAcl()
 
 		 $acl->addResource(new Zend_Acl_Resource('default:apprreqcandidates'));
                             $acl->allow('manager', 'default:apprreqcandidates', array('index','viewpopup'));
+
+         $acl->addResource(new Zend_Acl_Resource('default:reports'));
+                            $acl->allow('manager', 'default:reports', array('exportmyteamappraisalstatuses'));
 }if($role == 4 )
            {
 		 $acl->addResource(new Zend_Acl_Resource('default:addemployeeleaves'));

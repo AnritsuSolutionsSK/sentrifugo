@@ -3350,8 +3350,8 @@ background-image: -moz-linear-gradient(center top , #FFFFFF 40%, #E5E5E5 100%); 
 .company-tabs h1{ margin:0 0 10px 0; padding:0; clear:both; width:100%; float:left; font-family: 'Roboto Regular',sans-serif; font-size: 14px; color: #333333; text-align: left; text-transform:uppercase;  }
 .flt_right{ float:right !important;}
 .flt_left{float:left !important;}
-.uploadbut_exel{color: #fff;font-family: 'Roboto Regular';font-size:14px;height:20px;text-align: center;padding:4px 0;width:130px;background: #0fc397;margin-right: 6px;}
-.importformatlink{color: #000000;font-family: 'Roboto Regular';font-size:14px;text-decoration:none;padding:5px 15px 5px 15px;background:#e9eef3;margin-right: 6px;}
+.uploadbut_exel{color: #fff;font-family: 'Roboto Regular';font-size:14px;height:20px;text-align: center;padding:4px 0;width:130px;background: #289b7d;margin-right: 6px;}
+.importformatlink, .downloadLink{color: #000000;font-family: 'Roboto Regular';font-size:14px;text-decoration:none;padding:5px 15px 5px 15px;background:#e9eef3;margin-right: 6px;}
 .importformatlink:last-child {margin-right: 0;}
 #pageshortcutdiv.help_appri_list{ cursor:default;}
 .help_appri_list a{padding-top: 0px; margin-right: 17px; padding-left: 20px; padding-right: 5px; cursor:pointer; background:url(../images/doc_help.png) left center no-repeat;}

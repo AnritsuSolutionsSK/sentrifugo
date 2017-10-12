@@ -69,6 +69,17 @@ class Default_Model_Appraisalquestions extends Zend_Db_Table_Abstract
                      array('id' => QUESTION_TYPE_COMMENT_ACHIEVEMENT, 'question_type_title' => utf8_encode("Achievement + Comment")),
                      array('id' => QUESTION_TYPE_OBJECTIVE, 'question_type_title' => utf8_encode("Objective + Achievement + Comment")));
     }
+
+    public function getOverallRatingQuestionsID(){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $qry = "select id from main_pa_questions where description LIKE '(OVERALL RATING)'";
+        $res = $db->query($qry)->fetchAll();
+        $result = array();
+        foreach ($res as $row){
+            array_push($result, $row['id']);
+        }
+        return $result;
+    }
 	
 	public function getGrid($sort,$by,$perPage,$pageNo,$searchData,$call,$dashboardcall,$a='',$b='',$c='',$d='')
 	{		

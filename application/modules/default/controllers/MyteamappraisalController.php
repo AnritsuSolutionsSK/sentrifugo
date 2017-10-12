@@ -255,6 +255,10 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
                                     
 					$model = new Default_Model_Appraisalemployeeratings();
 					$appEmpRatingsModel = new Default_Model_Appraisalemployeeratings();
+
+					$appraisalQsModel = new Default_Model_Appraisalquestions();
+					$overallRatingQsIDs = $appraisalQsModel->getOverallRatingQuestionsID();
+
 					$consol_rating = (isset($post_values['consol_rating']) && trim($post_values['consol_rating']) != 0)?$post_values['consol_rating']:NULL;
 					$consol_comments = isset($post_values['consol_comments'])?$post_values['consol_comments']:'';
 					$employee_id = $post_values['hid_employee_id'];
@@ -289,6 +293,10 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
 		                        // if($qid!='' && $question_rating[$qid]!='') 
 		                          $mng_response_arr[$qid]['rating'] = isset($ratings_ids_arr[$question_rating[$qid]])?$ratings_ids_arr[$question_rating[$qid]]:'';
 		                          $mng_response_arr[$qid]['achievement'] = isset($question_achievements[$qid])?$question_achievements[$qid]:'';
+
+                                if(in_array($qid, $overallRatingQsIDs)){
+                                    $consol_rating = $question_rating[$qid];
+                                }
 		                    }
 	                    }
 	                    if(!empty($skill_ids))

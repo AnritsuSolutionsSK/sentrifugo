@@ -255,6 +255,10 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
                                     
 					$model = new Default_Model_Appraisalemployeeratings();
 					$appEmpRatingsModel = new Default_Model_Appraisalemployeeratings();
+
+					$appraisalQsModel = new Default_Model_Appraisalquestions();
+					$overallRatingQsIDs = $appraisalQsModel->getOverallRatingQuestionsID();
+
 					$consol_rating = (isset($post_values['consol_rating']) && trim($post_values['consol_rating']) != 0)?$post_values['consol_rating']:NULL;
 					$consol_comments = isset($post_values['consol_comments'])?$post_values['consol_comments']:'';
 					$employee_id = $post_values['hid_employee_id'];
@@ -262,7 +266,14 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
 					$question_rating = isset($post_values['question_rating'])?$post_values['question_rating']:'';
 					$question_comments = isset($post_values['question_comments'])?$post_values['question_comments']:'';
 					$question_achievements = isset($post_values['question_achievement'])?$post_values['question_achievement']:'';
-					$question_objectives = isset($post_values['question_objectives'])?$post_values['question_objectives']:'';
+
+                    //get all unique sorted question IDs
+                    $ratingIDS = $question_rating?array_keys((array)$question_rating):array();
+                    $commentIDS = $question_comments?array_keys((array)$question_comments):array();
+                    $achievementIDS = $question_achievements?array_keys((array)$question_achievements):array();
+                    $allUniqueIDS = array_unique(array_merge($ratingIDS, $commentIDS, $achievementIDS));
+                    sort($allUniqueIDS);
+
 					$skill_ids = isset($post_values['emp_skills'])?$post_values['emp_skills']:'';
 					$skill_rating = isset($post_values['skill_rating'])?$post_values['skill_rating']:'';
 					$flag = $post_values['hid_btn_flag'];
@@ -274,16 +285,19 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
 					$skill_json = '';
                     if(!empty($ratings_ids_arr))
                     {
-	                    if(!empty($question_comments))
+	                    if(!empty($allUniqueIDS))
 	                    {
-		                    foreach($question_comments as $qid => $qc)
+		                    foreach($allUniqueIDS as $qid)
 		                    {
 		                    	// if($qc!='')
-		                          $mng_response_arr[$qid]['comment'] = (isset($qc) && trim($qc) != '')?$qc:'';
+		                          $mng_response_arr[$qid]['comment'] = (isset($question_comments[$qid]) && trim($question_comments[$qid]) != '')?$question_comments[$qid]:'';
 		                        // if($qid!='' && $question_rating[$qid]!='') 
 		                          $mng_response_arr[$qid]['rating'] = isset($ratings_ids_arr[$question_rating[$qid]])?$ratings_ids_arr[$question_rating[$qid]]:'';
 		                          $mng_response_arr[$qid]['achievement'] = isset($question_achievements[$qid])?$question_achievements[$qid]:'';
-		                          $mng_response_arr[$qid]['objective'] = isset($question_objectives[$qid])?$question_objectives[$qid]:'';
+
+                                if(in_array($qid, $overallRatingQsIDs)){
+                                    $consol_rating = $question_rating[$qid];
+                                }
 		                    }
 	                    }
 	                    if(!empty($skill_ids))

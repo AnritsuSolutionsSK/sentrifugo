@@ -126,13 +126,13 @@
                                         $qrating = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['rating']:"";
                                         $qcomment = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['comment']:"";
                                         $qachievement = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['achievement']:"";
-                                        $qobjective = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['objective']:"";
+
                                         ?>
                                     <tr>
                                         <?php if($v['question_type'] == QUESTION_TYPE_OBJECTIVE) { ?>
                                             <td width="400"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
                                                 <br>
-                                                <font face="'Arial', sans-serif" size="1"><?php echo $qobjective;?></font>
+                                                <font face="'Arial', sans-serif" size="1"><?php echo $employee_response[$v['question_id']]['objective'];?></font>
                                             </td>
                                             <td width="30"  valign="top" align="center">
                                                 <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>

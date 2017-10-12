@@ -330,15 +330,25 @@ class Default_AppraisalselfController extends Zend_Controller_Action
             	$emp_rating_arr = $this->_request->getParam('emp_rating');
             	$emp_comment_arr = $this->_request->getParam('emp_comment');
             	$emp_achievement_arr = $this->_request->getParam('emp_achievement');
+                $emp_question_objectives_arr = $this->_request->getParam('emp_question_objectives');
+
+                //get all unique sorted question IDs
+                $ratingIDS = $emp_rating_arr?array_keys($emp_rating_arr):array();
+                $commentIDS = $emp_comment_arr?array_keys($emp_comment_arr):array();
+                $achievementIDS = $emp_achievement_arr?array_keys($emp_achievement_arr):array();
+                $objectiveIDS = $emp_question_objectives_arr?array_keys($emp_question_objectives_arr):array();
+                $allUniqueIDS = array_unique(array_merge($ratingIDS, $commentIDS, $achievementIDS, $objectiveIDS));
+                sort($allUniqueIDS);
 
             	$emp_response = array();
-	            if(sizeof($emp_rating_arr)>0 || sizeof($emp_comment_arr)>0){
-	            	foreach($emp_rating_arr as $qid=>$val){
+	            if(sizeof($allUniqueIDS)>0){
+	            	foreach($allUniqueIDS as $qid){
 	            		if(isset($emp_rating_arr[$qid]))
 	            			$rating_id = array_search($emp_rating_arr[$qid], $ratingValues);
 	            		else
 	            			$rating_id = '';
-	            		$emp_response[$qid] = array('comment'=>$emp_comment_arr[$qid],'rating_id'=>$rating_id, 'achievement' => isset($emp_achievement_arr[$qid])?$emp_achievement_arr[$qid]:"");
+	            		$emp_response[$qid] = array('comment'=>isset($emp_comment_arr[$qid])?$emp_comment_arr[$qid]:"",'rating_id'=>$rating_id, 'achievement' => isset($emp_achievement_arr[$qid])?$emp_achievement_arr[$qid]:"",
+                            'objective' => isset($emp_question_objectives_arr[$qid])?$emp_question_objectives_arr[$qid]:"");
 	            	}
 	            }
 	            

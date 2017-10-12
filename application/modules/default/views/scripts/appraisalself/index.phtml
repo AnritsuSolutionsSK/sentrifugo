@@ -199,9 +199,9 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 												<div>
                                                     <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                         <?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-                                                            <span class="appri_desc"><?php echo $qd['question']." - Only for managers.";?></span>
+                                                            <span class="appri_desc"><?php echo $qd['question']." - ".$empRes[$qd['id']]['objective'];?></span>
                                                         <?php } else { ?>
-                                                            <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($mgrRes[$qd['id']]['objective'])){echo $mgrRes[$qd['id']]['objective'];} ?></span>
+                                                            <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];} ?></span>
                                                         <?php } ?>
                                                     <?php } else {?>
                                                         <span class="appri_ques"><?php echo $qd['question'];?></span>

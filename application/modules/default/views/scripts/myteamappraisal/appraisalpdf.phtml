@@ -138,19 +138,99 @@
                                     foreach($values as $k=>$v)
                                     { 
                                         $qrating = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['rating']:"";
-                                        $qcomment = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['comment']:"";   
+                                        $qcomment = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['comment']:"";
+                                        $qachievement = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['achievement']:"";
                                         ?>
                                     <tr>
-                                        <td width="300"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
-                                            <br>
-                                            <br>
-                                            <font face="'Arial', sans-serif" size="1"><?php echo isset($v['description'])?$v['description']:'';?></font>
-                                        </td>
-                                        <td width="250"  valign="top">
-                                            <font face="'Arial', sans-serif" size="3"><strong><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_value'].' - ':"";?></strong></font>                      
-                                            <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_text']:"";?></font>
-                                            <br>
-                                            <br>
+                                        <?php if($v['question_type'] == QUESTION_TYPE_OBJECTIVE) { ?>
+                                            <td width="400"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
+                                                <br>
+                                                <font face="'Arial', sans-serif" size="1"><?php echo $employee_response[$v['question_id']]['objective'];?></font>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Partially Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="200" valign="top">
+                                                <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
+                                                    <font face="'Arial', sans-serif" size="2"><?php echo !empty($qcomment)?$qcomment:'';?></font>
+                                                <?php } ?>
+                                            </td>
+                                        <?php } else if($rating && $comment && !$achievement){ ?>
+                                            <td width="300"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
+                                                <br>
+                                                <br>
+                                                <font face="'Arial', sans-serif" size="1"><?php echo isset($v['description'])?$v['description']:'';?></font>
+                                            </td>
+                                            <td width="250"  valign="top">
+                                                <font face="'Arial', sans-serif" size="3"><strong><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_value'].' - ':"";?></strong></font>
+                                                <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_text']:"";?></font>
+                                                <br>
+                                                <br>
+
+                                                <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';?></font>
+                                            </td>
+                                            <td width="250"  valign="top">
+                                                <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
+                                                    <font face="'Arial', sans-serif" size="3"><strong><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value'].' - ':'';?></strong></font>
+                                                    <font face="'Arial', sans-serif" size="1"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$v['question_id']]['rating']]['rating_text']:"";?></font>
+                                                    <br>
+                                                    <br>
+                                                    <font face="'Arial', sans-serif" size="1"><?php echo !empty($qcomment)?$qcomment:'';?></font>
+                                                <?php } ?>
+                                            </td>
+                                        <?php } elseif($achievement){ ?>
+                                            <td width="150"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
+                                                <br>
+                                                <br>
+                                                <font face="'Arial', sans-serif" size="1"><?php echo isset($v['description'])?$v['description']:'';?></font>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Partially Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="30"  valign="top" align="center">
+                                                <input type="checkbox" <?php if($qachievement == "Achieved"){echo "checked='checked'";} ?>/>
+                                            </td>
+                                            <td width="450"  valign="top">
+                                                <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
+                                                    <font face="'Arial', sans-serif" size="2"><?php echo !empty($qcomment)?$qcomment:'';?></font>
+                                                <?php } ?>
+                                            </td>
+                                        <?php } elseif($rating && !$comment && !$achievement){ ?>
+                                            <td valign="top" align="center">
+                                                <font face="'Arial', sans-serif" size="5"><strong><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value'].' - ':'';?></strong></font>
+                                                <font face="'Arial', sans-serif" size="3"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$v['question_id']]['rating']]['rating_text']:"";?></font>
+                                            </td>
+                                        <?php } else {
+                                            $managerComment = empty($qcomment)?'':$qcomment;
+                                            $employeeComment = (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';
+                                            if(strlen($managerComment) > 0 && strlen($employeeComment) > 0) { ?>
+                                                <td valign="top" style="height:100px;">
+                                                    Manager: <font face="'Arial', sans-serif" size="1"><?php echo $managerComment; ?></font>
+                                                </td>
+                                                <td valign="top" style="height:100px ;">
+                                                    Employee: <font face="'Arial', sans-serif" size="1"><?php echo $employeeComment; ?></font>
+                                                </td>
+                                        <?php } elseif(strlen($managerComment) > 0){ ?>
+                                                <td valign="top" style="height:100px ;">
+                                                    <font face="'Arial', sans-serif" size="2"><?php echo $managerComment; ?></font>
+                                                </td>
+                                        <?php } elseif(strlen($employeeComment) > 0){ ?>
+                                                <td valign="top" style="height:100px ;">
+                                                    <font face="'Arial', sans-serif" size="2"><?php echo $employeeComment; ?></font>
+                                                </td>
+                                            <?php } else {
+                                                echo "<td style='height:100px'></td>";
+                                            }
+                                        } ?>
 
                                             <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?'Comments - '.$employee_response[$v['question_id']]['comment']:'';?></font>
                                         </td>

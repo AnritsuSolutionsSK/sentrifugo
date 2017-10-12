@@ -227,6 +227,9 @@ if(empty($this->check_ratings_exists)) { ?>
                                                 <div>
                                                 <?php if($qd['pa_type_id'] == QUESTION_TYPE_COMMENT_RATING){ ?>
                                                     <span class="appri_desc"><?php echo $qd['question'] . " - Only for managers.";?></span>
+                                                <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE) { ?>
+                                                    <span class="appri_desc"><?php echo $qd['question']; ?></span>
+                                                    <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_text_<?php echo $qd['id']; ?>" name="emp_question_objectives[<?php echo $qd['id'];?>]" id="idquestion_objectives_<?php echo $empRatData[0]['employee_id'];?>_<?php echo $qd['id'];?>" style="height:100px"><?php if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];}?></textarea>
                                                 <?php } else { ?>
                                                     <span class="appri_ques"><?php echo $qd['question'];?></span>
                                                     <span class="appri_desc"><?php echo $qd['description'];?></span>

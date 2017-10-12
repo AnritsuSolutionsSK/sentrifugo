@@ -117,12 +117,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							<td>
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <?php if(empty($this->history_flag)) {?>
-                                            <span class="appri_desc"><?php echo $ques['question']; ?></span>
-                                            <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_text_<?php echo $ques['question_id']; ?>" name="question_objectives[<?php echo $ques['question_id'];?>]" id="idquestion_objectives_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height:100px"><?php echo $qobjective; ?></textarea>
-                                        <?php } else {?>
-                                            <span class="appri_ques"><?php echo $ques['question']." - ".$qobjective; ?></span>
-                                    <?php }} else { ?>
+                                        <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
+                                    <?php } else { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                         <span class="appri_desc"><?php echo $ques['description']; ?></span>
                                     <?php } ?>
@@ -582,7 +578,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     <tr>
                         <td><div>
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                <span class="appri_desc"><?php echo $ques['question']." - ".$qobjective; ?></span>
+                                <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
                             <?php } else { ?>
                                 <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                 <span class="appri_desc"><?php echo $ques['description']; ?></span>

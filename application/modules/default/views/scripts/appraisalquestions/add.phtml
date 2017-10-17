@@ -54,7 +54,7 @@ if($this->ermsg !='')
             <?php echo sapp_Helper::sd_form_helper($this->msgarray, $this->form, 'pa_type_id','', '','required', array());?>
 			<div id="multi_dept_div">
 			<?php if(!$_POST){?>
-				<div id='parent_0' class="add_request" >
+				<div id='parent_0' class="add_request" style="height: 150px;">
 					<div class="new-form-ui ">
 		            <label class="required">Question <img class="tooltip" title="Special characters allowed are - ? ' . , / # @ $ & * ( ) !" src="<?php echo $this->baseUrl().'/public/media/';?>images/help.png"></label>
 		            	<div class="division">
@@ -65,7 +65,7 @@ if($this->ermsg !='')
 		        	<div class="new-form-ui textareaheight">
 		            <label class="">Description </label>
 			            <div class="division">
-							<textarea maxlength="200" cols="50" rows="10" id="description_0" name="description[]" ></textarea>
+							<textarea maxlength="200" cols="50" rows="10" id="description_0" name="description[]" placeholder="Type '(OVERALL RATING)' if this question's rating should be used as the overall appraisal rating." style="height:100px"></textarea>
 					    </div>
 		        	</div>
 	        	</div>

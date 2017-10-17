@@ -597,5 +597,13 @@ defined('ASSETS_DELETE')|| define('ASSETS_DELETE','asset category');
 
 
 defined('MYEMPLOYEEEXPENSES_DELETE')|| define('MYEMPLOYEEEXPENSES_DELETE','employee expenses'); 
+
+/**
+ * APPRAISAL CONSTANTS GOES FROM HERE
+ * =========================================
+ */
+
+defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
+//==========================END FOR APPRAISALS CONSTANTS=============================
  
 

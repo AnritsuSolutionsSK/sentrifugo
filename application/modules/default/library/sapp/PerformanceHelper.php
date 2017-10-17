@@ -820,8 +820,8 @@ class sapp_PerformanceHelper
 			   {
 			   		$options['subject'] = APPLICATION_NAME.':'.$optionArr['subject'];
                     $options['header'] = $optionArr['header'];
-                    $options['toEmail'] = $optionArr['toname'];  
-                    $options['toName'] = $optionArr['toemail'];
+                    $options['toEmail'] = $optionArr['toemail'];
+                    $options['toName'] = $optionArr['toname'];
                     $options['bcc'] = $optionArr['bcc'];
                     $options['message'] = $optionArr['message'];
                     $options['cron'] = $optionArr['cron'];

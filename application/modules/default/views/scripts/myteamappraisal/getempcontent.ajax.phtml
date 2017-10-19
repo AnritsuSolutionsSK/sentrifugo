@@ -197,10 +197,19 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <td>
                                         Check "Ratings Definition" in upper right corner if needed.
                                     </td>
-                                <?php }elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
+                                <?php }elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){
+                                    if($employee_response[$ques['question_id']]['objective'] == ''){
+                                        $class = "app_non_req_field";
+                                        $required = false;
+                                    } else {
+                                        $class = "app_req_field_".$main_key;
+                                        $required = true;
+                                    }
+
+                                    ?>
                                     <td>
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <select name="question_achievement[<?php echo $ques['question_id'];?>]" class="app_non_req_field objective_achievement_select_<?php echo $ques['question_id']; ?>">
+                                        <select <?php if(!$required) echo "disabled";?> name="question_achievement[<?php echo $ques['question_id'];?>]" class="<?php echo $class; ?> objective_achievement_select_<?php echo $ques['question_id']; ?>">
                                             <option selected value=""> -- Achievement -- </option>
                                             <option value="Achieved" <?php if($qachievement == "Achieved") echo "selected"; ?>>Achieved</option>
                                             <option value="Partially Achieved" <?php if($qachievement == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
@@ -208,7 +217,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                         </select>
                                     </td>
                                     <td>
-                                        <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_comment_<?php echo $ques['question_id']; ?>" name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
+                                        <textarea <?php if(!$required) echo "readonly";?> onkeyup="removeValidationMessage(this)" class="<?php echo $class; ?> appri_textarea objective_comment_<?php echo $ques['question_id']; ?>" name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
                                     </td>
                                 <?php } ?>
                             <?php } else { ?>

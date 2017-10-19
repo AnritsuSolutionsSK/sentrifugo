@@ -418,9 +418,9 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
                                 $options['bcc'] 	= $empArr;   
                                 $options['toName'] = $toEmailName;
                                 $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Hi,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>$loginuserFullName($loginuserEmpId) has Updated $toEmailName($toEmpId) appraisal form. </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account and check the details.</div>
+														<span style='color:#3b3b3b;'>Dear colleague,</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank you for submitting the appraisal form. Performance review for $toEmailName has now been completed. </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to check the details and print the document.</div>
 														</div> ";
                                 $mail_id =  sapp_Global::_sendEmail($options); 
 							

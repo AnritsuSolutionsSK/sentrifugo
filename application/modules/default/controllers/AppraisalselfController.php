@@ -436,23 +436,23 @@ class Default_AppraisalselfController extends Zend_Controller_Action
                                 $options['toEmail'] = $employeeDetailsArr['emailaddress'];  
                                 $options['toName'] = $employeeDetailsArr['userfullname'];
                                 $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Dear ".$employeeDetailsArr['userfullname'].",</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'> ".$loginuserFullName.$emp_id_str." has submitted appraisal form.</div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login to <b>".APPLICATION_NAME."</b>  and check the appraisal ratings and comments.</div>
+														<span style='color:#3b3b3b;'>Dear Manager,</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'> ".$loginuserFullName." has submitted the appraisal form.</div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance appraisal</b> account to complete the review and enter the rating.</div>
 														</div> ";
                                $mail_id =  sapp_Global::_sendEmail($options); 
                      	}
 					   }
 					   	
 					   	//Sending mail to Employee
-								$options['subject'] = APPLICATION_NAME.': Performance Appraisal Submitted to Line1 manager';
+								$options['subject'] = APPLICATION_NAME.': Performance Appraisal Submitted to Manager';
                                 $options['header'] = "Performance Appraisal : $to_year";
                                 $options['toEmail'] = $loginuserEmail;  
                                 $options['toName'] = $loginuserFullName;
                                 $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Dear $loginuserFullName,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal form is submitted successfully to your Line1 Manager,".$employeeDetailsArr['userfullname']."(".$employeeDetailsArr['employeeId'].") </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account.</div>
+														<span style='color:#3b3b3b;'>Dear colleague,</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank You! Your appraisal form is now successfully submitted to your Manager,".$employeeDetailsArr['userfullname'].") </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to review the details.</div>
 														</div> ";
                               $mail_id =  sapp_Global::_sendEmail($options);
                                

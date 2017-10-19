@@ -2781,9 +2781,9 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['toName'] = 'Super Admin';
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Hi,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str by ".$loginUserfullname.$emp_id_str." </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
+														<span style='color:#3b3b3b;'>Dear colleague</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
 														</div> " ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
                       }
@@ -3054,10 +3054,10 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['toName'] = 'Super Admin';
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Hi,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str by ".$loginUserfullname.$emp_id_str." </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
-														</div> " ;
+														<span style='color:#3b3b3b;'>Dear colleague</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
+														</div> " ; ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
 							
 				
@@ -3327,10 +3327,10 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['toName'] = 'Super Admin';
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Hi,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str by ".$loginUserfullname.$emp_id_str." </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
-														</div> " ;
+														<span style='color:#3b3b3b;'>Dear colleague</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
+														</div> " ; ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
                                 
               
@@ -3618,10 +3618,10 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['toName'] = 'Super Admin';
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-														<span style='color:#3b3b3b;'>Hi,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str by ".$loginUserfullname.$emp_id_str." </div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
-														</div> " ;
+														<span style='color:#3b3b3b;'>Dear colleague</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
+														</div> " ; ;
                                 
                                 $mail_id =  sapp_Global::_sendEmail($options); 
                     

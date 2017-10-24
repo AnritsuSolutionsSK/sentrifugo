@@ -586,15 +586,15 @@ class Default_CronjobController extends Zend_Controller_Action
                                         array_push($empArr,$emp['emailaddress']); //preparing Bcc array
                                     }
 
-                                    $optionArr = array('subject'=>'Self Appraisal Submission Pending',
+                                    $optionArr = array('subject'=>'Performance appraisal submission reminder',
                                                       'header'=>'Performance Appraisal',
                                                       'toemail'=>SUPERADMIN_EMAIL,
                                                       'toname'=>'Super Admin',
                                                       'bcc'	  => $empArr,
                                                       'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                                    <span style='color:#3b3b3b;'>Hi, </span><br />
-                                                    <div style='padding:20px 0 0 0;color:#3b3b3b;'>Self appraisal submission is pending.</div>
-                                                    <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
+                                                    <span style='color:#3b3b3b;'>Dear colleague, </span><br />
+                                                    <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your Self appraisal submission is pending.</div>
+                                                    <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to submit your feedback by <b>".$emp_due_date->format("d.m. H:i")."</b></div>
                                                     </div> ",
                                                       'cron'=>'yes');
                                     sapp_PerformanceHelper::saveCronMail($optionArr);
@@ -613,15 +613,15 @@ class Default_CronjobController extends Zend_Controller_Action
                             {
                               array_push($empArr,$val['emailaddress']); //preparing Bcc array
                             }
-                            $optionArr = array('subject'=>'Manager Appraisal Submission Pending',
+                            $optionArr = array('subject'=>'Manager appraisal submission is pending',
                                               'header'=>'Performance Appraisal',
                                               'toemail'=>SUPERADMIN_EMAIL,
                                               'toname'=>'Super Admin',
                                               'bcc'	  => $empArr,
                                               'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                            <span style='color:#3b3b3b;'>Hi, </span><br />
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Manager appraisal submission is pending.</div>
-                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>".APPLICATION_NAME."</b> account to check the details.</div>
+                                            <span style='color:#3b3b3b;'>Dear manager, </span><br />
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal submission is pending.</div>
+                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by".$manager_due_date.".</div>
                                             </div> ",
                                               'cron'=>'yes');
                             sapp_PerformanceHelper::saveCronMail($optionArr);

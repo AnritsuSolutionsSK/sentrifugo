@@ -408,6 +408,7 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 						// Sending mail to Manager
 						if(!empty($employeeDetailsArr))
 						{
+						        $manager_due_date = $appraisaldata[0]['managers_due_date'];
 								$options['subject'] = APPLICATION_NAME.': Self Appraisal Submitted';
                                 $options['header'] = "Performance Appraisal : $to_year";
                                 $options['toEmail'] = $employeeDetailsArr['emailaddress'];  
@@ -415,7 +416,7 @@ class Default_AppraisalselfController extends Zend_Controller_Action
                                 $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear Manager,</span><br />
 														<div style='padding:20px 0 0 0;color:#3b3b3b;'> ".$loginuserFullName." has submitted the appraisal form.</div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance appraisal</b> account to complete the review and enter the rating.</div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance appraisal</b> account to complete the review and enter the rating by $manager_due_date.</div>
 														</div> ";
                                $mail_id =  sapp_Global::_sendEmail($options); 
                      	}
@@ -428,7 +429,7 @@ class Default_AppraisalselfController extends Zend_Controller_Action
                                 $options['toName'] = $loginuserFullName;
                                 $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank You! Your appraisal form is now successfully submitted to your Manager,".$employeeDetailsArr['userfullname'].") </div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank You! Your appraisal form is now successfully submitted to your Manager, ".$employeeDetailsArr['userfullname'].". </div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to review the details.</div>
 														</div> ";
                               $mail_id =  sapp_Global::_sendEmail($options);

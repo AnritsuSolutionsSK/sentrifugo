@@ -2782,7 +2782,13 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
+                                if($appraisaldata['enable_step'] == 2){
+                                    $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
+                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                }
+                                $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
 														</div> " ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
@@ -3055,7 +3061,13 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
+                                if($appraisaldata['enable_step'] == 2){
+                                    $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
+                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                }
+                                $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
 														</div> " ; ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
@@ -3328,7 +3340,13 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
+                                if($appraisaldata['enable_step'] == 2){
+                                    $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
+                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                }
+                                $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
 														</div> " ; ;
                                 $mail_id =  sapp_Global::_sendEmail($options); 
@@ -3619,7 +3637,13 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b>  $dept_str </div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
+                                if($initialize_Arr['enable_step'] == 2){
+                                    $date = DateTime::createFromFormat('Y-m-d', $initialize_Arr['employees_due_date']);
+                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                }
+                                $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
 														</div> " ; ;
                                 

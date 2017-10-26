@@ -364,13 +364,13 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
 	{
 		$where = '';
 		if($cron)
-			$where = ' AND appraisal_status!=7 ';
+			$where .= ' AND appraisal_status!=7 ';
 		if($appstatus)
-		    $where = ' AND appraisal_status= '.$appstatus.'';	
+		    $where .= ' AND appraisal_status= '.$appstatus.'';
 		
 		$select = $this->select()
     					   ->setIntegrityCheck(false)	
-                           ->from(array('main_pa_employee_ratings'),array('employee_id','appraisal_status'))
+                           ->from(array('main_pa_employee_ratings'),array('employee_id','appraisal_status', 'line_manager_1'))
                            ->where("isactive = 1 AND pa_initialization_id = $appInitID $where");
 		                           
 		return $this->fetchAll($select)->toArray();       		

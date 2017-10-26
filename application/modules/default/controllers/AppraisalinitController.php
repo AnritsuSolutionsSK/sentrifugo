@@ -2785,7 +2785,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
-                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $emp_due_date = $date->format('d.m.');
                                     $options['message'] .= "<b>with a due date on $emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
@@ -3064,7 +3064,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
-                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $emp_due_date = $date->format('d.m.');
                                     $options['message'] .= "<b>with a due date on $emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
@@ -3343,7 +3343,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
-                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $emp_due_date = $date->format('d.m.');
                                     $options['message'] .= "<b>with a due date on $emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
@@ -3640,7 +3640,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
                                 if($initialize_Arr['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $initialize_Arr['employees_due_date']);
-                                    $emp_due_date = $date->format('d.m. H:i');
+                                    $emp_due_date = $date->format('d.m.');
                                     $options['message'] .= "<b>with a due date on $emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>

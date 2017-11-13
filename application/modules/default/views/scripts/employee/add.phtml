@@ -143,13 +143,12 @@ if(!empty($this->msgarray) && isset($this->msgarray))
                                 <label class="required"><?php echo $this->form->employeeId->getLabel(); ?></label>
                                 <div class="division"><?php echo $this->form->employeeId; ?>
                                     <span id="errors-<?php echo $this->form->employeeId->getId(); ?>" class="errors"><?php echo isset($this->msgarray['employeeId'])?$this->msgarray['employeeId']:"";?></span>
-                                     <?php if(in_array('identitycodes',$this->popConfigPermission)) { 
+                                     <?php if(in_array('identitycodes',$this->popConfigPermission)) {
                                          $ipath = BASE_URL."identitycodes/addpopup/prev_cntrl/employee/user_id/new";
-                                         ?> 
-                                        <span class="add-coloum" onclick="displaydeptform('<?php echo $ipath; ?>','Identity Codes');"> Configure Identity Codes </span>         
+                                         ?>
+                                        <!--<span class="add-coloum" onclick="displaydeptform('<?php echo $ipath; ?>','Identity Codes');"> Configure Identity Codes </span>-->
                                     <?php } ?>
-                                </div> 
-
+                                </div>
                             </div>
 
                             <div class="new-form-ui">

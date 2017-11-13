@@ -60,7 +60,7 @@ sapp_Global::generateClientValidations($this->form);?>
 		?>
 		
 			<div class="form-ui">
-				  <label class="required">Employee Code <img class="tooltip" title="Provide the employee code followed by your organization. Ex: EMPP001" src="<?php echo MEDIA_PATH;?>images/help.png"></label>
+				  <label>Employee Code <img class="tooltip" title="Provide the employee code followed by your organization. Ex: EMPP001" src="<?php echo MEDIA_PATH;?>images/help.png"></label>
 					<?php echo $this->form->employee_code; ?>
 				  <?php if(isset($this->msgarray['employee_code'])){?>
 			   		<span class="errors" id="errors-<?php echo $this->form->employee_code->getId(); ?>"><?php echo $this->msgarray['employee_code'];?></span>

@@ -176,30 +176,31 @@ class Default_Form_wizardpreference extends Zend_Form
         
         $empCode = new Zend_Form_Element_Text('employee_code');
         $empCode->addFilter(new Zend_Filter_StringTrim());
-		$empCode->setAttrib('maxLength', 5);
-		$empCode->setRequired(true);
-        $empCode->addValidator('NotEmpty', false, array('messages' => 'Please enter employee code.')); 
-		$empCode->addValidators(array(array('StringLength',false,
-								array('min' => 1,
-									  'max' => 5,
-									  'messages' => array(
-									   Zend_Validate_StringLength::TOO_LONG =>
-									  'Employee code must contain at most %max% characters.',
-									  Zend_Validate_StringLength::TOO_SHORT =>
-									  'Employee code must contain at least %min% characters.')))));
-		$empCode->addValidators(array(
-			         array(
-			             'validator'   => 'Regex',
-			             'breakChainOnFailure' => true,
-			             'options'     => array( 
-			             //'pattern' => '/^[A-Za-z]+$/',
-			         	 'pattern'=> '/^[A-Za-z][a-zA-Z@\-]*$/',	
-			                 'messages' => array(
-			                     Zend_Validate_Regex::NOT_MATCH =>'Please enter valid employee code.'
-			                 )
-			             )
-			         )
-			     ));
+        $empCode->setAttrib('readonly', 'readonly');
+		//$empCode->setAttrib('maxLength', 5);
+		//$empCode->setRequired(true);
+        //$empCode->addValidator('NotEmpty', false, array('messages' => 'Please enter employee code.'));
+//		$empCode->addValidators(array(array('StringLength',false,
+//								array('min' => 1,
+//									  'max' => 5,
+//									  'messages' => array(
+//									   Zend_Validate_StringLength::TOO_LONG =>
+//									  'Employee code must contain at most %max% characters.',
+//									  Zend_Validate_StringLength::TOO_SHORT =>
+//									  'Employee code must contain at least %min% characters.')))));
+//		$empCode->addValidators(array(
+//			         array(
+//			             'validator'   => 'Regex',
+//			             'breakChainOnFailure' => true,
+//			             'options'     => array(
+//			             //'pattern' => '/^[A-Za-z]+$/',
+//			         	 'pattern'=> '/^[A-Za-z][a-zA-Z@\-]*$/',
+//			                 'messages' => array(
+//			                     Zend_Validate_Regex::NOT_MATCH =>'Please enter valid employee code.'
+//			                 )
+//			             )
+//			         )
+//			     ));
    	
 
         $submit = new Zend_Form_Element_Submit('submit');

@@ -215,6 +215,7 @@ class Default_Form_employee extends Zend_Form
                 $employeeId->setAttrib("class", "formDataElement");
                 $employeeId->setAttrib("readonly", "readonly");
 				$employeeId->setAttrib('onfocus', 'this.blur()');
+				$employeeId->setAttrib('placeholder', '(We don\'t use this.)');
 				//$employeeId->addValidator('NotEmpty', false, array('messages' => 'Identity codes are not configured yet.'));
 
                 //for emp id

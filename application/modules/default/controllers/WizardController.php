@@ -373,7 +373,7 @@ class Default_WizardController extends Zend_Controller_Action
                 if(!empty($identitycodedata))
                 {
                 	$wizardpreferenceform->empcodeid->setValue($identitycodedata[0]['id']);
-                	$wizardpreferenceform->employee_code->setValue($identitycodedata[0]['employee_code']);
+                	$wizardpreferenceform->employee_code->setValue("");
                 }
                 
             	if(sizeof($empstatusdata) > 0)

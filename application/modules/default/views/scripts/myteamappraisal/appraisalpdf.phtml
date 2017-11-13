@@ -213,11 +213,11 @@
                                             $managerComment = empty($qcomment)?'':$qcomment;
                                             $employeeComment = (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';
                                             if(strlen($managerComment) > 0 && strlen($employeeComment) > 0) { ?>
-                                                <td valign="top" style="height:100px;">
-                                                    Manager: <font face="'Arial', sans-serif" size="1"><?php echo $managerComment; ?></font>
-                                                </td>
                                                 <td valign="top" style="height:100px ;">
-                                                    Employee: <font face="'Arial', sans-serif" size="1"><?php echo $employeeComment; ?></font>
+                                                    <font face="'Arial', sans-serif" size="1">Employee: <?php echo $employeeComment; ?></font>
+                                                </td>
+                                                <td valign="top" style="height:100px;">
+                                                    <font face="'Arial', sans-serif" size="1">Manager: <?php echo $managerComment; ?></font>
                                                 </td>
                                         <?php } elseif(strlen($managerComment) > 0){ ?>
                                                 <td valign="top" style="height:100px ;">

@@ -154,27 +154,27 @@ class sapp_PerformanceHelper
                                      break;
                                  case QUESTION_TYPE_COMMENTONLY:
                                      $mgrcheck = 'checked';
-                                     $mgrrate = '';
-                                     $empratcheck = '';
+                                     $mgrrate = 'onclick="return false"';
+                                     $empratcheck = 'onclick="return false"';
                                      $empcmntcheck = 'checked';
                                      break;
                                  case QUESTION_TYPE_COMMENT_ACHIEVEMENT:
                                      $mgrcheck = 'checked';
                                      $mgrrate = 'checked';
-                                     $empratcheck = '';
-                                     $empcmntcheck = '';
+                                     $empratcheck = 'onclick="return false"';
+                                     $empcmntcheck = 'onclick="return false"';
                                      break;
                                  case QUESTION_TYPE_RATINGONLY:
-                                     $mgrcheck = '';
+                                     $mgrcheck = 'onclick="return false"';
                                      $mgrrate = 'checked';
                                      $empratcheck = '';
-                                     $empcmntcheck = '';
+                                     $empcmntcheck = 'onclick="return false"';
                                      break;
                                  case QUESTION_TYPE_OBJECTIVE:
                                      $mgrcheck = 'checked';
                                      $mgrrate = 'checked';
-                                     $empratcheck = '';
-                                     $empcmntcheck = '';
+                                     $empratcheck = 'onclick="return false"';
+                                     $empcmntcheck = 'onclick="return false"';
                                      break;
                              }
 

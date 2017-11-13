@@ -130,11 +130,16 @@ class Default_AppraisalhistoryselfController extends Zend_Controller_Action {
                             // Employee and Manager response
                             $emp_response = array();
                             $mgr_response = array();
+                            $emp_response_final = array();
+
                             if ($appEmpRatingsData[0]['employee_response'])
                                 $emp_response = json_decode($appEmpRatingsData[0]['employee_response'], true);
 
                             if ($appEmpRatingsData[0]['manager_response'])
                                 $mgr_response = json_decode($appEmpRatingsData[0]['manager_response'], true);
+
+                            if ($appEmpRatingsData[0]['employee_final_response'])
+                                $emp_response_final = $appEmpRatingsData[0]['employee_final_response'];
 
                             // get rating details using configuration id
                             $ratingsData = $appEmpRatingsModel->getAppRatingsDataByConfgId($appEmpRatingsData[0]['pa_configured_id'], $appEmpRatingsData[0]['pa_initialization_id']);
@@ -200,6 +205,7 @@ class Default_AppraisalhistoryselfController extends Zend_Controller_Action {
                             $this->view->ratingValues = $ratingValues;
                             $this->view->emp_response = $emp_response;
                             $this->view->mgr_response = $mgr_response;
+                            $this->view->emp_response_final = $emp_response_final;
                             $this->view->check_ratings_exists = $checkRatingsExists;
                             $this->view->login_user_id = $loginUserId;
                         }

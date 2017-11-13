@@ -610,5 +610,14 @@ defined('QUESTION_TYPE_OBJECTIVE')|| define('QUESTION_TYPE_OBJECTIVE', 4);
 
 defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
 //==========================END FOR APPRAISALS CONSTANTS=============================
+/*
+ * USER CONSTANTS GOES FROM HERE
+ * =========================================
+ */
+defined('PASSWORD_TYPE_ACTIVE_DIRECTORY')|| define('PASSWORD_TYPE_ACTIVE_DIRECTORY', 1);
+defined('PASSWORD_TYPE_LOCAL')|| define('PASSWORD_TYPE_LOCAL', 2);
+
+//==========================END FOR USER CONSTANTS=============================
+
  
 

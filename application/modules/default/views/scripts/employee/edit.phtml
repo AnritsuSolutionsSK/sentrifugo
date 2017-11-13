@@ -114,8 +114,13 @@ $report_opt = $this->report_opt;
                                 <span class="add-coloum" onclick="displaydeptform('<?php echo BASE_URL.'prefix/addpopup' ?>','Prefix');"> Add Prefix </span>			
                             <?php } ?>
                             </div>
-							</div>                                                            
-	                       
+							</div>
+                            <div class="new-form-ui">
+                                <label class="division"><?php echo $this->form->passwordtype->getLabel(); ?></label>
+                                <div class="division"><?php echo $this->form->passwordtype; ?>
+                                    <span id="errors-<?php echo $this->form->passwordtype->getId(); ?>" class="errors"><?php echo isset($this->msgarray['passwordtype'])?$this->msgarray['passwordtype']:"";?></span>
+                                </div>
+                            </div>
 	                       <div id="iddiv_fullname" style="display:none;">     
 	                            <div class="new-form-ui" >
 	                                <label class="required"><?php echo $this->form->firstname->getLabel(); ?></label>

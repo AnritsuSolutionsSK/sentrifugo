@@ -1111,6 +1111,7 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$employeeform->setDefault('department_id',$data['department_id']);
 							$employeeform->setDefault('position_id',$data['position_id']);
 							$employeeform->setDefault('prefix_id',$data['prefix_id']);
+							$employeeform->setDefault('passwordtype',$data['emppassword'] == md5("ldap")?PASSWORD_TYPE_ACTIVE_DIRECTORY:PASSWORD_TYPE_LOCAL);
 							//$employeeform->setDefault('emprole',$data['emprole']."_".MANAGEMENT_GROUP);
 							$employeeform->setDefault('emprole',$data['emprole']);
 							
@@ -1791,7 +1792,8 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$modeofentry = $this->_getParam('modeofentry',null);
 			$hid_modeofentry = $this->_getParam('hid_modeofentry',null);
 			$other_modeofentry = $this->_getParam('other_modeofentry',null);
-			
+
+			$passwordType = $this->_getParam('passwordtype',null);
 			$firstname = trim($this->_getParam('firstname',null));
 			$lastname = trim($this->_getParam('lastname',null));
 			$userfullname = $firstname.' '.$lastname;
@@ -1844,7 +1846,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 			$trDb->beginTransaction();
 			try
 			{
-				$emppassword = sapp_Global::generatePassword();
+			    //Active Directory
+			    if($passwordType == PASSWORD_TYPE_ACTIVE_DIRECTORY){
+                    $emppassword = "ldap";
+                } else{ //Local passwd
+                    $emppassword = sapp_Global::generatePassword();
+                }
 				$user_data = array(
                                 'emprole' =>$emproleStr,
                                 'firstname' => ($firstname!='')?$firstname:NULL,
@@ -1966,16 +1973,18 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 					$tableid = $id;
 					$this->_helper->getHelper("FlashMessenger")->addMessage(array("success"=>"Employee details updated successfully."));
 				}
-				else
-				{
-					//start of mailing
-					$base_url = 'http://'.$this->getRequest()->getHttpHost() . $this->getRequest()->getBaseUrl();
-					$view = $this->getHelper('ViewRenderer')->view;
-					$this->view->emp_name = $emp_name;
-					$this->view->password = $emppassword;
-					$this->view->emp_id = $emp_id;
-					$this->view->base_url=$base_url;
-					$text = $view->render('mailtemplates/newpassword.phtml');
+				else {
+                    //start of mailing
+                    $base_url = 'http://' . $this->getRequest()->getHttpHost() . $this->getRequest()->getBaseUrl();
+                    $view = $this->getHelper('ViewRenderer')->view;
+                    $this->view->emp_name = $emp_name;
+                    $this->view->password = $emppassword;
+                    $this->view->emp_id = $emp_id;
+                    $this->view->base_url = $base_url;
+                    if ($passwordType == PASSWORD_TYPE_ACTIVE_DIRECTORY)
+                        $text = $view->render('mailtemplates/newactivedirectoryuser.phtml');
+                    else
+					    $text = $view->render('mailtemplates/newpassword.phtml');
 					$options['subject'] = APPLICATION_NAME.': Login Credentials';
 					$options['header'] = 'Greetings from '.APPLICATION_NAME;
 					$options['toEmail'] = $emailaddress;

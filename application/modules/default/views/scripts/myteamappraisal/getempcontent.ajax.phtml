@@ -42,6 +42,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
     $rating_arr = $data['rating_arr'];
     $employee_response = $data['employee_response'];
     $manager_response = $data['manager_response'];
+    $employee_final_response = $data['employee_final_response'];
     $skill_arr = $data['skill_arr'];
     $ratings_data = $data['ratings_data'];
     $edit_flag = $data['edit_flag'];
@@ -457,17 +458,36 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 	$key = 0;
 	if(!empty($category_arr))
 	{
-		foreach(array_keys($category_arr) as  $key => $cat_name)
-		{ 
-?>		
+        if($emp_status == 'Completed'){ ?>
+            <li><a href="#tabs-final">Final Feedback</a></li>
+        <?php }
+		foreach(array_keys($category_arr) as  $key => $cat_name) { ?>
 		    <li><a href="#tabs-<?php echo $key;?>"><?php echo $cat_name;?></a></li>
-<?php		}
+<?php	}
 	}
 	if($ratings_data['skill_response']!=''){
 ?>          <li><a href="#tabs-<?php echo $key+1;?>">Skill set</a></li>
 	<?php } ?>
         </ul> 
-<?php 
+<?php
+     if(!empty($category_arr) && $emp_status == 'Completed'){ ?>
+         <div id="tabs-final">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
+                <thead>
+                    <tr>
+                        <th>Final Feedback (optional)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php echo strlen($employee_final_response) > 0? $employee_final_response: "(empty)"; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+     <?php }
     $i = 0;
     foreach($category_arr as $cat_name => $questions)
     {

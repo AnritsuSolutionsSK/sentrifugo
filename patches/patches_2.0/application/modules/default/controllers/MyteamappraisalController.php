@@ -28,12 +28,12 @@
 class Default_MyteamappraisalController extends Zend_Controller_Action
 {
     private $_options;
-    
+
     public $app_history_disc_array = array(1=>APP_TXT_EMP_SUBMIT, 2=>APP_TXT_L1_SUBMIT, 3=>APP_TXT_L2_SUBMIT, 4=>APP_TXT_L3_SUBMIT,
-										5=>APP_TXT_L4_SUBMIT, 6=>APP_TXT_L5_SUBMIT, 7=>APP_TXT_COMPLETED);
-										
-	public $app_status_array = array(1=>APP_PENDING_EMP, 2=>APP_PENDING_L1, 3=>APP_PENDING_L2, 4=>APP_PENDING_L3,
-										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_COMPLETED);
+        5=>APP_TXT_L4_SUBMIT, 6=>APP_TXT_L5_SUBMIT, 7=>APP_TXT_EMP_FINALIZE, 8=>APP_TXT_COMPLETED);
+
+    public $app_status_array = array(1=>APP_PENDING_EMP, 2=>APP_PENDING_L1, 3=>APP_PENDING_L2, 4=>APP_PENDING_L3,
+        5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_PENDING_EMP_FINAL, 8=>APP_COMPLETED);
     
     public function preDispatch()
     {

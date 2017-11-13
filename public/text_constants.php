@@ -38,6 +38,7 @@ defined('APP_PENDING_L2') || define('APP_PENDING_L2','Pending L2 ratings');
 defined('APP_PENDING_L3') || define('APP_PENDING_L3','Pending L3 ratings');
 defined('APP_PENDING_L4') || define('APP_PENDING_L4','Pending L4 ratings');
 defined('APP_PENDING_L5') || define('APP_PENDING_L5','Pending L5 ratings');
+defined('APP_PENDING_EMP_FINAL') || define('APP_PENDING_EMP_FINAL','Pending employee finalization');
 defined('APP_COMPLETED') || define('APP_COMPLETED','Completed');
 
 // Appraisal history description text 
@@ -47,5 +48,6 @@ defined('APP_TXT_L2_SUBMIT') || define('APP_TXT_L2_SUBMIT','has submitted the em
 defined('APP_TXT_L3_SUBMIT') || define('APP_TXT_L3_SUBMIT','has submitted the employee appraisal form');
 defined('APP_TXT_L4_SUBMIT') || define('APP_TXT_L4_SUBMIT','has submitted the employee appraisal form');
 defined('APP_TXT_L5_SUBMIT') || define('APP_TXT_L5_SUBMIT','has submitted the employee appraisal form');
-defined('APP_TXT_COMPLETED') || define('APP_TXT_COMPLETED','appraisal is completed');
+defined('APP_TXT_EMP_FINALIZE') || define('APP_TXT_EMP_FINALIZE','finalized the appraisal, it is now completed');
+defined('APP_TXT_COMPLETED') || define('APP_TXT_COMPLETED','has completed the employee appraisal form');
 ?>

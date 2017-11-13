@@ -232,7 +232,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         if($manager_id != '')
         {
 			$status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -276,7 +276,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         if($manager_id != '')
         {
 			$status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -425,7 +425,7 @@ public function getSearchEmpdata_managerapp($manager_id,$searchval)
         if($manager_id != '')
         {
             $status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
             $db = Zend_Db_Table::getDefaultAdapter();
             $query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -479,7 +479,7 @@ public function getSearchEmpdata_managerapp($manager_id,$searchval)
         	  $appwhere = ' and er.appraisal_status='.$appraisalstatus.' ';	
         	  
             $status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
             $db = Zend_Db_Table::getDefaultAdapter();
             $query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg

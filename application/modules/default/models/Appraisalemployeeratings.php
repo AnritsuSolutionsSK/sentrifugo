@@ -165,7 +165,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
                                 'type' => 'select',
                                 'filter_data' => array(''=>'All',1=>APP_PENDING_EMP,2=>APP_PENDING_L1,
                                 						3=>APP_PENDING_L2,4=>APP_PENDING_L3,
-														5=>APP_PENDING_L4,6=>APP_PENDING_L5,7=>APP_COMPLETED),
+														5=>APP_PENDING_L4,6=>APP_PENDING_L5,7=>APP_PENDING_EMP_FINAL,8=>APP_COMPLETED),
                            	),
                         ),
 		);

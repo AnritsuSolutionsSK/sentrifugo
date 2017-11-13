@@ -220,7 +220,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
 		$select = $this->select()
     					   ->setIntegrityCheck(false)	
                            ->from(array('main_pa_employee_ratings'),array('empresponse'=>'count(*)'))
-                           ->where("isactive = 1 AND pa_initialization_id = $appraisalid AND appraisal_status!=7");
+                           ->where("isactive = 1 AND pa_initialization_id = $appraisalid AND appraisal_status!=8");
 		                           
 		return $this->fetchAll($select)->toArray();       		
 	}
@@ -233,7 +233,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
                            ->from(array('aer'=>'main_pa_employee_ratings'),array('aer.id','aer.employee_id','ai.appraisal_mode','es.userfullname','es.employeeId','es.jobtitle_name','es.department_name',
                            													'aer.appraisal_status','ai.status','ai.category_id','aer.pa_initialization_id','ai.pa_configured_id','aer.line_manager_1','aer.line_manager_2','aer.line_manager_3','aer.line_manager_4','aer.line_manager_5','aer.line_rating_1',
                            													'aer.line_rating_2','aer.line_rating_3','aer.line_rating_4','aer.line_rating_5','aer.line_comment_1','aer.line_comment_2',
-                           													'aer.line_comment_3','aer.line_comment_4','aer.line_comment_5','aer.employee_response','aer.manager_response','es.businessunit_name',
+                           													'aer.line_comment_3','aer.line_comment_4','aer.line_comment_5','aer.employee_response','aer.manager_response', 'aer.employee_final_response', 'es.businessunit_name',
                            													'ai.appraisal_period','ai.from_year','ai.to_year','ai.employees_due_date','es.profileimg','aer.consolidated_rating','aer.skill_response','ai.appraisal_ratings'))
                            ->joinInner(array('es'=>'main_employees_summary'), 'es.user_id = aer.employee_id', array())
                            ->joinInner(array('ai'=>'main_pa_initialization'), 'ai.id = aer.pa_initialization_id', array())
@@ -250,7 +250,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
                            ->from(array('aer'=>'main_pa_employee_ratings'),array('aer.id','aer.employee_id','ai.appraisal_mode','es.userfullname','es.employeeId','es.jobtitle_name','es.department_name',
                            													'aer.appraisal_status','ai.status','ai.category_id','aer.pa_initialization_id','ai.pa_configured_id','aer.line_manager_1','aer.line_manager_2','aer.line_manager_3','aer.line_manager_4','aer.line_manager_5','aer.line_rating_1',
                            													'aer.line_rating_2','aer.line_rating_3','aer.line_rating_4','aer.line_rating_5','aer.line_comment_1','aer.line_comment_2',
-                           													'aer.line_comment_3','aer.line_comment_4','aer.line_comment_5','aer.employee_response','aer.manager_response','es.businessunit_name',
+                           													'aer.line_comment_3','aer.line_comment_4','aer.line_comment_5','aer.employee_response','aer.manager_response','aer.employee_final_response', 'es.businessunit_name',
                            													'ai.appraisal_period','ai.from_year','ai.to_year','ai.employees_due_date','es.profileimg','aer.consolidated_rating','aer.skill_response','ai.appraisal_ratings'))
                            ->joinInner(array('es'=>'main_employees_summary'), 'es.user_id = aer.employee_id', array())
                            ->joinInner(array('ai'=>'main_pa_initialization'), 'ai.id = aer.pa_initialization_id', array())
@@ -364,7 +364,7 @@ class Default_Model_Appraisalemployeeratings extends Zend_Db_Table_Abstract
 	{
 		$where = '';
 		if($cron)
-			$where = ' AND appraisal_status!=7 ';
+			$where .= ' AND appraisal_status!=8 ';
 		if($appstatus)
 		    $where = ' AND appraisal_status= '.$appstatus.'';	
 		

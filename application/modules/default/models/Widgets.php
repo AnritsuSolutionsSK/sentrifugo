@@ -735,8 +735,8 @@ class Default_Model_Widgets extends Zend_Db_Table_Abstract
 					     if($id == 159)
 					     {	 
 					 		$queryStr = "  SELECT count(case when appraisal_status=1 then employee_id end)pending_employee_ratings,
-											count(case when appraisal_status=7 then employee_id end)completed,
-											count(case when (appraisal_status!=7 and appraisal_status!=1) then employee_id end)pending_manager_ratings 
+											count(case when appraisal_status=8 then employee_id end)completed,
+											count(case when (appraisal_status!=8 and appraisal_status!=1) then employee_id end)pending_manager_ratings 
 											FROM main_pa_employee_ratings 
 											WHERE isactive = 1 AND pa_initialization_id = $initId;";
 					     }
@@ -744,8 +744,8 @@ class Default_Model_Widgets extends Zend_Db_Table_Abstract
 					     {
 					     	
 					     	$queryStr = "SELECT er.pa_initialization_id,count(case when er.appraisal_status=1 then er.employee_id end)pending_employee_ratings, 
-										count(case when er.appraisal_status=7 then er.employee_id end)completed, 
-										count(case when (er.appraisal_status!=7 and er.appraisal_status!=1) then er.employee_id end)pending_manager_ratings 
+										count(case when er.appraisal_status=8 then er.employee_id end)completed, 
+										count(case when (er.appraisal_status!=8 and er.appraisal_status!=1) then er.employee_id end)pending_manager_ratings 
 										from  main_pa_employee_ratings er  
 										inner join main_pa_initialization pi on  er.pa_initialization_id = pi.id
 										where  $loginUserId in (er.line_manager_1,er.line_manager_2,er.line_manager_3,er.line_manager_4,er.line_manager_5) 

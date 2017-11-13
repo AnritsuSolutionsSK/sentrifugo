@@ -24,10 +24,10 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 
     private $options;
     public $app_history_disc_array = array(1=>APP_TXT_EMP_SUBMIT, 2=>APP_TXT_L1_SUBMIT, 3=>APP_TXT_L2_SUBMIT, 4=>APP_TXT_L3_SUBMIT,
-										5=>APP_TXT_L4_SUBMIT, 6=>APP_TXT_L5_SUBMIT, 7=>APP_TXT_COMPLETED);
+										5=>APP_TXT_L4_SUBMIT, 6=>APP_TXT_L5_SUBMIT, 7=>APP_TXT_EMP_FINALIZE, 8=>APP_TXT_COMPLETED);
 										
 	public $app_status_array = array(1=>APP_PENDING_EMP, 2=>APP_PENDING_L1, 3=>APP_PENDING_L2, 4=>APP_PENDING_L3,
-										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_COMPLETED);
+										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_PENDING_EMP_FINAL, 8=>APP_COMPLETED);
 	public function preDispatch()
 	{		 
 		
@@ -94,11 +94,15 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 					// Employee and Manager response
 					$emp_response = array();
 					$mgr_response = array();
+                    $emp_response_final = "";
 					if($appEmpRatingsData[0]['employee_response'])
 						$emp_response = json_decode($appEmpRatingsData[0]['employee_response'],true);
 						
 					if($appEmpRatingsData[0]['manager_response'])
 						$mgr_response = json_decode($appEmpRatingsData[0]['manager_response'],true);
+
+                    if($appEmpRatingsData[0]['employee_final_response'])
+                        $emp_response_final = $appEmpRatingsData[0]['employee_final_response'];
 					                                
 					// get rating details using configuration id
 					$ratingsData = $appEmpRatingsModel->getAppRatingsDataByConfgId($appEmpRatingsData[0]['pa_configured_id'],$appEmpRatingsData[0]['pa_initialization_id']);
@@ -165,6 +169,7 @@ class Default_AppraisalselfController extends Zend_Controller_Action
 					$this->view->ratingValues = $ratingValues;
 					$this->view->emp_response = $emp_response;
 					$this->view->mgr_response = $mgr_response;
+					$this->view->emp_response_final = $emp_response_final;
 					$this->view->check_ratings_exists = $checkRatingsExists;
 					$this->view->login_user_id = $loginUserId;
 				}
@@ -483,6 +488,142 @@ class Default_AppraisalselfController extends Zend_Controller_Action
         	//echo $e->getTrace();
         	//echo $e->getTraceAsString();
         	$msg = "Something went wrong, please try again.";
+        }
+        $this->_helper->json(array('msg'=>$msg));
+    }
+
+    public function finalizeAction(){
+        $auth = Zend_Auth::getInstance();
+        $loginuserFullName = '';
+        if($auth->hasIdentity()){
+            $loginUserId = $auth->getStorage()->read()->id;
+            $loginuserRole = $auth->getStorage()->read()->emprole;
+            $loginuserGroup = $auth->getStorage()->read()->group_id;
+            $loginuserProfileImg = $auth->getStorage()->read()->profileimg;
+            $loginuserEmail = $auth->getStorage()->read()->emailaddress;
+            $loginuserFullName = $auth->getStorage()->read()->userfullname;
+            $loginUserEmpId = $auth->getStorage()->read()->employeeId;
+        }
+        try {
+            $appEmpRatingsModel = new Default_Model_Appraisalemployeeratings();
+            $app_init_model = new Default_Model_Appraisalinit();
+            $id = $this->_request->getParam('id');
+            $employee_id = $this->_request->getParam('employee_id');
+            $initialization_id = $this->_request->getParam('initialization_id');
+            $config_id = $this->_request->getParam('config_id');
+            $flag = $this->_request->getParam('flag');
+            $app_status = $this->_request->getParam('app_status');
+
+            $appData = array(
+                'modifiedby' => $loginUserId,
+                'modifiedby_role' => $loginuserRole,
+                'modifiedby_group' => $loginuserGroup,
+                'modifieddate' => gmdate("Y-m-d H:i:s"),
+            );
+
+            $emp_comment_final = $this->_request->getParam('emp_comment_final');
+
+            $emp_response = $emp_comment_final;
+            $appData['employee_final_response'] = $emp_response;
+
+            $curent_level = array_search($app_status, $this->app_status_array);
+            $appData['appraisal_status'] = $curent_level + 1;
+            $history_desc = $this->app_history_disc_array[$curent_level];
+
+            $appHistoryData = array(
+                'employee_id' => $employee_id,
+                'pa_initialization_id' => $initialization_id,
+                'description' => $history_desc,
+                'desc_emp_id' => $loginUserId,
+                'desc_emp_name' => $loginuserFullName,
+                'desc_emp_profileimg' => $loginuserProfileImg,
+                'createdby' => $loginUserId,
+                'createddate' => gmdate("Y-m-d H:i:s"),
+                'modifiedby' => $loginUserId,
+                'modifieddate' => gmdate("Y-m-d H:i:s"),
+            );
+            $appHistoryModel = new Default_Model_Appraisalhistory();
+            $result2 = $appHistoryModel->SaveorUpdateAppraisalHistoryData($appHistoryData);
+
+            /*
+             *   Logs Storing
+             */
+            $actionflag = '';
+            $tableid = '';
+            $actionflag = 1;
+            $menuID = APPRAISALSELF;
+            sapp_Global::logManager($menuID, $actionflag, $loginUserId, $tableid);
+            /*
+             *  Logs storing ends
+             */
+
+            /** Start
+             * Sending Mails to employees
+             */
+
+            //to get initialization details using appraisal Id for Business Unit,Department,To Year
+            $appraisalratingsmodel = new Default_Model_Appraisalratings();
+            $appraisal_details = $appraisalratingsmodel->getappdata($initialization_id);
+            if (!empty($appraisal_details)) {
+                $bunit = $appraisal_details['unitname'];
+                $dept = $appraisal_details['deptname'];
+                $to_year = $appraisal_details['to_year'];
+            }
+
+            $app_manager_model = new Default_Model_Appraisalmanager();
+            $getLineManager = $app_manager_model->getLineMgr($initialization_id, $loginUserId);
+            if (!empty($getLineManager)) {
+
+                $line_mgr = $getLineManager['line_manager_1'];
+
+                $employeeDetailsArr = $app_manager_model->getUserDetailsByEmpID($line_mgr);
+                $employeeDetailsArr = $employeeDetailsArr[0];
+                // Sending mail to Manager
+                if (!empty($employeeDetailsArr)) {
+                    $options['subject'] = APPLICATION_NAME . ': Self Appraisal Finalized';
+                    $options['header'] = "Performance Appraisal : $to_year";
+                    $options['toEmail'] = $employeeDetailsArr['emailaddress'];
+                    $options['toName'] = $employeeDetailsArr['userfullname'];
+                    $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                                            <span style='color:#3b3b3b;'>Dear Manager,</span><br />
+                                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'> " . $loginuserFullName . " has finalized the appraisal form.</div>
+                                                            <div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance appraisal</b> account to check the details.</div>
+                                                            </div> ";
+                    $mail_id = sapp_Global::_sendEmail($options);
+                }
+            }
+
+            //Sending mail to Employee
+            $options['subject'] = APPLICATION_NAME . ': Performance Appraisal Finalized';
+            $options['header'] = "Performance Appraisal : $to_year";
+            $options['toEmail'] = $loginuserEmail;
+            $options['toName'] = $loginuserFullName;
+            $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+														<span style='color:#3b3b3b;'>Dear colleague,</span><br />
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank You! Your appraisal form is now successfully finalized.</div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to print it.</div>
+														</div> ";
+            $mail_id = sapp_Global::_sendEmail($options);
+            /**
+             * End
+             */
+
+            $appWhere = array('id=?' => $id);
+            $result1 = $appEmpRatingsModel->SaveorUpdateAppraisalSkillsData($appData, $appWhere);
+
+            if ($result1) {
+
+                $msg = 'saved';
+            } else {
+                $msg = 'err';
+            }
+        }
+        catch(Exception $e)
+        {
+            //echo $e->getMessage();
+            //echo $e->getTrace();
+            //echo $e->getTraceAsString();
+            $msg = "Something went wrong, please try again.";
         }
         $this->_helper->json(array('msg'=>$msg));
     }

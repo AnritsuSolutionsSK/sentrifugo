@@ -226,7 +226,7 @@ protected function _getAcl()
                     $acl->allow('admin', 'default:appraisalratings', array('index','addratings','add','view','edit'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                    $acl->allow('admin', 'default:appraisalself', array('index','edit','save'));
+                    $acl->allow('admin', 'default:appraisalself', array('index','edit','save', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalskills'));
                     $acl->allow('admin', 'default:appraisalskills', array('index','add','view','edit','delete','getappraisalskills','saveskillspopup'));
@@ -628,7 +628,7 @@ protected function _getAcl()
                             $acl->allow('management', 'default:appraisalratings', array('index','addratings','add','edit','view','Ratings'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('management', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('management', 'default:appraisalself', array('index','save','add','edit','delete','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalskills'));
                             $appraisalskills_add = 'yes';
@@ -1025,7 +1025,7 @@ protected function _getAcl()
                             $acl->allow('manager', 'default:appraisalquestions', array('index','addpopup','savequestionpopup','add','edit','delete','view','Questions'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('manager', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('manager', 'default:appraisalself', array('index','save','edit','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalskills'));
                             $appraisalskills_add = 'yes';
@@ -1233,7 +1233,7 @@ protected function _getAcl()
                             $acl->allow('hrmanager', 'default:appraisalratings', array('index','addratings','add','edit','view','Ratings'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('hrmanager', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('hrmanager', 'default:appraisalself', array('index','save','edit','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalskills'));
                             $appraisalskills_add = 'yes';
@@ -1531,7 +1531,7 @@ protected function _getAcl()
                             $acl->allow('employee', 'default:appraisalmanager', array('submitmanager','deletemanagergroup','savemanagergroup','index','viewgroup','createnewgroup','showgroups','showviewgroups','edit','view','Manager Appraisal'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('employee', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('employee', 'default:appraisalself', array('index','save','edit','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:businessunits'));
                             $acl->allow('employee', 'default:businessunits', array('index','getdeptnames','view','Business Units'));
@@ -1738,7 +1738,7 @@ protected function _getAcl()
                             $acl->allow('sysadmin', 'default:appraisalmanager', array('submitmanager','deletemanagergroup','savemanagergroup','index','viewgroup','createnewgroup','showgroups','showviewgroups','edit','view','Manager Appraisal'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('sysadmin', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('sysadmin', 'default:appraisalself', array('index','save','edit','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:businessunits'));
                             $acl->allow('sysadmin', 'default:businessunits', array('index','getdeptnames','view','Business Units'));
@@ -1976,7 +1976,7 @@ protected function _getAcl()
                             $acl->allow('lead', 'default:appraisalmanager', array('submitmanager','deletemanagergroup','savemanagergroup','index','viewgroup','createnewgroup','showgroups','showviewgroups','edit','view','Manager Appraisal'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:appraisalself'));
-                            $acl->allow('lead', 'default:appraisalself', array('index','save','edit','view','Self Appraisal'));
+                            $acl->allow('lead', 'default:appraisalself', array('index','save','edit','view','Self Appraisal', 'finalize'));
 
 		 $acl->addResource(new Zend_Acl_Resource('default:businessunits'));
                             $acl->allow('lead', 'default:businessunits', array('index','getdeptnames','view','Business Units'));

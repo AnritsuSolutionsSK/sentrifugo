@@ -63,6 +63,7 @@
         $rating_arr = !empty($this->data['rating_arr'])?$this->data['rating_arr']:array();
         $employee_response = !empty($this->data['employee_response'])?$this->data['employee_response']:array();
         $manager_response = !empty($this->data['manager_response'])?$this->data['manager_response']:array();
+        $employee_response_final = isset($this->data['employee_final_response'])?$this->data['employee_final_response']:'';
         $skill_arr = !empty($this->data['skill_arr'])?$this->data['skill_arr']:array();
         $ratings_data = !empty($this->data['ratings_data'])?$this->data['ratings_data']:array();
         $edit_flag = !empty($this->data['edit_flag'])?$this->data['edit_flag']:'';
@@ -229,7 +230,22 @@
                     </tr>
                 <?php
                 }
-            } 
+            }
+            //final emp response ?>
+            <tr>
+                <td>
+                    <font face="'Arial', sans-serif" size="3"><strong>Final employee feedback</strong></font>
+
+                    <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse; margin-top: 10px;">
+                        <tr>
+                            <td valign="top" style="height:100px ;">
+                                <font face="'Arial', sans-serif" size="2"><?php echo $employee_response_final; ?></font>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+            <?php
             //for skills
             $skill_id_arr = array();
             foreach($skill_arr as $skill_id => $skill_name)

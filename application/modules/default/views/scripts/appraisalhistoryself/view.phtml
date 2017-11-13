@@ -31,13 +31,14 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
             }
         }
 	$app_status_array = array(1=>APP_PENDING_EMP, 2=>APP_PENDING_L1, 3=>APP_PENDING_L2, 4=>APP_PENDING_L3,
-										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_COMPLETED);
+										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_PENDING_EMP_FINAL, 8=>APP_COMPLETED);
 	$empRatData = $this->appEmpRatingsData;
 	$catData = $this->categories_data;
 	$qData = $this->questions_data;
 	$qpData = $this->question_previs;
 	$empRes = $this->emp_response;
 	$mgrRes = $this->mgr_response;
+	$empResFinal = $this->emp_response_final;
 	$ratVal = $this->ratingValues;
 	$managerNames = $this->managerNames;
 	$skill_res = $this->skill_response;
@@ -160,16 +161,32 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 		<ul>
 		<?php
 		if(sizeof($catData)>0) 
-		{
-			foreach ($catData as $cd)
-			{ 				
-		?>
-		
-			<li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
-				
-		<?php	} 
-			if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>';
-			foreach ($catData as $cd)
+		{ ?>
+            <li><a href="#tabs-final">Final Feedback</a></li>
+            <?php
+            foreach ($catData as $cd) { ?>
+			    <li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
+		    <?php	}
+			if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>'; ?>
+
+			<div id="tabs-final">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
+                <thead>
+                    <tr>
+                        <th>Final Feedback (optional)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php echo strlen($empResFinal) > 0? $empResFinal: "(empty)"; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+
+		<?php foreach ($catData as $cd)
 			{ 
 		?>
 				<div id="tabs-<?php echo $cd['id'];?>">
@@ -204,7 +221,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 												<div>
                                                     <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                         <span class="appri_ques"><?php echo $qd['question'];?></span>
-                                                        <span class="appri_desc"><?php echo isset($mgrRes[$qd['id']]['objective'])?$mgrRes[$qd['id']]['objective']:'';?></span>
+                                                        <span class="appri_desc"><?php echo isset($empRes[$qd['id']]['objective'])?$empRes[$qd['id']]['objective']:'';?></span>
                                                     <?php } else { ?>
                                                         <span class="appri_ques"><?php echo $qd['question'];?></span>
                                                         <span class="appri_desc"><?php echo $qd['description'];?></span>

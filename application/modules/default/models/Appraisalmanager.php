@@ -232,7 +232,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         if($manager_id != '')
         {
 			$status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -276,7 +276,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         if($manager_id != '')
         {
 			$status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+				3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
 			$db = Zend_Db_Table::getDefaultAdapter();
 			$query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -333,6 +333,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
             $result = $db->query($query)->fetch();
 			$employee_response = (!empty($result['employee_response']))?json_decode($result['employee_response'], true):"";
             $manager_response = (!empty($result['manager_response']))?json_decode($result['manager_response'], true):"";
+            $employee_final_response = (!empty($result['employee_final_response']))?$result['employee_final_response']:"";
             if(!empty($result))
             {
             	if(isset($result['line_manager_1']))
@@ -384,6 +385,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
             
             $final_arr['skill_arr'] = $skill_arr;
             $final_arr['manager_response'] = $manager_response;
+            $final_arr['employee_final_response'] = $employee_final_response;
             $final_arr['ratings_data'] = $result;
             $final_arr['edit_flag'] = $edit_flag;
             //echo "<pre>";print_r($final_arr);echo "</pre>";
@@ -425,7 +427,7 @@ public function getSearchEmpdata_managerapp($manager_id,$searchval)
         if($manager_id != '')
         {
             $status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
             $db = Zend_Db_Table::getDefaultAdapter();
             $query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg
@@ -479,7 +481,7 @@ public function getSearchEmpdata_managerapp($manager_id,$searchval)
         	  $appwhere = ' and er.appraisal_status='.$appraisalstatus.' ';	
         	  
             $status_arr = array(0 => 'Pending employee ratings',1 => 'Pending L1 ratings',2 => 'Pending L2 ratings',
-                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Completed');
+                3 => 'Pending L3 ratings',4 => 'Pending L4 ratings',5 => 'Pending L5 ratings',6 => 'Pending employee finalization', 7 => 'Completed');
             $db = Zend_Db_Table::getDefaultAdapter();
             $query = "select er.consolidated_rating,pi.pa_configured_id,pi.id init_id,pi.appraisal_ratings,es.userfullname,es.employeeId,es.jobtitle_name,er.appraisal_status,er.line_rating_1,
                       er.line_rating_2,er.line_rating_3,er.line_rating_4,er.line_rating_5,es.profileimg

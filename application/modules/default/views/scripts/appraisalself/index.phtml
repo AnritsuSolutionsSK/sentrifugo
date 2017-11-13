@@ -18,6 +18,22 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 <link rel="stylesheet" type="text/css" href="<?php echo MEDIA_PATH; ?>css/rateit.css" />
 <script type="text/javascript" src="<?php echo MEDIA_PATH;?>js/jquery.rateit.js"></script>
 <script type="text/javascript" src="<?php echo MEDIA_PATH;?>js/pa.js"></script>
+<script>
+    function showResponse(responseText, statusText, xhr)  {
+        $.each(responseText, function() {
+            $('#msg_error').html('');
+            if(responseText['msg'] == "saved")
+                window.location = base_url+"/appraisalself";
+            else
+                $('#msg_error').html(responseText['msg']);
+        });
+    }
+
+    function saveAppraisalDetails(){
+            $.blockUI({ width:'50px',message: $("#spinner").html() });
+            $('#appraisalformfinalize').submit();
+    }
+</script>
 
 <?php
 	if($this->ratingType == 1){
@@ -26,7 +42,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 		$ratingMin = 0; $ratingMax = 10;
 	}
 	$app_status_array = array(1=>APP_PENDING_EMP, 2=>APP_PENDING_L1, 3=>APP_PENDING_L2, 4=>APP_PENDING_L3,
-										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_COMPLETED);
+										5=>APP_PENDING_L4, 6=>APP_PENDING_L5, 7=>APP_PENDING_EMP_FINAL, 8=>APP_COMPLETED);
 	//echo '<pre>';print_r($app_status_array);
 	$empRatData = $this->appEmpRatingsData;
 	//echo '<pre>';print_r($empRatData);
@@ -36,6 +52,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
     
 	$empRes = $this->emp_response;
 	$mgrRes = $this->mgr_response;
+	$empResFinal = $this->emp_response_final;
 	$ratVal = $this->ratingValues;
 	$managerNames = $this->managerNames;
 	$skill_res = $this->skill_response;
@@ -78,9 +95,11 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 				</div>
 				<?php }*/?>
 				<div class="appril_sel_stat_comp_msg">
-					<?php if($empRatData[0]['appraisal_status']=='Completed') {  ?>
+					<?php if($appStatus=='Completed') {  ?>
 						<span class="label_10">Appraisal Status : </span><div class="appr_completed"><span>Completed</span></div>
-					<?php }?>
+					<?php } else if($appStatus=='Pending employee finalization'){ ?>
+                        <span class="label_10">Appraisal Status : </span><div class="appr_completed"><span>Pending employee finalization</span></div>
+                    <?php }?>
 						
 				</div>
 				<div class="new-form-ui-submit employee_appraisal_submit" style="top: 2px; right: 6px; position: absolute;">
@@ -159,14 +178,75 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 		<?php
 		if(sizeof($catData)>0) 
 		{
+		    if(in_array($appStatus,  array(APP_PENDING_EMP_FINAL, APP_COMPLETED))){ ?>
+                <li><a href="#tabs-final">Final Feedback</a></li>
+            <?php }
 			foreach ($catData as $cd)
 			{ 				
 		?>
-		
-			<li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
-				
-		<?php	} 
+                <li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
+		<?php   }
+
 			if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>';
+
+            if($appStatus == APP_PENDING_EMP_FINAL){ ?>
+
+                <div id="tabs-final">
+                    <div class="total-form-controller view-form-detail">
+                        <form method="POST" id="appraisalformfinalize" class="" name="">
+                            <div class="total-form-controller view-form-detail employee_appraisal_view">
+                                <div id='msg_error'></div>
+                                <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
+                                    <thead>
+                                    <tr>
+                                        <th>Final Feedback (optional)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <textarea class="appri_textarea_new app_non_req_field" name="emp_comment_final" id="emp_comment_final" placeholder="Click 'Finalize appraisal' even if left blank" rows="6" cols="5" style="height: 200px"></textarea>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="new-form-ui-submit">
+                                                    <input type="hidden" name="id" id="id" value="<?php echo $empRatData[0]['id'];?>">
+                                                    <input type="hidden" name="employee_id" id="employee_id" value="<?php echo $empRatData[0]['employee_id'];?>">
+                                                    <input type="hidden" name="initialization_id" id="initialization_id" value="<?php echo $empRatData[0]['pa_initialization_id'];?>">
+                                                    <input type="hidden" name="config_id" id="config_id" value="<?php echo $empRatData[0]['pa_configured_id'];?>">
+                                                    <input type="hidden" name="flag" id="flag" value="">
+                                                    <input type="hidden" name="app_status" id="app_status" value="<?php echo $appStatus;?>">
+
+                                                    <input type="button" value="Finalize appraisal" onclick="saveAppraisalDetails();"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <?php } else if($appStatus == APP_COMPLETED){ ?>
+                <div id="tabs-final">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
+                        <thead>
+                        <tr>
+                            <th>Final Feedback (optional)</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <?php echo $empResFinal; ?>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <?php }
+
 			foreach ($catData as $cd)
 			{ 
 		?>
@@ -375,6 +455,12 @@ $(document).ready(function(){
 	$( "#view_comments" ).click(function() {
 		$( "#app_comments" ).toggle();
 	});
+    $("#appraisalformfinalize").attr('action',base_url+"/appraisalself/finalize");
+    var options = {
+        dataType : 'json',
+        success : showResponse
+    };
+    $('#appraisalformfinalize').ajaxForm(options);
 });
 </script>
 <?php }} ?>

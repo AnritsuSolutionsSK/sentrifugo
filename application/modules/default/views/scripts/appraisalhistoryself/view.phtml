@@ -161,29 +161,13 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 		<?php
 		if(sizeof($catData)>0) 
 		{ ?>
-            <li><a href="#tabs-final">Final Feedback</a></li>
             <?php
             foreach ($catData as $cd) { ?>
 			    <li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
-		    <?php	}
-			if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>'; ?>
+		    <?php	} ?>
+            <li><a href="#tabs-final">Final Feedback</a></li>
 
-			<div id="tabs-final">
-            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
-                <thead>
-                    <tr>
-                        <th>Final Feedback (optional)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <?php echo strlen($empResFinal) > 0? $empResFinal: "(empty)"; ?>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-         </div>
+			<?php if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>'; ?>
 
 		<?php foreach ($catData as $cd)
 			{ 
@@ -300,8 +284,24 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 						</tbody>
 					</table>
 				</div>
-		<?php } 
-		if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res))
+		<?php } ?>
+		<div id="tabs-final">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
+                <thead>
+                    <tr>
+                        <th>Final Feedback (optional)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <?php echo strlen($empResFinal) > 0? $empResFinal: "(empty)"; ?>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+         </div>
+		<?php if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res))
 		{ ?>
 				<div id="tabs-skills">
 					<table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">

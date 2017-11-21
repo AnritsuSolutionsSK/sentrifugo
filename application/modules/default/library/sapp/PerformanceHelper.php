@@ -174,7 +174,7 @@ class sapp_PerformanceHelper
                                      $mgrcheck = 'checked';
                                      $mgrrate = 'checked';
                                      $empratcheck = 'onclick="return false"';
-                                     $empcmntcheck = 'onclick="return false"';
+                                     $empcmntcheck = '';
                                      break;
                              }
 

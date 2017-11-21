@@ -57,7 +57,7 @@ if($this->call != 'ajaxcall')
     <div class="flt_right">
       	
         <div class="actions_div">
-
+            <span class="uploadbut_exel uploadbutsel flt_left marginfiv" id="prepare_import_custom_div" >Prepare for Import</span>
             <span class="uploadbut_exel uploadbutsel flt_left marginfiv" id="upload_custom_div" >Import Employees</span>
 			<a target="_blank" href="<?php echo DOMAIN; ?>public/downloads/import_employees.xlsx" class="importformatlink flt_left">Import format</a>
 			<a target="_blank" href="<?php echo DOMAIN; ?>public/downloads/importguide.pdf" class="importformatlink flt_left">Help</a>
@@ -107,6 +107,7 @@ if($this->call != "ajaxcall")
 <script type="text/javascript">
 
 var btnUpload = $('#upload_custom_div');
+var btnPrepareImport = $('#prepare_import_custom_div');
 new AjaxUpload(btnUpload, {
 
 	action :  base_url+'/employee/uploadexcel',
@@ -150,6 +151,52 @@ new AjaxUpload(btnUpload, {
                 $('#upload_error').html('<div  class="ml-alert-1-error"><div style="display:block;"><span class="style-1-icon error"></span>Something went wrong, please try again.</div></div>');
             }
 	}	
+},'json');
+new AjaxUpload(btnPrepareImport, {
+
+    action :  base_url+'/employee/prepareimportexcel',
+    name   : 'emp_excel',  //we can rename it
+    dataType: 'json',
+    onSubmit: function(file,ext){
+        if($("#upload_error").is(":visible"))
+            $("#upload_error").hide();
+        //$("#loaderimgprofile").show();
+
+    },
+    onComplete: function(file, response){
+        try
+        {
+            var result = JSON.parse(response);
+
+            if(result.status == 'success')
+            {
+                $('#upload_error').show();
+                $("#loaderimgprofile").hide();
+                refreshgrid("employee","No","");
+                $('#upload_error').html('<div  class="ml-alert-1-success"><div style="display:block;"><span class="style-1-icon success"></span>'+result.msg+'</div></div>');
+                setTimeout(function()
+                {
+                    $('#upload_error').fadeOut('slow');
+                },3000);
+            }
+            else
+            {
+                $('#upload_error').show();
+                $("#loaderimgprofile").hide();
+                if(result.msg)
+                    $('#upload_error').html('<div  class="ml-alert-1-error"><div style="display:block;"><span class="style-1-icon error"></span>'+result.msg+'</div></div>');
+                else {
+                    $('#upload_error').html('<div  class="ml-alert-1-error"><div style="display:block;"><span class="style-1-icon error"></span>Please choose different file.</div></div>');
+                }
+            }
+        }
+        catch(e)
+        {
+            $('#upload_error').show();
+            $("#loaderimgprofile").hide();
+            $('#upload_error').html('<div  class="ml-alert-1-error"><div style="display:block;"><span class="style-1-icon error"></span>Something went wrong, please try again.</div></div>');
+        }
+    }
 },'json');
 </script>
 <?php 

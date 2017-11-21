@@ -597,5 +597,16 @@ defined('ASSETS_DELETE')|| define('ASSETS_DELETE','asset category');
 
 
 defined('MYEMPLOYEEEXPENSES_DELETE')|| define('MYEMPLOYEEEXPENSES_DELETE','employee expenses'); 
+/*
+ * USER CONSTANTS GOES FROM HERE
+ * =========================================
+ */
+defined('PASSWORD_TYPE_ACTIVE_DIRECTORY')|| define('PASSWORD_TYPE_ACTIVE_DIRECTORY', 1);
+defined('PASSWORD_TYPE_LOCAL')|| define('PASSWORD_TYPE_LOCAL', 2);
+defined('PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME')|| define('PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME', 'Active Directory');
+defined('PASSWORD_TYPE_LOCAL_NAME')|| define('PASSWORD_TYPE_LOCAL_NAME', 'Local');
+
+//==========================END FOR USER CONSTANTS=============================
+
  
 

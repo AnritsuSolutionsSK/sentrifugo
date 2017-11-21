@@ -242,6 +242,16 @@ class Default_Form_employee extends Zend_Form
                 $userfullname->setAttrib("class", "formDataElement");
                 $userfullname->setAttrib('maxlength', 50);*/
                 
+                $password_type = new Zend_Form_Element_Select("passwordtype");
+                $password_type->setLabel("Password Type")
+                    ->addMultiOptions(array('' => 'Select password type',
+                    PASSWORD_TYPE_ACTIVE_DIRECTORY => PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME,
+                    PASSWORD_TYPE_LOCAL => PASSWORD_TYPE_LOCAL_NAME
+                ));
+                $password_type->setAttrib("class", "formDataElement");
+                $password_type->setRequired(true);
+                $password_type->addValidator('NotEmpty', false, array('messages' => 'Please select password type.'));
+
                 $first_name = new Zend_Form_Element_Text("firstname");
                 $first_name->setLabel("First Name");	
                 $first_name->setAttrib("class", "formDataElement");
@@ -419,7 +429,7 @@ class Default_Form_employee extends Zend_Form
                                          $position,$prefix_id,$extension_number,$office_number,$office_faxnumber,$yearsofexp,$date_of_joining,$date_of_leaving,$submit,$employeeId,
                                          $modeofentry,$candidatereferredby,$rccandidatename,$emailaddress,
                                          $emprole,$hid_modeofentry,$hid_rccandidatename,$other_modeofentry,$act_inact,
-                                         $disp_requi,$first_name,$last_name,$employeeNumId,$final_emp_id));
+                                         $disp_requi,$password_type, $first_name,$last_name,$employeeNumId,$final_emp_id));
                 $this->setElementDecorators(array('ViewHelper')); 
                 $this->setElementDecorators(array(
                     'UiWidgetElement',

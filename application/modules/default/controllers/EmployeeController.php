@@ -2737,7 +2737,43 @@ public function editappraisal($id,$performanceflag,$ff_flag)
         
     public function uploadexcelAction()
     {
-        $savefolder = EMP_EXCEL_UPLOAD_PATH;		// folder for upload									
+        $result = $this->uploadExcel();
+        if($result['filename'] != ''){
+            $stat = sapp_Helper::process_emp_excel($result['filename']);
+            $result['msg'] = $stat['msg'];
+            $result['status'] = $stat['status'];
+        }
+        unset($result['filename']);
+        $this->_helper->json($result);
+
+
+    }//end of upload excel action
+
+    public function prepareimportexcelAction(){
+        $result = $this->uploadExcel();
+        $data = array();
+
+        if($result['filename'] != ''){
+            $stat = sapp_Helper::prepare_emp_excel($result['filename']);
+            $result['msg'] = $stat['msg'];
+            $result['status'] = $stat['status'];
+            $data = isset($stat['data'])?$stat['data']:null;
+        }
+        unset($result['filename']);
+        if($data){
+            $colNames = array('Prefix' => 'Prefix', 'First Name' => 'First Name', 'Last Name' => 'Last Name', 'Employee Id' => 'Employee Id', 'Role Type' => 'Role Type', 'Email' => 'Email', 'Business Unit' => 'Business Unit',
+                'Department' => 'Department', 'Reporting manager employee ID' => 'Reporting manager employee ID', 'Job Title' => 'Job Title', 'Position' => 'Position', 'Employment Status' => 'Employment Status',
+                'Date of joining' => 'Date of joining',	'Date of leaving' => 'Date of leaving', 'Experience' => 'Experience', 'Extension' => 'Extension', 'Work telephone number' => 'Work telephone number',
+                'Fax' => 'Fax', 'Salary Currency' => 'Salary Currency', 'Pay Frequency' => 'Pay Frequency', 'Salary' => 'Salary', 'Password Type' => 'Password Type');
+            sapp_Global::export_to_excel($data, $colNames, "UserImport.xlsx");
+            exit;
+        } else {
+            $this->_helper->json($result);
+        }
+    }
+
+    public function uploadExcel(){
+        $savefolder = EMP_EXCEL_UPLOAD_PATH;		// folder for upload
         $max_size = 1048576;			// maxim size for image file, in KiloBytes
         // Allowed file types			
         $allowtype = array('xls', 'xlsx');
@@ -2745,6 +2781,7 @@ public function editappraisal($id,$performanceflag,$ff_flag)
         $rezultat = '';
         $result_status = '';
         $result_msg = '';
+        $filename_to_process = '';
         // if is received a valid file
         if (isset ($_FILES['emp_excel'])) 
         {
@@ -2770,15 +2807,12 @@ public function editappraisal($id,$performanceflag,$ff_flag)
                             $result_status = 'error';
                             $result_msg = 'The file cannot be uploaded, try again.';
                         }
-                        else 
+                        else //everything okay, return filename to process
                         {
-                            
-                            $rezultat = $filename;					 		               
-                            
-                            $stat = sapp_Helper::process_emp_excel($newfilename);
-                            $result_msg = $stat['msg'];
-                            $result_status = $stat['status'];
-                            
+                            $rezultat = $filename;
+                            $filename_to_process = $newfilename;
+                            $result_msg = '';
+                            $result_status = '';
                         }
                     }
                 }
@@ -2806,11 +2840,11 @@ public function editappraisal($id,$performanceflag,$ff_flag)
         $result = array(
             'result'=>$result_status,
             'img'=>$rezultat,
-            'msg'=>$result_msg
+            'msg'=>$result_msg,
+            'filename'=>$filename_to_process
         );
-                        
-        $this->_helper->json($result);
-    }//end of upload excel action
+        return $result;
+    }
     
     public function getindividualempdetailsAction()
     {

@@ -245,8 +245,8 @@ class Default_Form_employee extends Zend_Form
                 $password_type = new Zend_Form_Element_Select("passwordtype");
                 $password_type->setLabel("Password Type")
                     ->addMultiOptions(array('' => 'Select password type',
-                    PASSWORD_TYPE_ACTIVE_DIRECTORY => 'Active Directory',
-                    PASSWORD_TYPE_LOCAL => 'Local'
+                    PASSWORD_TYPE_ACTIVE_DIRECTORY => PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME,
+                    PASSWORD_TYPE_LOCAL => PASSWORD_TYPE_LOCAL_NAME
                 ));
                 $password_type->setAttrib("class", "formDataElement");
                 $password_type->setRequired(true);

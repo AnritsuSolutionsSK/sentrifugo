@@ -173,8 +173,8 @@ class sapp_Global
                 foreach ($column_array as $column_key => $column_name)
                 {
                     // display field/column values  
-                    $cell_name = $letters[$count1].$i;	                                        
-                    $value = isset($data[$column_key])?(trim($data[$column_key]) == ''?"--":$data[$column_key]):"--";                    
+                    $cell_name = $letters[$count1].$i;
+                    $value = isset($data[$column_key])?(trim($data[$column_key]) == ''?"":$data[$column_key]):"";
                     $value = html_entity_decode($value,ENT_QUOTES,'UTF-8');
                     $objPHPExcel->getActiveSheet()->SetCellValue($cell_name, $value);
                     

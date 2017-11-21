@@ -440,7 +440,93 @@ class sapp_Helper
                     18 => 'Approved',19 => 'Rejected',22 => 'Closed/Rejected',20 => 'Approved',
                     21 => 'Rejected',23 => 'To approve',24 => 'Approved',25 => 'Rejected');
     }
-    
+
+    public static function prepare_emp_excel($file_name){
+        require_once 'Classes/PHPExcel.php';
+        require_once 'Classes/PHPExcel/IOFactory.php';
+
+        $auth = Zend_Auth::getInstance();
+        if($auth->hasIdentity())
+        {
+            $loginUserId = $auth->getStorage()->read()->id;
+        }
+
+        $emp_model = new Default_Model_Employee();
+        $usersModel = new Default_Model_Usermanagement();
+        $identity_code_model = new Default_Model_Identitycodes();
+
+        $empIDsInSystem = $emp_model->getAllActiveUserEmpIDs();
+        $allEmpIDs = array();
+        foreach($empIDsInSystem as $emp){
+            $allEmpIDs[$emp['lastname']] = $emp['employeeId'];
+        }
+
+        $objReader = PHPExcel_IOFactory::createReaderForFile($file_name);
+        $objPHPExcel = $objReader->load($file_name);
+        //Read first sheet
+        $sheet 	= $objPHPExcel->getSheet(0);
+        // Get worksheet dimensions
+        $sizeOfWorksheet = $sheet->getHighestDataRow();
+        $highestColumn 	 = $sheet->getHighestDataColumn();
+        $err_msg = "";
+        if($sizeOfWorksheet > 1)
+        {
+            $arrReqHeaders1 = array(
+                'First Name','Last Name','Employee Id','Role Type','Email','Department','Reporting manager','Date of joining'
+            );
+            $arrReqHeaders2 = array(
+                'Full Name','Employee Id','Role Type','Email','Department','Reporting manager','Date of joining'
+            );
+            $firstRow = $sheet->rangeToArray('A' . 1 . ':' . $highestColumn . 1, NULL, TRUE, TRUE);
+            $arrGivenHeaders = $firstRow[0];
+
+            $diffArray1 = array_diff($arrReqHeaders1,$arrGivenHeaders);
+            $diffArray2 = array_diff($arrReqHeaders2,$arrGivenHeaders);
+            if(!empty($diffArray1) && !empty($diffArray2)){
+                $err_msg = "Required columns are: 'First Name', 'Last Name' (or as one - 'Full Name' in format \"Smith, John\"), 'Employee Id', 'Role Type', 'Email', 'Department', 'Reporting manager', 'Date of joining'. (Mind the capitalization)";
+                return array('status' => 'error' , 'msg' => $err_msg);
+            } else {
+                $data = [];
+                $splitName = !empty($diffArray1)?true:false; //if 'Full Name' is used, it needs to be split into first name and last name
+
+                for($i=2; $i <= $sizeOfWorksheet; $i++ )
+                {
+                    $rowData_org = $sheet->rangeToArray('A' . $i . ':' . $highestColumn . $i, NULL, TRUE, TRUE);
+                    $rowData = $rowData_org[0];
+
+                    foreach($rowData as $rkey => $rvalue)
+                    {
+                        if($splitName && $arrGivenHeaders[$rkey] == 'Full Name'){
+                            $name = explode(",", trim($rvalue));
+                            $data[$i-2]['Last Name'] = trim($name[0]);
+                            if(count($name) > 1)
+                                $data[$i-2]['First Name'] = trim($name[1]);
+                            else
+                                $data[$i-2]['First Name'] = "";
+                        } else if($arrGivenHeaders[$rkey] == 'Date of joining'){
+                            $data[$i-2]['Date of joining'] = date('Y-m-d',PHPExcel_Shared_Date::ExcelToPHP($sheet->getCellByColumnAndRow($rkey, $i)->getValue()));
+                        } else {
+                            $data[$i-2][$arrGivenHeaders[$rkey]] = trim($rvalue);
+                        }
+                    }
+                    $allEmpIDs[$data[$i-2]['Last Name']] = $data[$i-2]['Employee Id'];
+                    $data[$i-2]['Password Type'] = "Active Directory";
+                    $data[$i-2]['Employment Status'] = "FT"; //Full-Time
+                    $data[$i-2]['Role Type'] = strtolower($data[$i-2]['Role Type']);
+                }
+                foreach($data as $index => $employee){
+                    if(isset($allEmpIDs[$employee['Reporting manager']])){
+                        $data[$index]['Reporting manager employee ID'] = $allEmpIDs[$employee['Reporting manager']];
+                    }
+                }
+
+                return array('status' => 'success' , 'msg' => "Data prepared. Check the produced excel sheet for missing/incorrect values and import it.", 'data' => $data);
+            }
+        }  else {
+            return array('status' => 'error' , 'msg' => "No records to process.");
+        }
+    }
+
     public static function process_emp_excel($file_name)
     {
         require_once 'Classes/PHPExcel.php';
@@ -470,7 +556,7 @@ class sapp_Helper
                 'Prefix','First name','Last name','Employee Id','Role Type','Email','Business Unit','Department','Reporting manager','Job Title' ,
                 'Position','Employment Status','Date of joining','Date of leaving','Experience','Extension',
                 'Work telephone number','Fax',$column_salary_currency => 'Salary Currency',
-                $column_salary_type =>'Pay Frequency',$column_salary => 'Salary'
+                $column_salary_type =>'Pay Frequency',$column_salary => 'Salary', 'Password Type'
             );
 		                        
             //Get first/header from excel
@@ -496,6 +582,7 @@ class sapp_Helper
             $pos_jt_arr = $emp_model->getPosJTWise();
             $currency_arr = $emp_model->getCurrency_excel();
             $salary_type_arr = $emp_model->getPayfrequency_excel();
+            $passwd_type_arr = array(strtolower(PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME), strtolower(PASSWORD_TYPE_LOCAL_NAME));
            
             $identity_codes = $identity_code_model->getIdentitycodesRecord();
             $emp_identity_code = isset($identity_codes[0])?$identity_codes[0]['employee_code']:"";
@@ -513,6 +600,10 @@ class sapp_Helper
                 $ex_wn_arr = array();$ex_fax_arr = array();$tot_rec_cnt = 0;
                 $err_msg = "";
                 $existing_employees = array();
+                for($i=2; $i <= $sizeOfWorksheet; $i++ )
+                {
+                    $emp_ids_arr[] = strtolower($sheet->getCellByColumnAndRow(3, $i)->getValue());
+                }
                 for($i=2; $i <= $sizeOfWorksheet; $i++ )
                 {
                     $rowData_org = $sheet->rangeToArray('A' . $i . ':' . $highestColumn . $i, NULL, TRUE, TRUE);
@@ -583,6 +674,11 @@ class sapp_Helper
                     if(empty($rowData[12]))
                     {
                         $err_msg = "Date of joining cannot be empty at row ".$i.".";
+                        break;
+                    }
+                    if(empty($rowData[21]))
+                    {
+                        $err_msg = "Password Type cannot be empty at row ".$i.".";
                         break;
                     }
                     if(in_array(strtolower($rowData[11]), $dol_emp_stat_arr) && empty($rowData[13]))
@@ -805,21 +901,27 @@ class sapp_Helper
                         $err_msg = "Unknown ".  strtolower($arrReqHeaders[$column_salary_type])." at row ".$i.".";
                         break;
                     }
+                    if(!in_array(strtolower($rowData[21]), $passwd_type_arr)  && !empty($rowData[21]))
+                    {
+                        $err_msg = "Unknown password type at row ".$i.".";
+                        break;
+                    }
+
                     // end of checking existence in the system.                    
                     
                     if(!empty($rowData[7]))
                     {
-                        if(isset($emp_depts_arr[$dep_arr[strtolower($rowData[7])]]) && !in_array(strtolower($rowData[8]),$emp_depts_arr[$dep_arr[strtolower($rowData[7])]]) )
-                        {
-                            if(isset($emp_depts_arr[0]) && is_array($emp_depts_arr[0]))
-                            {
-                                if(!in_array(strtolower($rowData[8]),$emp_depts_arr[0]))
-                                {
-                                    $err_msg = "Reporting manager does not belong to '".$rowData[7]."' department at row ".$i.".";
-                                    break;
-                                }
-                            }
-                        }
+//                        if(isset($emp_depts_arr[$dep_arr[strtolower($rowData[7])]]) && !in_array(strtolower($rowData[8]),$emp_depts_arr[$dep_arr[strtolower($rowData[7])]]) )
+//                        {
+//                            if(isset($emp_depts_arr[0]) && is_array($emp_depts_arr[0]))
+//                            {
+//                                if(!in_array(strtolower($rowData[8]),$emp_depts_arr[0]))
+//                                {
+//                                    $err_msg = "Reporting manager does not belong to '".$rowData[7]."' department at row ".$i.".";
+//                                    break;
+//                                }
+//                            }
+//                        }
                     }
                     else
                     {
@@ -993,7 +1095,11 @@ class sapp_Helper
                         }
                         else
                         {
-                            $emppassword = sapp_Global::generatePassword();
+                            if($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME){
+                                $emppassword = "ldap";
+                            } else {
+                                $emppassword = sapp_Global::generatePassword();
+                            }
 
                             $date_join = str_replace('/', '-', $rowData[12]);
                             $date_of_joining = date('Y-m-d', strtotime($date_join));
@@ -1015,7 +1121,7 @@ class sapp_Helper
                                 'jobtitle_id'=> isset($job_arr[strtolower($rowData[9])])?$job_arr[strtolower($rowData[9])]:null,
                                 'modifiedby'=> $loginUserId,
                                 'modifieddate'=> gmdate("Y-m-d H:i:s"),
-                                'emppassword' => md5("ldap"),
+                                'emppassword' => md5($emppassword),
                                 'employeeId' => $employeeId_final,
                                 'modeofentry' => "Direct",
                                 'selecteddate' => $date_of_joining,
@@ -1071,19 +1177,36 @@ class sapp_Helper
                             }
                             //end of saving into salary details
                             //start of mail
-                            $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                            if($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME){
+                                $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
                                             <span style='color:#3b3b3b;'>Hello ".ucfirst($userfullname).",</span><br />
 
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to ". APPLICATION_NAME.". The login credentials for your Sentrifugo account are:</div>
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to ". APPLICATION_NAME.". The login credentials for your account are:</div>
+
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>".$employeeId_final."</strong></div>
+                                            <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: (your Active Directory password)</div>
+                                            
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>If your username is incorrect, contact your HR department immediately.</div>
+
+                                            <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
+
+                                    </div>";
+                            } else{
+                                $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                            <span style='color:#3b3b3b;'>Hello ".ucfirst($userfullname).",</span><br />
+
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to ". APPLICATION_NAME.". The login credentials for your account are:</div>
 
                                             <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>".$employeeId_final."</strong></div>
                                             <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: <strong>".$emppassword."</strong></div>
 
-                                            <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your Sentrifugo account.</div>
+                                            <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
 
                                     </div>";
+                            }
+
                             $options['subject'] = APPLICATION_NAME.': Login Credentials';
-                            $options['header'] = 'Greetings from Sentrifugo';
+                            $options['header'] = 'Greetings from '.APPLICATION_NAME;
                             $options['toEmail'] = $rowData[5];
                             $options['toName'] = $userfullname;
                             $options['message'] = $text;

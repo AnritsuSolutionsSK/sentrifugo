@@ -883,10 +883,17 @@ class Default_Model_Employee extends Zend_Db_Table_Abstract
     	$db = Zend_Db_Table::getDefaultAdapter();
     	$query = "	select es.id,es.user_id,es.userfullname from main_employees_summary es where es.user_id in (
 					select s.user_id from main_employees_summary s
-					inner join main_roles r on s.emprole = r.id where r.group_id = 3  and r.isactive=1 ) and es.isactive =1 ;";
+					inner join main_roles r on s.emprole = r.id where r.group_id = 3  and r.isactive=1 ) and es.isactive = 1 ;";
     	$data = $db->query($query)->fetchAll();
     	return $data;
     
+    }
+
+    public function getAllActiveUserEmpIDs(){
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $query = "select us.id,us.firstname, us.lastname, us.employeeId from main_users us where us.isactive = 1;";
+        $data = $db->query($query)->fetchAll();
+        return $data;
     }
 
 }

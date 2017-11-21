@@ -60,7 +60,8 @@ if($auth->hasIdentity())
     $loginUserName =$auth->getStorage()->read()->employeeId;	    
     $loginuserRole = $auth->getStorage()->read()->emprole;	
     $loginuserGroup = $auth->getStorage()->read()->group_id;
-    $tourflag = $auth->getStorage()->read()->tourflag;
+    //$tourflag = $auth->getStorage()->read()->tourflag;
+    $tourflag = 1;
     $userfullname = $auth->getStorage()->read()->userfullname;
 
 }

@@ -617,6 +617,9 @@ defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
 defined('PASSWORD_TYPE_ACTIVE_DIRECTORY')|| define('PASSWORD_TYPE_ACTIVE_DIRECTORY', 1);
 defined('PASSWORD_TYPE_LOCAL')|| define('PASSWORD_TYPE_LOCAL', 2);
 
+defined('PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME')|| define('PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME', 'Active Directory');
+defined('PASSWORD_TYPE_LOCAL_NAME')|| define('PASSWORD_TYPE_LOCAL_NAME', 'Local');
+
 //==========================END FOR USER CONSTANTS=============================
 
  

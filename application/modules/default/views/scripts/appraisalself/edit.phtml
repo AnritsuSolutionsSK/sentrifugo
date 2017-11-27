@@ -69,12 +69,24 @@ if(empty($this->check_ratings_exists)) { ?>
 		        var qclass = $(this).prop('class');
                 var qval = $(this).val();
                 var qid = $(this).prop('id');
+
+                var errorMsg = '';
+                var errorNum = '';
+
+                if(qclass.indexOf('objective_text') != -1){
+                    errorMsg = 'Please enter objectives.';
+                    errorNum = 3;
+                } else {
+                    errorMsg = 'Please enter comments.';
+                    errorNum = 2;
+                }
+
                 if(qval == '' && qclass.indexOf('app_req_field') != -1)
                 {
 					 	req_count++;
-	                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>Please enter comments.</span>");
-	                    if ($.inArray(2, errorarray) == -1) {
-	                    	errorarray.push(2);
+	                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>"+errorMsg+"</span>");
+	                    if ($.inArray(errorNum, errorarray) == -1) {
+	                    	errorarray.push(errorNum);
 	                    }
 					
                 }
@@ -86,20 +98,45 @@ if(empty($this->check_ratings_exists)) { ?>
             } else {
                 $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
             }
+		    $('select.select_field').each(function(){
+                var qclass = $(this).prop('class');
+                var qval = $(this).val();
+                var qid = $(this).prop('id');
+
+                var errorNum = 4;
+		        var errorMsg = "Please select achievement rating.";
+
+                if(qval == '' && qclass.indexOf('app_req_field') != -1)
+                {
+                    req_count++;
+                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>"+errorMsg+"</span>");
+                    if ($.inArray(errorNum, errorarray) == -1) {
+                        errorarray.push(errorNum);
+                    }
+                }
+            });
 
 		    if(req_count == 0)
 		    	return true;
 		    else
 		    {
-		    	// jQuery.each( errorarray, function( i, val ) {
-              	  // if(val==1)
-              	    // html+="<span class='alert_info_span'>"+(i+1)+". Please select rating.</span>";
-              	  // else if(val==2)
-              		// html+="<span class='alert_info_span'>"+(i+1)+". Please enter comments.</span>";  
-              	// });
-              // jAlert(html);    
-		    	return false;
-		    }	
+		    	 jQuery.each( errorarray, function( i, val ) {
+              	   if(val==1)
+              	     html+="<span class='alert_info_span'>"+(i+1)+". Please select rating.</span>";
+              	   else if(val==2)
+              		 html+="<span class='alert_info_span'>"+(i+1)+". Please enter comments.</span>";
+                   else if(val==3)
+                       html+="<span class='alert_info_span'>"+(i+1)+". Please enter objectives.</span>";
+                   else if(val==4)
+                       html+="<span class='alert_info_span'>"+(i+1)+". Please select achievement ratings.</span>";
+              	 });
+		    }
+		    if(html == ''){
+		        return true;
+            } else{
+                jAlert(html);
+                return false;
+            }
 		}else{
 			return true;
 		}
@@ -138,6 +175,7 @@ if(empty($this->check_ratings_exists)) { ?>
 	$ratVal = $this->ratingValues;
 	$managerNames = $this->managerNames;
 	$appStatus = $empRatData[0]['appraisal_status'];
+    $numOfObjectivesRequired = REQUIRED_OBJECTIVES_COUNT;
 	
 	$appText = '';
 		
@@ -238,7 +276,15 @@ if(empty($this->check_ratings_exists)) { ?>
                                                     <span class="appri_desc"><?php echo $qd['question'] . " - Only for managers.";?></span>
                                                 <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE) { ?>
                                                     <span class="appri_desc"><?php echo $qd['question']; ?></span>
-                                                    <textarea onkeyup="removeValidationMessage(this)" class="app_non_req_field appri_textarea objective_text_<?php echo $qd['id']; ?>" name="emp_question_objectives[<?php echo $qd['id'];?>]" id="idquestion_objectives_<?php echo $empRatData[0]['employee_id'];?>_<?php echo $qd['id'];?>" style="height:100px"><?php if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];}?></textarea>
+                                                    <textarea onkeyup="removeValidationMessage(this)"
+                                                              class="appri_textarea objective_text_<?php echo $qd['id']; ?>
+                                                        <?php if($numOfObjectivesRequired > 0)
+                                                            {
+                                                                echo "app_req_field";
+                                                            } else {
+                                                                echo "app_non_req_field";
+                                                            } ?>
+                                                    " name="emp_question_objectives[<?php echo $qd['id'];?>]" id="idquestion_objectives_<?php echo $empRatData[0]['employee_id'];?>_<?php echo $qd['id'];?>" style="height:100px"><?php if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];}?></textarea>
                                                 <?php } else { ?>
                                                     <span class="appri_ques"><?php echo $qd['question'];?></span>
                                                     <span class="appri_desc"><?php echo $qd['description'];?></span>
@@ -303,8 +349,11 @@ if(empty($this->check_ratings_exists)) { ?>
                                                 <?php
                                             } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                 <td>
-                                                        <?php $priv_data = $qpData[$qd['id']];?>
-                                                <select name="emp_achievement[<?php echo $qd['id'];?>]" <?php if($priv_data['EC'] != 1) echo 'readonly';?>>
+                                                        <?php
+                                                            $priv_data = $qpData[$qd['id']];
+                                                            $selectClass = ($numOfObjectivesRequired > 0)?"app_req_field select_field":"";
+                                                        ?>
+                                                <select class="<?php echo $selectClass; ?>" name="emp_achievement[<?php echo $qd['id'];?>]" <?php if($priv_data['EC'] != 1) echo 'readonly';?> onchange="removeValidationMessage(this)" id="emp_select_<?php echo $qd['id'];?>">
                                                     <option value="" selected> -- Achievement -- </option>
                                                     <option value="Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Achieved") echo "selected"; ?>>Achieved</option>
                                                     <option value="Partially Achieved" <?php if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
@@ -312,7 +361,19 @@ if(empty($this->check_ratings_exists)) { ?>
                                                 </select>
                                                 </td>
                                                 <td colspan="3">
-                                                    <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['EC'] == 1){echo 'class="app_req_field appri_textarea"';}else{echo 'class="appri_textarea_new app_non_req_field" readonly placeholder="Only for managers." style="background-color:silver"';}?> name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="2" cols="15"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
+                                                    <textarea onkeyup="removeValidationMessage(this)"
+                                                        <?php if($priv_data['EC'] == 1)
+                                                        {
+                                                            if($numOfObjectivesRequired > 0){
+                                                                echo 'class="app_req_field appri_textarea"';
+                                                                $numOfObjectivesRequired--;
+                                                            } else {
+                                                                echo 'class="app_non_req_field appri_textarea"';
+                                                            }
+                                                        } else {
+                                                            echo 'class="appri_textarea_new app_non_req_field" readonly placeholder="Only for managers." style="background-color:silver"';}?>
+
+                                                    name="emp_comment[<?php echo $qd['id'];?>]" id="emp_comment_<?php echo $qd['id'];?>" rows="2" cols="15"><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></textarea>
                                                     <input class="app_non_req_field" type="hidden" id="emp_rating_<?php echo $qd['id'];?>" name="emp_rating[<?php echo $qd['id'];?>]" value="<?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?>" />
                                                 </td>
                                            <?php } ?>

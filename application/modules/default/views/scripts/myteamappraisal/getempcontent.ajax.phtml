@@ -117,8 +117,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 						$qachievement = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['achievement'])?$manager_response[$ques['question_id']]['achievement']:''):"";
                         $qobjective = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['objective'])?$manager_response[$ques['question_id']]['objective']:''):"";
                         $priv_data = $qpData[$ques['question_id']];
+                        if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE && $employee_response[$ques['question_id']]['objective'] == '')
+                            $rowCss = "style=\"display:none\"";
+                        else
+                            $rowCss = "";
 ?>
-						<tr>
+						<tr <?php echo $rowCss; ?>>
 							<td>
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
@@ -160,7 +164,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <?php } else { ?>
                                         <div class="rating_text">(Not available to employees)</div>
                                 <?php }} elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <div class="rating_text">(Not available to employees)</div>
+                                        <div class="rating_text"><?php echo $employee_response[$ques['question_id']]['achievement'];?></div>
+                                        <?php echo $employee_response[$ques['question_id']]['comment']; ?>
                                 <?php } ?>
 							</td>
                             <?php if(empty($this->history_flag)) {?>
@@ -181,7 +186,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
                                     <td>
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <select name="question_achievement[<?php echo $ques['question_id'];?>]" <?php if($priv_data['MR'] != 1) echo 'readonly'; else echo 'class="app_req_field_'.$main_key.'"';?>>
+                                        <select name="question_achievement[<?php echo $ques['question_id'];?>]" <?php if($priv_data['MR'] != 1) echo 'readonly'; else echo 'class="app_req_field_'.$main_key.' achievement_select_'.$main_key.' appri_select"';?> id="question_achievement_select_<?php echo $ques['question_id'];?>" onchange="removeValidationMessage(this);">
                                             <option disabled selected value=""> -- Achievement -- </option>
                                             <option value="Achieved" <?php if($qachievement == "Achieved") echo "selected"; ?>>Achieved</option>
                                             <option value="Partially Achieved" <?php if($qachievement == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
@@ -214,15 +219,15 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     ?>
                                     <td>
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <select <?php if(!$required) echo "disabled";?> name="question_achievement[<?php echo $ques['question_id'];?>]" class="<?php echo $class; ?> objective_achievement_select_<?php echo $ques['question_id']; ?>">
-                                            <option selected value=""> -- Achievement -- </option>
+                                        <select <?php if(!$required) echo "disabled";?> name="question_achievement[<?php echo $ques['question_id'];?>]" class="<?php echo $class; ?> achievement_select_<?php echo $main_key; ?> appri_select" id="question_achievement_select_<?php echo $ques['question_id'];?>" onchange="removeValidationMessage(this);">
+                                            <option disabled selected value=""> -- Achievement -- </option>
                                             <option value="Achieved" <?php if($qachievement == "Achieved") echo "selected"; ?>>Achieved</option>
                                             <option value="Partially Achieved" <?php if($qachievement == "Partially Achieved") echo "selected"; ?>>Partially Achieved</option>
                                             <option value="Not Achieved" <?php if($qachievement == "Not Achieved") echo "selected"; ?>>Not Achieved</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <textarea <?php if(!$required) echo "readonly";?> onkeyup="removeValidationMessage(this)" class="<?php echo $class; ?> appri_textarea objective_comment_<?php echo $ques['question_id']; ?>" name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
+                                        <textarea <?php if(!$required) echo "readonly";?> onkeyup="removeValidationMessage(this)" class="<?php echo $class; ?> appri_textarea_<?php echo $main_key; ?> textarea_two_appri objective_comment_<?php echo $ques['question_id']; ?>" name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>"><?php echo $qcomment;?></textarea>
                                     </td>
                                 <?php } ?>
                             <?php } else { ?>
@@ -329,9 +334,10 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             }
         });
         
-	    $('.appri_textarea_'+key).each(function(){
+	    $('.appri_textarea_'+key+':not([readonly])').each(function(){
             var qval = $(this).val();
             var qid = $(this).prop('id');
+
             if(qval == '')
             {
             	req_count++;
@@ -370,6 +376,19 @@ if(count($data) > 0 && !empty($data['rating_arr']))
         } else {
             $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
         }
+        $('.achievement_select_'+key+':enabled').each(function(){
+            var qval = $(this).val();
+            var qid = $(this).prop('id');
+
+            if(qval == '' || qval == null)
+            {
+                req_count++;
+                $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>Please select achievement rating.</span>");
+                if ($.inArray(7, errorarray) == -1) {
+                    errorarray.push(7);
+                }
+            }
+        });
 
 	    if(req_count == 0)
 	    {    
@@ -391,6 +410,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             		html+="<span class='alert_info_span'>"+(i+1)+". Please select ratings for skills.</span>";
               else if(val==6)
                     html+="<span class='alert_info_span'>"+(i+1)+". Please click on \"I agree with...\" button.</span>";
+              else if(val==7)
+                    html+="<span class='alert_info_span'>"+(i+1)+". Please select achievement ratings.</span>";
             });
           jAlert(html);    
 	    	return false;
@@ -542,8 +563,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     $qachievement = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['achievement'])?$manager_response[$ques['question_id']]['achievement']:''):"";
                     $qobjective = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['objective'])?$manager_response[$ques['question_id']]['objective']:''):"";
                     $priv_data = $qpData[$ques['question_id']];
-?>
-                    <tr>
+                    if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE && $employee_response[$ques['question_id']]['objective'] == '')
+                        $rowCss = "style=\"display:none\"";
+                    else
+                        $rowCss = "";
+                    ?>
+                    <tr <?php echo $rowCss; ?>>
                         <td><div>
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                 <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
@@ -627,7 +652,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } ?>
                             </td>
                         <?php } ?>
-                        </tr>
+                    </tr>
 <?php                    
                 }
 ?>

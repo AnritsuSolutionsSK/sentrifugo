@@ -621,6 +621,8 @@ defined('APPRAISAL_RATING_9') || define('APPRAISAL_RATING_9', '');
 defined('APPRAISAL_RATING_10') || define('APPRAISAL_RATING_10', '');
 
 defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
+
+defined('REQUIRED_OBJECTIVES_COUNT') || define('REQUIRED_OBJECTIVES_COUNT', 1);
 //==========================END FOR APPRAISALS CONSTANTS=============================
 /*
  * USER CONSTANTS GOES FROM HERE

@@ -128,12 +128,14 @@
                                         $qcomment = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['comment']:"";
                                         $qachievement = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['achievement']:"";
 
+                                        $qobjective = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['objective']:"";
                                         ?>
                                     <tr>
                                         <?php if($v['question_type'] == QUESTION_TYPE_OBJECTIVE) { ?>
                                             <td width="400"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
                                                 <br>
-                                                <font face="'Arial', sans-serif" size="1"><?php echo $employee_response[$v['question_id']]['objective'];?></font>
+
+                                                <font face="'Arial', sans-serif" size="1"><?php echo $qobjective;?></font>
                                             </td>
                                             <td width="30"  valign="top" align="center">
                                                 <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
@@ -201,11 +203,11 @@
                                             $managerComment = empty($qcomment)?'':$qcomment;
                                             $employeeComment = (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';
                                             if(strlen($managerComment) > 0 && strlen($employeeComment) > 0) { ?>
-                                                <td valign="top" style="height:100px ;">
-                                                    <font face="'Arial', sans-serif" size="1">Employee: <?php echo $employeeComment; ?></font>
-                                                </td>
                                                 <td valign="top" style="height:100px;">
-                                                    <font face="'Arial', sans-serif" size="1">Manager: <?php echo $managerComment; ?></font>
+                                                    Manager: <font face="'Arial', sans-serif" size="1"><?php echo $managerComment; ?></font>
+                                                </td>
+                                                <td valign="top" style="height:100px ;">
+                                                    Employee: <font face="'Arial', sans-serif" size="1"><?php echo $employeeComment; ?></font>
                                                 </td>
                                         <?php } elseif(strlen($managerComment) > 0){ ?>
                                                 <td valign="top" style="height:100px ;">

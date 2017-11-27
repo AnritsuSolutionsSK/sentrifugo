@@ -608,6 +608,18 @@ defined('QUESTION_TYPE_COMMENT_ACHIEVEMENT')|| define('QUESTION_TYPE_COMMENT_ACH
 defined('QUESTION_TYPE_RATINGONLY')|| define('QUESTION_TYPE_RATINGONLY', 3);
 defined('QUESTION_TYPE_OBJECTIVE')|| define('QUESTION_TYPE_OBJECTIVE', 4);
 
+//default rating values for pre-filling rating form
+defined('APPRAISAL_RATING_1') || define('APPRAISAL_RATING_1', 'Does not meet expectations');
+defined('APPRAISAL_RATING_2') || define('APPRAISAL_RATING_2', 'Partially meets expectations');
+defined('APPRAISAL_RATING_3') || define('APPRAISAL_RATING_3', 'Meets expectations');
+defined('APPRAISAL_RATING_4') || define('APPRAISAL_RATING_4', 'Achieved more than expected');
+defined('APPRAISAL_RATING_5') || define('APPRAISAL_RATING_5', 'Consistently exceeds expectations');
+defined('APPRAISAL_RATING_6') || define('APPRAISAL_RATING_6', 'Exceptional achievement');
+defined('APPRAISAL_RATING_7') || define('APPRAISAL_RATING_7', '');
+defined('APPRAISAL_RATING_8') || define('APPRAISAL_RATING_8', '');
+defined('APPRAISAL_RATING_9') || define('APPRAISAL_RATING_9', '');
+defined('APPRAISAL_RATING_10') || define('APPRAISAL_RATING_10', '');
+
 defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
 //==========================END FOR APPRAISALS CONSTANTS=============================
 /*

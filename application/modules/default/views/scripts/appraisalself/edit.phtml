@@ -66,6 +66,7 @@ if(empty($this->check_ratings_exists)) { ?>
                 }
             });
 		    $('.appri_textarea').each(function(){
+		        var qclass = $(this).prop('class');
                 var qval = $(this).val();
                 var qid = $(this).prop('id');
 
@@ -81,7 +82,6 @@ if(empty($this->check_ratings_exists)) { ?>
                 }
 
                 if(qval == '' && qclass.indexOf('app_req_field') != -1)
-
                 {
 					 	req_count++;
 	                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>"+errorMsg+"</span>");
@@ -91,6 +91,7 @@ if(empty($this->check_ratings_exists)) { ?>
 					
                 }
             });
+
 
 		    $('select.select_field').each(function(){
                 var qclass = $(this).prop('class');
@@ -109,6 +110,14 @@ if(empty($this->check_ratings_exists)) { ?>
                     }
                 }
             });
+            
+
+            if (!$('input#requiredAgreementCheckbox').is(':checked')) {
+                req_count++;
+                $('#requiredAgreementLabel').css({'color':'red', 'font-weight':'bold'});
+            } else {
+                $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
+            }
             
 		    if(req_count == 0)
 		    	return true;
@@ -408,6 +417,10 @@ if(empty($this->check_ratings_exists)) { ?>
 				<input type="hidden" name="flag" id="flag" value="">
 				<input type="hidden" name="app_status" id="app_status" value="<?php echo $appStatus;?>">
 				<input type="hidden" name="mgr_levels" id="mgr_levels" value="<?php echo $this->mgrLevels;?>">
+
+                <input type="checkbox" name="agreement" style="margin-left:1%; margin-bottom:15px;" id="requiredAgreementCheckbox"/>
+                <label for="agreement" id="requiredAgreementLabel">I agree with...</label><br/>
+
 				<input type="button" class="margin_l_1" value="Save As Draft" onclick="saveAppraisalDetails('later');"/>
 				<input type="button" value="Send to L1 Manager" onclick="saveAppraisalDetails('submit');"/>
 				<button onclick="window.location.href='<?php echo BASE_URL; ?>appraisalself';" type="button" >Clear</button>

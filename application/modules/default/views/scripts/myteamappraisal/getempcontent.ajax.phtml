@@ -307,6 +307,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
     </div>
     <?php if(empty($this->history_flag)) { ?>            
     <div class="new-form-ui-submit">
+        <input type="checkbox" name="agreement" style="margin-left:1%; margin-bottom:15px;" id="requiredAgreementCheckbox"/>
+        <label for="agreement" id="requiredAgreementLabel">I agree with...</label><br/>
         <input type="button" name="btn_submit_<?php echo $main_key;?>" id="idbtn_submit_<?php echo $main_key;?>" value="Submit" />
         <input type="button" name="btn_draft_<?php echo $main_key;?>" id="idbtn_draft_<?php echo $main_key;?>" value="Save as Draft" />
         <input type="button" name="btn_cancel_<?php echo $main_key;?>" id="idbtn_cancel_<?php echo $main_key;?>" value="Cancel" onclick="cancel_accordian(this.id,<?php echo $main_key;?>);"/>
@@ -437,6 +439,15 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             }
         });
 
+        if (!$('input#requiredAgreementCheckbox').is(':checked')) {
+            req_count++;
+            $('#requiredAgreementLabel').css({'color':'red', 'font-weight':'bold'});
+            errorarray.push(6);
+        } else {
+            $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
+        }
+
+
 	    if(req_count == 0)
 	    {
             var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
@@ -455,17 +466,17 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 	    {
 	    	jQuery.each( errorarray, function( i, val ) {
           	  if(val==1)
-          	    html+="<span class='alert_info_span'>"+(i+1)+". Please select manager rating.</span>";
+          	        html+="<span class='alert_info_span'>"+(i+1)+". Please select manager rating.</span>";
           	  else if(val==2)
-          		html+="<span class='alert_info_span'>"+(i+1)+". Please enter manager comments.</span>";
+          		    html+="<span class='alert_info_span'>"+(i+1)+". Please enter manager comments.</span>";
           	  else if(val==3)
             		html+="<span class='alert_info_span'>"+(i+1)+". Please select ratings.</span>"; 
           	  else if(val==4)
             		html+="<span class='alert_info_span'>"+(i+1)+". Please enter comments.</span>"; 
           	  else if(val==5)
-            		html+="<span class='alert_info_span'>"+(i+1)+". Please select ratings for skills.</span>"; 		
-              else if(val==7)
-                    html+="<span class='alert_info_span'>"+(i+1)+". Please select achievement ratings.</span>";
+            		html+="<span class='alert_info_span'>"+(i+1)+". Please select ratings for skills.</span>";
+              else if(val==6)
+                    html+="<span class='alert_info_span'>"+(i+1)+". Please click on \"I agree with...\" button.</span>";
             });
           jAlert(html);    
 	    	return false;

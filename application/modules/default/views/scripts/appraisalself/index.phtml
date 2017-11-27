@@ -246,10 +246,12 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                     </td>
                                                 <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                     <td>
-                                                        No rating yet - only for managers.
+                                                        <div><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></div>
+                                                        <div><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></div>
+                                                        <div><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "No rating/comment yet - only for managers";} ?></div>
                                                     </td>
                                                     <td>
-                                                        No comment yet - only for managers.
+                                                        No manager rating/comment yet.
                                                     </td>
                                                 <?php } ?>
 											<?php }else{?>

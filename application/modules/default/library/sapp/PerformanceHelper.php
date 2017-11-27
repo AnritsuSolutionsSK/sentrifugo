@@ -173,8 +173,8 @@ class sapp_PerformanceHelper
                                  case QUESTION_TYPE_OBJECTIVE:
                                      $mgrcheck = 'checked';
                                      $mgrrate = 'checked';
-                                     $empratcheck = 'onclick="return false"';
-                                     $empcmntcheck = '';
+                                     $empratcheck = 'checked';
+                                     $empcmntcheck = 'checked';
                                      break;
                              }
 

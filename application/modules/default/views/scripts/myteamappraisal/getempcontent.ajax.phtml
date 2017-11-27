@@ -155,7 +155,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <?php } else { ?>
                                         <div class="rating_text">(Not available to employees)</div>
                                 <?php }} elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <div class="rating_text">(Not available to employees)</div>
+                                        <div class="rating_text"><?php echo $employee_response[$ques['question_id']]['achievement'];?></div>
+                                        <?php echo $employee_response[$ques['question_id']]['comment']; ?>
                                 <?php } ?>
 							</td>
                             <?php if(empty($this->history_flag)) {?>

@@ -68,29 +68,69 @@ if(empty($this->check_ratings_exists)) { ?>
 		    $('.appri_textarea').each(function(){
                 var qval = $(this).val();
                 var qid = $(this).prop('id');
-                if(qval == '')
+
+                var errorMsg = '';
+                var errorNum = '';
+
+                if(qclass.indexOf('objective_text') != -1){
+                    errorMsg = 'Please enter objectives.';
+                    errorNum = 3;
+                } else {
+                    errorMsg = 'Please enter comments.';
+                    errorNum = 2;
+                }
+
+                if(qval == '' && qclass.indexOf('app_req_field') != -1)
+
                 {
 					 	req_count++;
-	                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>Please enter comments.</span>");
-	                    if ($.inArray(2, errorarray) == -1) {
-	                    	errorarray.push(2);
+	                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>"+errorMsg+"</span>");
+	                    if ($.inArray(errorNum, errorarray) == -1) {
+	                    	errorarray.push(errorNum);
 	                    }
 					
                 }
             });
+
+		    $('select.select_field').each(function(){
+                var qclass = $(this).prop('class');
+                var qval = $(this).val();
+                var qid = $(this).prop('id');
+
+                var errorNum = 4;
+		        var errorMsg = "Please select achievement rating.";
+
+                if(qval == '' && qclass.indexOf('app_req_field') != -1)
+                {
+                    req_count++;
+                    $('#'+qid).parent().append("<span class='errors errors_"+qid+"' id='err-"+qid+"'>"+errorMsg+"</span>");
+                    if ($.inArray(errorNum, errorarray) == -1) {
+                        errorarray.push(errorNum);
+                    }
+                }
+            });
+            
 		    if(req_count == 0)
 		    	return true;
 		    else
 		    {
-		    	// jQuery.each( errorarray, function( i, val ) {
-              	  // if(val==1)
-              	    // html+="<span class='alert_info_span'>"+(i+1)+". Please select rating.</span>";
-              	  // else if(val==2)
-              		// html+="<span class='alert_info_span'>"+(i+1)+". Please enter comments.</span>";  
-              	// });
-              // jAlert(html);    
-		    	return false;
-		    }	
+		    	 jQuery.each( errorarray, function( i, val ) {
+              	   if(val==1)
+              	     html+="<span class='alert_info_span'>"+(i+1)+". Please select rating.</span>";
+              	   else if(val==2)
+              		 html+="<span class='alert_info_span'>"+(i+1)+". Please enter comments.</span>";
+                   else if(val==3)
+                       html+="<span class='alert_info_span'>"+(i+1)+". Please enter objectives.</span>";
+                   else if(val==4)
+                       html+="<span class='alert_info_span'>"+(i+1)+". Please select achievement ratings.</span>";
+              	 });
+		    }
+		    if(html == ''){
+		        return true;
+            } else{
+                jAlert(html);
+                return false;
+            }
 		}else{
 			return true;
 		}

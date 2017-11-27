@@ -110,14 +110,7 @@ if(empty($this->check_ratings_exists)) { ?>
                     }
                 }
             });
-            
 
-            if (!$('input#requiredAgreementCheckbox').is(':checked')) {
-                req_count++;
-                $('#requiredAgreementLabel').css({'color':'red', 'font-weight':'bold'});
-            } else {
-                $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
-            }
             
 		    if(req_count == 0)
 		    	return true;

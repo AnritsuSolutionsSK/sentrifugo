@@ -437,15 +437,6 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             }
         });
 
-        if (!$('input#requiredAgreementCheckbox').is(':checked')) {
-            req_count++;
-            $('#requiredAgreementLabel').css({'color':'red', 'font-weight':'bold'});
-            errorarray.push(6);
-        } else {
-            $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
-        }
-
-
 	    if(req_count == 0)
 	    {
             var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";

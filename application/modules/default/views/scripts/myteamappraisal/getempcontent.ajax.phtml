@@ -438,9 +438,18 @@ if(count($data) > 0 && !empty($data['rating_arr']))
         });
 
 	    if(req_count == 0)
-	    {    
-	    	$.blockUI({ width:'50px',message: $("#spinner").html() });
-        	$('#idfrm_manager_response_'+key).submit();
+	    {
+            var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
+            jConfirm(msg, "I agree", function(resp) {
+                if(resp){
+                    $.blockUI({ width:'50px',message: $("#spinner").html() });
+                    $('#idfrm_manager_response_'+key).submit();
+                } else {
+                    jAlert("You must agree to continue.", "Info");
+                    return false;
+                }
+            });
+
 	    }	
 	    else
 	    {

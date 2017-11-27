@@ -609,6 +609,8 @@ defined('QUESTION_TYPE_RATINGONLY')|| define('QUESTION_TYPE_RATINGONLY', 3);
 defined('QUESTION_TYPE_OBJECTIVE')|| define('QUESTION_TYPE_OBJECTIVE', 4);
 
 defined('REQUIRED_OBJECTIVES_COUNT') || define('REQUIRED_OBJECTIVES_COUNT', 1);
+
+defined('APPRAISAL_AGREEMENT_TEXT') || define('APPRAISAL_AGREEMENT_TEXT', 'The information I provided when filling in the appraisal are filled in truly and I agree with them to be processed for the purposes of Anritsu performance review.');
 //==========================END FOR APPRAISALS CONSTANTS=============================
  
 

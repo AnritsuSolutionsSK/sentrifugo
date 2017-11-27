@@ -122,7 +122,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                         <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
-                                    <?php } else { ?>
+                                    <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
+                                        <span class="appri_ques"><?php echo $ques['question']; ?></span>
+                                    <?php }else { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                         <span class="appri_desc"><?php echo $ques['description']; ?></span>
                                     <?php } ?>
@@ -615,6 +617,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                         <td><div>
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                 <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
+                            <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
+                                <span class="appri_ques"><?php echo $ques['question']; ?></span>
                             <?php } else { ?>
                                 <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                 <span class="appri_desc"><?php echo $ques['description']; ?></span>

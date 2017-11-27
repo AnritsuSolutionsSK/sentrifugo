@@ -81,7 +81,7 @@ if($this->ermsg == '')
 			<div class="new-form-ui clearb">
 				<label class="required">Rating Text <img class="tooltip" title="Special characters allowed are - ? ' . , / # @ $ & * ( ) !" src="<?php echo $this->baseUrl().'/public/media/';?>images/help.png"></label>
 				<div class="division">
-					<input type='text' maxlength='30' id='rating_text_<?php echo $i; ?>' name='rating_text_<?php echo $i; ?>' value="" onblur='validateratingtext(this)' >
+					<input type='text' maxlength='50' id='rating_text_<?php echo $i; ?>' name='rating_text_<?php echo $i; ?>' value="<?php echo $defaultRatings[$i]?>" onblur='validateratingtext(this)' >
 				</div> 
 			</div>
 		<?php }}?>

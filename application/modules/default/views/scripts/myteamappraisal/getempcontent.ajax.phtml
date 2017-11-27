@@ -112,8 +112,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 						$qachievement = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['achievement'])?$manager_response[$ques['question_id']]['achievement']:''):"";
                         $qobjective = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['objective'])?$manager_response[$ques['question_id']]['objective']:''):"";
                         $priv_data = $qpData[$ques['question_id']];
+                        if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE && $employee_response[$ques['question_id']]['objective'] == '')
+                            $rowCss = "style=\"display:none\"";
+                        else
+                            $rowCss = "";
 ?>
-						<tr>
+						<tr <?php echo $rowCss; ?>>
 							<td>
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
@@ -584,8 +588,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     $qachievement = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['achievement'])?$manager_response[$ques['question_id']]['achievement']:''):"";
                     $qobjective = isset($manager_response[$ques['question_id']])?(isset($manager_response[$ques['question_id']]['objective'])?$manager_response[$ques['question_id']]['objective']:''):"";
                     $priv_data = $qpData[$ques['question_id']];
-?>
-                    <tr>
+                    if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE && $employee_response[$ques['question_id']]['objective'] == '')
+                        $rowCss = "style=\"display:none\"";
+                    else
+                        $rowCss = "";
+                    ?>
+                    <tr <?php echo $rowCss; ?>>
                         <td><div>
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                 <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
@@ -669,7 +677,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } ?>
                             </td>
                         <?php } ?>
-                        </tr>
+                    </tr>
 <?php                    
                 }
 ?>

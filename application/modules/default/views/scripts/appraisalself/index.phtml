@@ -192,8 +192,12 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 									if($cd['id'] == $qd['pa_category_id'])
 									{
 										$tmpQuestionsFlag = 1;
-							?>						
-										<tr>
+                                        if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE && $empRes[$qd['id']]['objective'] == '')
+                                            $rowCss = "style=\"display:none\"";
+                                        else
+                                            $rowCss = "";
+                                        ?>
+                                        <tr <?php echo $rowCss; ?>>
 											<td>
 												<div>
                                                     <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>

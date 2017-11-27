@@ -92,12 +92,6 @@ if(empty($this->check_ratings_exists)) { ?>
                 }
             });
 
-            if (!$('input#requiredAgreementCheckbox').is(':checked')) {
-                req_count++;
-                $('#requiredAgreementLabel').css({'color':'red', 'font-weight':'bold'});
-            } else {
-                $('#requiredAgreementLabel').css({'color':'black', 'font-weight':'normal'});
-            }
 		    $('select.select_field').each(function(){
                 var qclass = $(this).prop('class');
                 var qval = $(this).val();
@@ -416,9 +410,6 @@ if(empty($this->check_ratings_exists)) { ?>
 				<input type="hidden" name="flag" id="flag" value="">
 				<input type="hidden" name="app_status" id="app_status" value="<?php echo $appStatus;?>">
 				<input type="hidden" name="mgr_levels" id="mgr_levels" value="<?php echo $this->mgrLevels;?>">
-
-                <input type="checkbox" name="agreement" style="margin-left:1%; margin-bottom:15px;" id="requiredAgreementCheckbox"/>
-                <label for="agreement" id="requiredAgreementLabel">I agree with...</label><br/>
 
 				<input type="button" class="margin_l_1" value="Save As Draft" onclick="saveAppraisalDetails('later');"/>
 				<input type="button" value="Send to manager" onclick="saveAppraisalDetails('submit');"/>

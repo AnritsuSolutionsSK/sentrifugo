@@ -623,6 +623,8 @@ defined('APPRAISAL_RATING_10') || define('APPRAISAL_RATING_10', '');
 defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
 
 defined('REQUIRED_OBJECTIVES_COUNT') || define('REQUIRED_OBJECTIVES_COUNT', 1);
+
+defined('APPRAISAL_AGREEMENT_TEXT') || define('APPRAISAL_AGREEMENT_TEXT', 'The information I provided when filling in the appraisal are filled in truly and I agree with them to be processed for the purposes of Anritsu performance review.');
 //==========================END FOR APPRAISALS CONSTANTS=============================
 /*
  * USER CONSTANTS GOES FROM HERE

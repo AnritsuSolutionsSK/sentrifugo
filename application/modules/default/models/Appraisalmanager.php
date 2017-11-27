@@ -382,12 +382,17 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
             {
                 $skill_arr[$skill['id']] = $skill['skill_name'];
             }
-            
+
+            $manager_name_query = "select userfullname from main_users where id='".$manager_id."'";
+            $manager_name_result = $db->query($manager_name_query)->fetchAll();
+            $manager_name = $manager_name_result[0]['userfullname'];
+
             $final_arr['skill_arr'] = $skill_arr;
             $final_arr['manager_response'] = $manager_response;
             $final_arr['employee_final_response'] = $employee_final_response;
             $final_arr['ratings_data'] = $result;
             $final_arr['edit_flag'] = $edit_flag;
+            $final_arr['manager_name'] = $manager_name;
             //echo "<pre>";print_r($final_arr);echo "</pre>";
         }
         return $final_arr;

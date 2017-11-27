@@ -287,7 +287,9 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                         <?php } else { ?>
                                                             <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];} ?></span>
                                                         <?php } ?>
-                                                    <?php } else {?>
+                                                    <?php } else if($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){?>
+                                                        <span class="appri_ques"><?php echo $qd['question'];?></span>
+													<?php } else { ?>
                                                         <span class="appri_ques"><?php echo $qd['question'];?></span>
                                                         <span class="appri_desc"><?php echo $qd['description'];?></span>
 													<?php } ?>

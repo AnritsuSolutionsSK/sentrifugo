@@ -88,6 +88,7 @@
                                 $achievement = false;
                                 $rating = false;
                                 $comment = false;
+                                $objective = false;
                                 foreach($values as $value){
                                     if(isset($value['question_type']) && in_array($value['question_type'],  array(QUESTION_TYPE_COMMENT_ACHIEVEMENT, QUESTION_TYPE_OBJECTIVE))){
                                         $achievement = true;
@@ -97,6 +98,9 @@
                                     }
                                     if(isset($value['question_type']) && in_array($value['question_type'], array(QUESTION_TYPE_COMMENT_RATING, QUESTION_TYPE_COMMENTONLY, QUESTION_TYPE_COMMENT_ACHIEVEMENT, QUESTION_TYPE_OBJECTIVE)) ){
                                         $comment = true;
+                                    }
+                                    if(isset($value['question_type']) && $value['question_type']==QUESTION_TYPE_OBJECTIVE){
+                                        $objective = true;
                                     }
                                 }
                                 if($achievement)
@@ -110,7 +114,24 @@
                                         <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Employee Comment</strong></font></td>
                                         <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Manager Comment</strong></font></td>
                                     </tr>
-                                <?php } elseif($achievement){ ?>
+                                <?php } elseif($objective){ ?>
+                                    <tr>
+                                        <td colspan="1"></td>
+                                        <td colspan="4" align="center"><font face="'Arial', sans-serif" size="2">Employee</font></td>
+                                        <td colspan="4" align="center"><font face="'Arial', sans-serif" size="2">Manager</font></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>NA</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>PA</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>A</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>Comments</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>NA</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>PA</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>A</strong></font></td>
+                                        <td align="center"><font face="'Arial', sans-serif" size="2"><strong>Comments</strong></font></td>
+                                    </tr>
+                                <?php } else if($achievement){ ?>
                                     <tr>
                                         <td></td>
                                         <td align="center"><font face="'Arial', sans-serif" size="2"><strong>NA</strong></font></td>
@@ -128,30 +149,48 @@
                                         $qcomment = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['comment']:"";
                                         $qachievement = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['achievement']:"";
 
-                                        $qobjective = (isset($v['question_id']) && isset($manager_response[$v['question_id']]))?$manager_response[$v['question_id']]['objective']:"";
+                                        $emprating = (isset($v['question_id']) && isset($employee_response[$v['question_id']]))?$employee_response[$v['question_id']]['rating']:"";
+                                        $empcomment = (isset($v['question_id']) && isset($employee_response[$v['question_id']]))?$employee_response[$v['question_id']]['comment']:"";
+                                        $empachievement = (isset($v['question_id']) && isset($employee_response[$v['question_id']]))?$employee_response[$v['question_id']]['achievement']:"";
+                                        $empobjective = (isset($v['question_id']) && isset($employee_response[$v['question_id']]))?$employee_response[$v['question_id']]['objective']:"";
+
                                         ?>
                                     <tr>
-                                        <?php if($v['question_type'] == QUESTION_TYPE_OBJECTIVE) { ?>
-                                            <td width="400"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
-                                                <br>
-
-                                                <font face="'Arial', sans-serif" size="1"><?php echo $qobjective;?></font>
-                                            </td>
-                                            <td width="30"  valign="top" align="center">
-                                                <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
-                                            </td>
-                                            <td width="30"  valign="top" align="center">
-                                                <input type="checkbox" <?php if($qachievement == "Partially Achieved"){echo "checked='checked'";} ?>/>
-                                            </td>
-                                            <td width="30"  valign="top" align="center">
-                                                <input type="checkbox" <?php if($qachievement == "Achieved"){echo "checked='checked'";} ?>/>
-                                            </td>
-                                            <td width="200" valign="top">
-                                                <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
-                                                    <font face="'Arial', sans-serif" size="2"><?php echo !empty($qcomment)?$qcomment:'';?></font>
-                                                <?php } ?>
-                                            </td>
-                                        <?php } else if($rating && $comment && !$achievement){ ?>
+                                        <?php if($v['question_type'] == QUESTION_TYPE_OBJECTIVE) {
+                                            if($empobjective != ''){ ?>
+                                                <td width="200"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
+                                                    <br>
+                                                    <font face="'Arial', sans-serif" size="1"><?php echo $empobjective;?></font>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($empachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($empachievement == "Partially Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($empachievement == "Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="210" valign="top">
+                                                    <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
+                                                        <font face="'Arial', sans-serif" size="2"><?php echo !empty($empcomment)?$empcomment:'';?></font>
+                                                    <?php } ?>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($qachievement == "Not Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($qachievement == "Partially Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="30"  valign="top" align="center">
+                                                    <input type="checkbox" <?php if($qachievement == "Achieved"){echo "checked='checked'";} ?>/>
+                                                </td>
+                                                <td width="210" valign="top">
+                                                    <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
+                                                        <font face="'Arial', sans-serif" size="2"><?php echo !empty($qcomment)?$qcomment:'';?></font>
+                                                    <?php } ?>
+                                                </td>
+                                        <?php }} else if($rating && $comment && !$achievement){ ?>
                                             <td width="300"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
                                                 <br>
                                                 <br>
@@ -203,11 +242,11 @@
                                             $managerComment = empty($qcomment)?'':$qcomment;
                                             $employeeComment = (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';
                                             if(strlen($managerComment) > 0 && strlen($employeeComment) > 0) { ?>
-                                                <td valign="top" style="height:100px;">
-                                                    Manager: <font face="'Arial', sans-serif" size="1"><?php echo $managerComment; ?></font>
+                                                <td valign="top" width="50%" style="height:100px;">
+                                                    <font face="'Arial', sans-serif" size="2">Employee: <?php echo $employeeComment; ?></font>
                                                 </td>
-                                                <td valign="top" style="height:100px ;">
-                                                    Employee: <font face="'Arial', sans-serif" size="1"><?php echo $employeeComment; ?></font>
+                                                <td valign="top" width="50%" style="height:100px;">
+                                                    <font face="'Arial', sans-serif" size="2">Manager: <?php echo $managerComment; ?></font>
                                                 </td>
                                         <?php } elseif(strlen($managerComment) > 0){ ?>
                                                 <td valign="top" style="height:100px ;">
@@ -290,7 +329,40 @@
                 }
             }
         }
+    $empAgreed = false;
+    $manAgreed = false;
+    switch($this->empAppraisalData[0]['appraisal_status']){
+        case 'Pending employee ratings':
+            break;
+        case 'Pending L1 ratings':
+            $empAgreed = true;
+            break;
+        default:
+            $empAgreed = true;
+            $manAgreed = true;
+            break;
+    }
     ?>
+    <tr>
+        <td>
+            <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse; margin-top: 10px;">
+                <tr>
+                    <td valign="top" style="height:50px ;">
+                        <input type="checkbox" <?php if($empAgreed) echo "checked='checked'"; ?>/>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->empAppraisalData[0]['userfullname']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="height:50px ;" >
+                        <input type="checkbox" <?php if($manAgreed) echo "checked='checked'"; ?>/>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->data['manager_name']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        </font>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 </body>
 

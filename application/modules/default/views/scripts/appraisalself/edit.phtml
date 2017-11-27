@@ -152,9 +152,16 @@ if(empty($this->check_ratings_exists)) { ?>
 	}
 	function saveAppraisalDetails(flag){
 		if(validateAppraisalForm(flag)){
-			$.blockUI({ width:'50px',message: $("#spinner").html() });
-			$('#flag').val(flag);
-			$('#appraisalform').submit();
+            var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
+            jConfirm(msg, "Confirmation", function(r) {
+                if(r) {
+                    $.blockUI({ width:'50px',message: $("#spinner").html() });
+                    $('#flag').val(flag);
+                    $('#appraisalform').submit();
+                } else {
+                    jAlert("You must agree to continue.", "Info");
+                }
+            });
 		}
 	}
 </script>
@@ -285,7 +292,9 @@ if(empty($this->check_ratings_exists)) { ?>
                                                                 echo "app_non_req_field";
                                                             } ?>
                                                     " name="emp_question_objectives[<?php echo $qd['id'];?>]" id="idquestion_objectives_<?php echo $empRatData[0]['employee_id'];?>_<?php echo $qd['id'];?>" style="height:100px"><?php if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];}?></textarea>
-                                                <?php } else { ?>
+                                                <?php } else if($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){ ?>
+                                                    <span class="appri_ques"><?php echo $qd['question'];?></span>
+                                                <?php }else { ?>
                                                     <span class="appri_ques"><?php echo $qd['question'];?></span>
                                                     <span class="appri_desc"><?php echo $qd['description'];?></span>
                                                 <?php } ?>

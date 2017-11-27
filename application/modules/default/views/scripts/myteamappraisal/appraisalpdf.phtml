@@ -272,7 +272,40 @@
                 }
             }
         }
+    $empAgreed = false;
+    $manAgreed = false;
+    switch($this->empAppraisalData[0]['appraisal_status']){
+        case 'Pending employee ratings':
+            break;
+        case 'Pending L1 ratings':
+            $empAgreed = true;
+            break;
+        default:
+            $empAgreed = true;
+            $manAgreed = true;
+            break;
+    }
     ?>
+    <tr>
+        <td>
+            <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse; margin-top: 10px;">
+                <tr>
+                    <td valign="top" style="height:50px ;">
+                        <input type="checkbox" <?php if($empAgreed) echo "checked='checked'"; ?>/>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->empAppraisalData[0]['userfullname']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        </font>
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top" style="height:50px ;" >
+                        <input type="checkbox" <?php if($manAgreed) echo "checked='checked'"; ?>/>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->data['manager_name']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        </font>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </table>
 </body>
 

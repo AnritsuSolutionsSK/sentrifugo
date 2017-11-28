@@ -165,7 +165,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
             foreach ($catData as $cd) { ?>
 			    <li><a href="#tabs-<?php echo $cd['id'];?>"><?php echo $cd['category_name'];?></a></li>
 		    <?php	} ?>
-            <li><a href="#tabs-final">Final Feedback</a></li>
+            <li><a href="#tabs-final">Final Employee Feedback</a></li>
 
 			<?php if(!in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1)) && !empty($skill_res)){echo '<li><a href="#tabs-skills">Skill Set</a></li>';} echo '</ul>'; ?>
 
@@ -289,7 +289,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="clear:both;" class="employee_appraisal-table">
                 <thead>
                     <tr>
-                        <th>Final Feedback (optional)</th>
+                        <th>Final Employee Feedback (optional)</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -543,8 +543,8 @@ class Default_CronjobController extends Zend_Controller_Action
          {
             foreach($active_appraisal_Arr as $appval)
             {
-                if($appval['managers_due_date'])
-                    $manager_due_date = new DateTime($appval['managers_due_date']);
+                if($appval['reporting_managers_due_date'])
+                    $manager_due_date = new DateTime($appval['reporting_managers_due_date']);
                 else
                     $manager_due_date = '';
                 if($appval['employees_due_date'])
@@ -631,7 +631,7 @@ class Default_CronjobController extends Zend_Controller_Action
                                         'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
                                             <span style='color:#3b3b3b;'>Dear manager, </span><br />
                                             <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal submission is pending.</div>
-                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by <b>".$emp_due_date->format("d.m.")."</b></div>
+                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by <b>".$manager_due_date->format("d.m.")."</b></div>
                                             </div> ",
                                         'cron'=>'yes');
                                     sapp_PerformanceHelper::saveCronMail($optionArr);

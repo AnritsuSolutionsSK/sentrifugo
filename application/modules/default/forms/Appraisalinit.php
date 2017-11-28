@@ -183,8 +183,11 @@ class Default_Form_Appraisalinit extends Zend_Form
         $mgr_due_date->setLabel("Managers Due Date");                        
         		
         $emp_due_date = new Zend_Form_Element_Text('employee_due_date');
-        $emp_due_date->setLabel("Employees Due Date");                        
-        		   
+        $emp_due_date->setLabel("Employees Due Date");
+
+        $rep_mgr_due_date = new Zend_Form_Element_Text('reporting_manager_due_date');
+        $rep_mgr_due_date->setLabel("Reporting Managers Due Date");
+
         if($enable_to_val == '' || $enable_to_val == 1)
         {
             $mgr_due_date->setRequired(true);
@@ -194,6 +197,8 @@ class Default_Form_Appraisalinit extends Zend_Form
         {
             $emp_due_date->setRequired(true);
             $emp_due_date->addValidator('NotEmpty', false, array('messages' => 'Please select employees due date'));
+            $rep_mgr_due_date->setRequired(true);
+            $rep_mgr_due_date->addValidator('NotEmpty', false, array('messages' => 'Please select reporting managers due date'));
         }
         $management_appraisal = new Zend_Form_Element_Checkbox('management_appraisal');
         $management_appraisal->setLabel("Consider management");  
@@ -223,12 +228,12 @@ class Default_Form_Appraisalinit extends Zend_Form
         if($loginuserRole != SUPERADMINROLE && $loginuserGroup != MANAGEMENT_GROUP && $loginuserGroup != HR_GROUP)
         {                    
             $this->addElements(array($appraisal_ratings,$management_appraisal,$id,$appraisal_period,$from_year,$to_year,$businessunit_id,$department_id,$businessunit_name,$department_name,
-                                    $appraisal_mode,$category_id,$status,$eligibility,$eligibility_hidden,$eligibility_value,$eligibilityflag,$enable,$mgr_due_date,$emp_due_date,$app_period_hid,$submit));
+                                    $appraisal_mode,$category_id,$status,$eligibility,$eligibility_hidden,$eligibility_value,$eligibilityflag,$enable,$mgr_due_date,$emp_due_date,$rep_mgr_due_date,$app_period_hid,$submit));
         }
         else
         {   
             $this->addElements(array($appraisal_ratings,$management_appraisal,$id,$appraisal_period,$from_year,$to_year,$businessunit_id,$department_id,
-                                    $appraisal_mode,$category_id,$status,$eligibility,$eligibility_hidden,$eligibility_value,$eligibilityflag,$enable,$mgr_due_date,$emp_due_date,$app_period_hid,$submit));
+                                    $appraisal_mode,$category_id,$status,$eligibility,$eligibility_hidden,$eligibility_value,$eligibilityflag,$enable,$mgr_due_date,$emp_due_date,$rep_mgr_due_date,$app_period_hid,$submit));
         }
         $this->setElementDecorators(array('ViewHelper'));
     }

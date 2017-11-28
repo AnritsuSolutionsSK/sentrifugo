@@ -152,16 +152,16 @@ echo $status[$this->data['status']];
             	</select>
     </td>
 
-	<td><span class="head_txt">Managers' Due Date </span></td>
+	<td><span class="head_txt">Reporting Managers' Due Date </span></td>
 	<td>
 	
 		<?php if($this->data['enable_step'] == 1){?>
 		<div class="new-form-ui" style="height: auto;">
-			<div class="division"><input type="text" value="<?php echo sapp_Global::change_date($this->data['managers_due_date'],'view');?>" id="managers_due_date" name="managers_due_date" >
+			<div class="division"><input type="text" value="<?php echo sapp_Global::change_date($this->data['reporting_managers_due_date'],'view');?>" id="reporting_manager_due_date" name="reporting_manager_due_date" >
 			</div>
 		</div>
 		<?php } else {
-			echo sapp_Global::change_date($this->data['managers_due_date'],'view');
+			echo sapp_Global::change_date($this->data['reporting_managers_due_date'],'view');
 		}
 			?>
 			

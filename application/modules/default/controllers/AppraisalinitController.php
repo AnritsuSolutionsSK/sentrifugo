@@ -1124,6 +1124,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                 $appraisal_ratings = $this->_request->getParam('appraisal_ratings',null);
                 $managers_due_date = $this->_request->getParam('managers_due_date');
                 $employee_due_date = $this->_request->getParam('employee_due_date');
+                $reporting_manager_due_date = $this->_request->getParam('reporting_manager_due_date');
                 $hid_performance_app_flag = $this->_request->getParam('hid_performance_app_flag');
                 $hid_appraisal_period = $this->_request->getParam('hid_appraisal_period',null);
 				//checking whether the appraisal exists for the given peroid
@@ -1155,6 +1156,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 						'to_year' => $to_year,
 						'managers_due_date' => sapp_Global::change_date($managers_due_date, 'database'),
 						'employees_due_date' => sapp_Global::change_date($employee_due_date, 'database'),
+						'reporting_managers_due_date' => sapp_Global::change_date($reporting_manager_due_date, 'database'),
 						'eligibility'=>($eligibilityflag==1?$eligibility:$eligibility_value),
 						'category_id' => $category_id,
 						'status'=>$status,
@@ -3396,6 +3398,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 		$enablestep = $this->_request->getParam('enablestep');
 		$managers_due_date = $this->_request->getParam('managers_due_date');
 		$employee_due_date = $this->_request->getParam('employee_due_date');
+		$reporting_manager_due_date = $this->_request->getParam('reporting_manager_due_date');
 		$buid = $this->_request->getParam('buid');
 		$perfflag = $this->_request->getParam('perfflag');
 		$deptid = $this->_request->getParam('deptid');
@@ -3405,6 +3408,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 			
 			$initialize_Arr = array('managers_due_date'=>$managers_due_date,
 									'employees_due_date'=>$employee_due_date,
+									'reporting_manager_due_date'=>$reporting_manager_due_date,
 									'enable_step'=>$enablestep,
 									'buid'=>$buid,
 									'perfflag'=>$perfflag,
@@ -3478,6 +3482,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 					                    'enable_step'=>$initialize_Arr['enable_step'],
 					                    'managers_due_date' => sapp_Global::change_date($initialize_Arr['managers_due_date'], 'database'),
 										'employees_due_date' => sapp_Global::change_date($initialize_Arr['employees_due_date'], 'database'),
+										'reporting_managers_due_date' => sapp_Global::change_date($initialize_Arr['reporting_managers_due_date'], 'database'),
 					                    'modifiedby'=>$loginUserId,
 					                    'modifiedby_role'=>$loginuserRole,
 					                    'modifiedby_group'=>$loginuserGroup,

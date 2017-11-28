@@ -121,7 +121,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							<td>
 								<div>
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
+                                        <span class="appri_ques"><?php echo $ques['question'];?></span>
+                                        <span class="appri_desc"><?php echo isset($employee_response[$ques['question_id']]['objective'])?$employee_response[$ques['question_id']]['objective']:'';?></span>
                                     <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                     <?php }else { ?>
@@ -161,7 +162,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <?php } else { ?>
                                         <div class="rating_text">(Not available to employees)</div>
                                 <?php }} elseif($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                        <div class="rating_text"><?php echo $employee_response[$ques['question_id']]['achievement'];?></div>
+                                        <div><span class="rating_txt"><?php echo $employee_response[$ques['question_id']]['achievement'];?></span></div>
                                         <?php echo $employee_response[$ques['question_id']]['comment']; ?>
                                 <?php } ?>
 							</td>
@@ -178,7 +179,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENTONLY){ ?>
                                     <td colspan="2">
                                         <input tabindex="-1" class="app_non_req_field" type="hidden" id="question_rating_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" name="question_rating[<?php echo $ques['question_id'];?>]" value="<?php echo $qrating==""?0:$qrating;?>">
-                                        <textarea onkeyup="removeValidationMessage(this)" <?php if($priv_data['MC'] == 1){echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"';}else{echo 'class="appri_textarea" placeholder="Only for employees." style="background-color:silver" readonly';}?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
+                                        <?php if($priv_data['MC'] == 1){ ?>
+                                            <textarea onkeyup="removeValidationMessage(this)" <?php echo 'class="app_req_field_'.$main_key.' appri_textarea_'.$main_key.' textarea_two_appri"'; ?> name="question_comments[<?php echo $ques['question_id'];?>]" id="idquestion_comments_<?php echo $user_id;?>_<?php echo $ques['question_id'];?>" style="height: 200px;"><?php echo $qcomment;?></textarea>
+                                        <?php } else {echo '(Not available to managers)';}?>
                                     </td>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENT_ACHIEVEMENT){ ?>
                                     <td>
@@ -625,7 +628,8 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                     <tr <?php echo $rowCss; ?>>
                         <td><div>
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                <span class="appri_desc"><?php echo $ques['question']." - ".$employee_response[$ques['question_id']]['objective']; ?></span>
+                                <span class="appri_ques"><?php echo $ques['question'];?></span>
+                                <span class="appri_desc"><?php echo $employee_response[$ques['question_id']]['objective']; ?></span>
                             <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
                                 <span class="appri_ques"><?php echo $ques['question']; ?></span>
                             <?php } else { ?>
@@ -670,7 +674,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                 <?php if($priv_data['ER'] == 1){ ?>
                                     <span class="rating_txt"><?php echo isset($employee_response[$ques['question_id']]['achievement'])?$employee_response[$ques['question_id']]['achievement']:"Not Rated";?></span>
                                 <?php } else { ?>
-                                    <span class="rating_txt">(not applicable)</span>
+                                    <span>(not applicable)</span>
                                 <?php } ?>
                                 <?php if($priv_data['EC'] == 1){ ?>
                                     <br><?php echo $employee_response[$ques['question_id']]['comment'];?>

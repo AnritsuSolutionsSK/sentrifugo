@@ -282,11 +282,8 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 											<td>
 												<div>
                                                     <?php if($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
-                                                        <?php if(in_array($appStatus, array(APP_PENDING_EMP,APP_PENDING_L1))){?>
-                                                            <span class="appri_desc"><?php echo $qd['question']." - ".$empRes[$qd['id']]['objective'];?></span>
-                                                        <?php } else { ?>
-                                                            <span class="appri_desc"><?php echo $qd['question']." - "; if(isset($empRes[$qd['id']]['objective'])){echo $empRes[$qd['id']]['objective'];} ?></span>
-                                                        <?php } ?>
+                                                        <span class="appri_ques"><?php echo $qd['question'];?></span>
+                                                        <span class="appri_desc"><?php echo isset($empRes[$qd['id']]['objective'])?$empRes[$qd['id']]['objective']:'';?></span>
                                                     <?php } else if($qd['pa_type_id'] == QUESTION_TYPE_RATINGONLY){?>
                                                         <span class="appri_ques"><?php echo $qd['question'];?></span>
 													<?php } else { ?>
@@ -333,23 +330,27 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
                                                     </td>
                                                 <?php } elseif($qd['pa_type_id'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                                     <td>
-                                                        <div><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></div>
-                                                        <div><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></div>
-                                                        <div><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "No rating/comment yet - only for managers";} ?></div>
+                                                        <span class="rating_txt"><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></span><br />
+                                                        <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+                                                        <span><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "No rating/comment yet - only for managers";} ?></span>
                                                     </td>
                                                     <td>
-                                                        No manager rating/comment yet.
+                                                        <span>No manager rating/comment yet.</span>
                                                     </td>
                                                 <?php } ?>
 											<?php }else{?>
 												<td>
 													<div>
-														<span  class="appri_numb"><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?></span>
-														<span><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $this->ratingTextDisplay[$empRes[$qd['id']]['rating_id']];}?></span>
+														<span class="appri_numb"><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $ratVal[$empRes[$qd['id']]['rating_id']];}?></span>
+                                                        <span class="rating_txt"><?php if(isset($empRes[$qd['id']]['rating_id']) && isset($ratVal[$empRes[$qd['id']]['rating_id']])){echo $this->ratingTextDisplay[$empRes[$qd['id']]['rating_id']];}?></span>
 													</div>
-                                                    <div><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></div>
-													<div><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></div>
-                                                    <div><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "(not applicable)";} ?></div>
+                                                    <span class="rating_txt"><?php if(isset($empRes[$qd['id']]['achievement'])){echo $empRes[$qd['id']]['achievement'];}?></span>
+                                                    <?php
+                                                        if(isset($empRes[$qd['id']]['achievement']) && $empRes[$qd['id']]['achievement'] != '')
+                                                            echo "<br/>";
+                                                    ?>
+                                                    <span><?php if(isset($empRes[$qd['id']]['comment'])){echo $empRes[$qd['id']]['comment'];}?></span>
+                                                    <span><?php if($priv_data['ER'] == 0 && $priv_data['EC'] == 0){echo "(not applicable)";} ?></span>
 												</td>
 												<td>
 													<div>
@@ -383,7 +384,7 @@ if(isset($this->rowexist) && $this->rowexist == 'norows'){?>
 														?>
 														</span>
 													</div>
-                                                    <div><?php if(isset($mgrRes[$qd['id']]['achievement'])){echo $mgrRes[$qd['id']]['achievement'];}?></div>
+                                                    <span class="rating_txt"><?php if(isset($mgrRes[$qd['id']]['achievement'])){echo $mgrRes[$qd['id']]['achievement'];}?></span>
                                                     <div><?php if(isset($mgrRes[$qd['id']]['comment'])){echo $mgrRes[$qd['id']]['comment'];}?></div>
                                                     <div><?php if($priv_data['MR'] == 0 && $priv_data['MC'] == 0){echo "(not applicable)";} ?></div>
 												</td>

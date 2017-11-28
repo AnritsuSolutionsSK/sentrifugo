@@ -561,8 +561,8 @@ class Default_AppraisalselfController extends Zend_Controller_Action
                     $options['toName'] = $employeeDetailsArr['userfullname'];
                     $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
                                                             <span style='color:#3b3b3b;'>Dear Manager,</span><br />
-                                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'> " . $loginuserFullName . " has finalized the appraisal form.</div>
-                                                            <div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance appraisal</b> account to check the details.</div>
+                                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance review for " . $loginuserFullName . " has now been completed.</div>
+                                                            <div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login to <b>Performance Appraisal</b> account to review the details and print the document.</div>
                                                             </div> ";
                     $mail_id = sapp_Global::_sendEmail($options);
                 }
@@ -575,8 +575,8 @@ class Default_AppraisalselfController extends Zend_Controller_Action
             $options['toName'] = $loginuserFullName;
             $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague,</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank You! Your appraisal form is now successfully finalized.</div>
-														<div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to print it.</div>
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Thank you for finalizing the appraisal form. Your performance review has now been completed. </div>
+														<div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to review the details and print the document.</div>
 														</div> ";
             $mail_id = sapp_Global::_sendEmail($options);
             /**

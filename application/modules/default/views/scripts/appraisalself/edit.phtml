@@ -180,7 +180,7 @@ if(empty($this->check_ratings_exists)) { ?>
 	
 	$appText = '';
 		
-	$appText = $empRatData[0]['appraisal_mode'].' Appraisal'.' ('.utf8_encode(substr($empRatData[0]['appraisal_mode'],0,1)).$empRatData[0]['appraisal_period'].'), '.$empRatData[0]['to_year'];	
+	$appText = $empRatData[0]['appraisal_mode'].' Appraisal'.', '.$empRatData[0]['to_year'];
 	
 	
 	
@@ -209,6 +209,9 @@ if(empty($this->check_ratings_exists)) { ?>
 						<div class="lis_div"><span>Department :</span> <?php echo $empRatData[0]['department_name'];?></div>
 					</div>
 					<div class="appraisal_due_date"><span>Due Date :</span> <?php echo sapp_Global::change_date($empRatData[0]['employees_due_date'],'view');?></div>
+                    <div class="appril_sel_stat_comp_msg">
+                            <span class="label_10">Appraisal Status : </span><div class="appr_completed"><span><?php echo $appStatus; ?></span></div>
+                    </div>
 					<div class="new-form-ui-submit employee_appraisal_submit">
 						<input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
 					</div>

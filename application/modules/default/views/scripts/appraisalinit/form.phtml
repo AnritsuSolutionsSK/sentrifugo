@@ -187,6 +187,12 @@ If the appraisal is directly made available for the employees, they will be able
 					<input type="text" value="<?php echo isset($_POST['employee_due_date'])?$_POST['employee_due_date']:$this->data['employees_due_date'];?>" id="employee_due_date" name="employee_due_date">
 				</div>
 			</div>
+            <div class="new-form-ui hiddenclass" id="rep_manager_due_div">
+                <label class="required">Reporting Managers' Due Date <img class="tooltip" title=" Due date by which the reporting managers should be submitting feedback on their employees' appraisal forms." src="<?php echo DOMAIN;?>public/media/images/help.png"></label>
+                <div class="division">
+                    <input type="text" value="<?php echo isset($_POST['reporting_manager_due_date'])?$_POST['reporting_manager_due_date']:$this->data['reporting_manager_due_date'];?>" id="reporting_manager_due_date" name="reporting_manager_due_date">
+                </div>
+            </div>
 			<div class="select_all_div">
 				<?php if(!empty($this->employmentStatusData)) { ?>
 								<span class="sele_span" id="selectallspan" onclick="displayeligibilitydiv()"> Select All</span>
@@ -234,10 +240,12 @@ function changeduedatetext(value)
 		{
 			$("#emp_due_div").hide();
 			$("#manager_due_div").show();
+            $("#rep_manager_due_div").hide();
 		}else
 		{
 			$("#manager_due_div").hide();
 			$("#emp_due_div").show();
+            $("#rep_manager_due_div").show();
 		}		
 	}
 }
@@ -259,7 +267,7 @@ $(document).ready(function(){
         year_change();
     });
 	
-    $('#managers_due_date,#employee_due_date').datepicker({
+    $('#managers_due_date,#employee_due_date,#reporting_manager_due_date').datepicker({
         showOn:'both',        
         dateFormat: '<?php echo DATEFORMAT_JS;?>',
         buttonImage: "<?php echo $this->baseUrl("public/media/images/cal.jpg");?>",
@@ -376,7 +384,8 @@ if(( $loginuserRole == SUPERADMINROLE || $loginuserGroup == MANAGEMENT_GROUP || 
 			{
 		?>	
 				$("#emp_due_div").removeClass('hiddenclass');
-		<?php 
+				$("#rep_manager_due_div").removeClass('hiddenclass');
+		<?php
 			} 
 			if(!isset($this->data['managers_due_date']) && $this->data['managers_due_date']=='')	
 			{
@@ -401,9 +410,16 @@ if(( $loginuserRole == SUPERADMINROLE || $loginuserGroup == MANAGEMENT_GROUP || 
 ?>		
 			$("#employee_due_date").removeClass('hiddenclass');
 			$("#employee_due_date").parent().append("<span class='errors' id='errors-employee_due_date'>"+'<?php echo $this->msgarray['employee_due_date'];?>'+"</span>");
-<?php 	
-		}	
-?>				
+<?php
+		}
+		if(isset($this->msgarray['reporting_manager_due_date']) && $this->msgarray['reporting_manager_due_date']!='')
+        {
+        ?>
+            $("#reporting_manager_due_date").removeClass('hiddenclass');
+            $("#reporting_manager_due_date").parent().append("<span class='errors' id='errors-reporting_manager_due_date'>"+'<?php echo $this->msgarray['reporting_manager_due_date'];?>'+"</span>");
+        <?php
+        }
+        ?>
 
 
 //Limit 'To Year' upto one year from selected 'From Year' for 'Year Range' form field

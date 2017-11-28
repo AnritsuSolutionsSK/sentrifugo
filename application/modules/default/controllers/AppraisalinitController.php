@@ -1124,6 +1124,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                 $appraisal_ratings = $this->_request->getParam('appraisal_ratings',null);
                 $managers_due_date = $this->_request->getParam('managers_due_date');
                 $employee_due_date = $this->_request->getParam('employee_due_date');
+                $reporting_manager_due_date = $this->_request->getParam('reporting_manager_due_date');
                 $hid_performance_app_flag = $this->_request->getParam('hid_performance_app_flag');
                 $hid_appraisal_period = $this->_request->getParam('hid_appraisal_period',null);
 				//checking whether the appraisal exists for the given peroid
@@ -1155,6 +1156,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 						'to_year' => $to_year,
 						'managers_due_date' => sapp_Global::change_date($managers_due_date, 'database'),
 						'employees_due_date' => sapp_Global::change_date($employee_due_date, 'database'),
+						'reporting_managers_due_date' => sapp_Global::change_date($reporting_manager_due_date, 'database'),
 						'eligibility'=>($eligibilityflag==1?$eligibility:$eligibility_value),
 						'category_id' => $category_id,
 						'status'=>$status,
@@ -2782,11 +2784,11 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> $dept_str";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
                                     $emp_due_date = $date->format('d.m.');
-                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                    $options['message'] .= "with a due date on <b>$emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
@@ -3061,11 +3063,11 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit $dept_str</b>";
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> $dept_str";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
                                     $emp_due_date = $date->format('d.m.');
-                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                    $options['message'] .= "with a due date on <b>$emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
@@ -3340,11 +3342,11 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> $dept_str";
                                 if($appraisaldata['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $appraisaldata['employees_due_date']);
                                     $emp_due_date = $date->format('d.m.');
-                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                    $options['message'] .= "with a due date on <b>$emp_due_date </b>";
                                 }
                                 $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
@@ -3396,6 +3398,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 		$enablestep = $this->_request->getParam('enablestep');
 		$managers_due_date = $this->_request->getParam('managers_due_date');
 		$employee_due_date = $this->_request->getParam('employee_due_date');
+		$reporting_manager_due_date = $this->_request->getParam('reporting_manager_due_date');
 		$buid = $this->_request->getParam('buid');
 		$perfflag = $this->_request->getParam('perfflag');
 		$deptid = $this->_request->getParam('deptid');
@@ -3405,6 +3408,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 			
 			$initialize_Arr = array('managers_due_date'=>$managers_due_date,
 									'employees_due_date'=>$employee_due_date,
+									'reporting_manager_due_date'=>$reporting_manager_due_date,
 									'enable_step'=>$enablestep,
 									'buid'=>$buid,
 									'perfflag'=>$perfflag,
@@ -3478,6 +3482,7 @@ class Default_AppraisalinitController extends Zend_Controller_Action
 					                    'enable_step'=>$initialize_Arr['enable_step'],
 					                    'managers_due_date' => sapp_Global::change_date($initialize_Arr['managers_due_date'], 'database'),
 										'employees_due_date' => sapp_Global::change_date($initialize_Arr['employees_due_date'], 'database'),
+										'reporting_managers_due_date' => sapp_Global::change_date($initialize_Arr['reporting_managers_due_date'], 'database'),
 					                    'modifiedby'=>$loginUserId,
 					                    'modifiedby_role'=>$loginuserRole,
 					                    'modifiedby_group'=>$loginuserGroup,
@@ -3637,15 +3642,15 @@ class Default_AppraisalinitController extends Zend_Controller_Action
                                 $options['bcc'] 	= $totalArr; 
                                 $options['message'] =  "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
 														<span style='color:#3b3b3b;'>Dear colleague</span><br />
-														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> and department <b>$dept_str</b>";
+														<div style='padding:20px 0 0 0;color:#3b3b3b;'>Performance appraisal has been initialized $mail_str for the financial year <b>$to_year</b> for business unit <b>$bunit</b> $dept_str";
                                 if($initialize_Arr['enable_step'] == 2){
                                     $date = DateTime::createFromFormat('Y-m-d', $initialize_Arr['employees_due_date']);
                                     $emp_due_date = $date->format('d.m.');
-                                    $options['message'] .= "<b>with a due date on $emp_due_date </b>";
+                                    $options['message'] .= "with a due date on <b>".$emp_due_date."</b>";
                                 }
                                 $options['message'] .= "</div>
 														<div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to check the details.</div>
-														</div> " ; ;
+														</div>" ; ;
                                 
                                 $mail_id =  sapp_Global::_sendEmail($options); 
                     

@@ -213,7 +213,8 @@ if(empty($this->check_ratings_exists)) { ?>
                             <span class="label_10">Appraisal Status : </span><div class="appr_completed"><span><?php echo $appStatus; ?></span></div>
                     </div>
 					<div class="new-form-ui-submit employee_appraisal_submit">
-						<input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
+                        <a href="<?php echo APPRAISAL_HELP_LINK?>" target="_blank" class="help_link">Help</a>
+                        <input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
 					</div>
 				
 				</div>

@@ -4662,3 +4662,14 @@ border-radius: 16px; cursor:pointer; color:#FFF; font-family: 'Roboto Regular'; 
 
 .span_sermenu {font-style: normal;}
 .text-right {text-align: right; margin-bottom: 10px;}
+
+.help_link{
+	color: #ea7c2e ;
+	text-decoration: none;
+	font-family: 'Roboto Regular', sans-serif;
+	font-size: 14px;
+	float: left;
+	padding: 3px 10px 4px 10px;
+	background:url(../images/rating_help.png) 3px center transparent no-repeat;
+	padding-left: 24px;
+}

@@ -57,7 +57,7 @@ class Default_Plugin_SecurityCheck extends Zend_Controller_Plugin_Abstract
        	   		$front = Zend_Controller_Front::getInstance();
 					
        	   		//$this->_response->setRedirect($front->getBaseUrl().'/welcome');
-				$this->_response->setRedirect(BASE_URL.'welcome');
+				$this->_response->setRedirect(BASE_URL.'appraisalself');
        	   		
 			}
 

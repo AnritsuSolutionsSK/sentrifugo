@@ -625,6 +625,9 @@ defined('APPRAISAL_REMINDER_DAYS')|| define('APPRAISAL_REMINDER_DAYS', 3);
 defined('REQUIRED_OBJECTIVES_COUNT') || define('REQUIRED_OBJECTIVES_COUNT', 1);
 
 defined('APPRAISAL_AGREEMENT_TEXT') || define('APPRAISAL_AGREEMENT_TEXT', 'The information I provided when filling in the appraisal are filled in truly and I agree with them to be processed for the purposes of Anritsu performance review.');
+
+//link for manuals, etc...
+defined('APPRAISAL_HELP_LINK') || define('APPRAISAL_HELP_LINK', 'http://intranet2.eu.anritsu.com/Corporate/HR/General%20HR%20Documents/Forms/AllItems.aspx?RootFolder=%2FCorporate%2FHR%2FGeneral%20HR%20Documents%2FPerformance%20Management%20M4&FolderCTID=0x012000CB9203213D809841AD0668F85E19D56E&View={A891A265-BEA1-4632-A732-7DC02398BEF8}');
 //==========================END FOR APPRAISALS CONSTANTS=============================
 /*
  * USER CONSTANTS GOES FROM HERE

@@ -57,6 +57,10 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 ?>
 	<input type="hidden" name="ratingsmin" id="ratingsmin" value="<?php echo $ratingMin;?>" />
 	<input type="hidden" name="ratingsmax"  id="ratingsmax" value="<?php echo $ratingMax;?>" />
+    <div class="new-form-ui-submit employee_appraisal_submit" style="top: 2px; right: 6px; position: absolute;">
+        <a href="<?php echo APPRAISAL_HELP_LINK?>" target="_blank" class="help_link">Help</a>
+        <input type="button" class="rating_help_txt" value="Ratings Definition" onclick="checkratingstext();"/>
+    </div>
 	<?php if($this->manager_id == $ratings_data['line_manager_1'] || $this->manager_id == $ratings_data['line_manager_2'] || $this->manager_id == $ratings_data['line_manager_3'] || $this->manager_id == $ratings_data['line_manager_4'] || $this->manager_id == $ratings_data['line_manager_5'])
                 {?>
         

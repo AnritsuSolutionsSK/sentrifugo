@@ -490,19 +490,19 @@ $(document).ready(function(){
 		});
 		
 	});
-/*    $(window).resize(function() 
-    {		
-        <?php if($controllerName == "reports" || ($controllerName == "myemployees" && $actionName=='employeereport')){?>
-                checkmainWidthReport();		
-        <?php } else {?>
-                checkmainWidth();
-        <?php } ?>
-
-        $("#scroller").simplyScroll({
-                       auto: false,
-                       speed: 10
-               });
-    });*/
+//    $(window).resize(function()
+//    {
+//        <?php //if($controllerName == "reports" || ($controllerName == "myemployees" && $actionName=='employeereport')){?>
+//                checkmainWidthReport();
+//        <?php //} else {?>
+//                checkmainWidth();
+//        <?php //} ?>
+//
+//        $("#scroller").simplyScroll({
+//                       auto: false,
+//                       speed: 10
+//               });
+//    });
   /* End of Making window responsive */      	
 	// Making forms containing tabs - responsive
 	
@@ -912,9 +912,9 @@ else
                 </a>
                 <div class="logoutdiv" id="logoutid" style="display:none">
                 <div class="arrow-div"></div>
-                <a href="<?php echo $baseUrl; ?>/dashboard/viewprofile" class="first">View Profile</a>
+                <!--<a href="<?php echo $baseUrl; ?>/dashboard/viewprofile" class="first">View Profile</a>
                 <a href="<?php echo $baseUrl; ?>/viewsettings/1">Settings</a>                                                        
-                <a href="<?php echo $baseUrl; ?>/dashboard/changepassword">Change Password</a>
+                <a href="<?php echo $baseUrl; ?>/dashboard/changepassword">Change Password</a>-->
 <?php 
 if($loginuserRole == SUPERADMINROLE)
 {
@@ -922,12 +922,12 @@ if($loginuserRole == SUPERADMINROLE)
         <a href="<?php echo $baseUrl; ?>/dashboard/emailsettings">Mail Settings</a>
 <?php 
 }
-if($controllerName != "reports")
-{
-?>
-    <span id="tourLink">Take Tour</span>
+//if($controllerName != "reports")
+//{
+//?>
+<!--    <span id="tourLink">Take Tour</span>-->
 <?php
-}
+//}
 if($loginuserRole == SUPERADMINROLE)
 {
 ?>

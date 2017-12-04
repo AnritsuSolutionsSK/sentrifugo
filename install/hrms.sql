@@ -2697,7 +2697,8 @@ CREATE TABLE `main_pa_initialization` (
   `from_year` int(11) unsigned DEFAULT NULL COMMENT 'financial year -start',
   `to_year` int(11) unsigned DEFAULT NULL COMMENT 'financial year-end',
   `managers_due_date` date DEFAULT NULL COMMENT 'due date for enable to managers',
-  `employees_due_date` date DEFAULT NULL COMMENT 'due date for enable to employees',
+  `employees_due_date` date DEFAULT NULL COMMENT 'due date for employees in Enable to employees',
+  `reporting_managers_due_date` date DEFAULT NULL COMMENT 'due date for reporting managers in Enable to employees',
   `category_id` varchar(250) DEFAULT NULL COMMENT 'comma separated question category ids',
   `initialize_status` tinyint(1) unsigned DEFAULT NULL COMMENT '1=initlaize,2=initialize later',
   `status` tinyint(1) unsigned DEFAULT NULL COMMENT '1=open, 2= close , 3= Force Close.Appraisal staus for the particular period',
@@ -2775,20 +2776,20 @@ CREATE TABLE `main_pa_questions` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='stores questions for appraisal and feedforward';
 
 insert  into `main_pa_questions`(`id`,`pa_category_id`,`pa_type_id`,`question`,`description`,`module_flag`,`isactive`,`createdby`,`createdby_role`,`createdby_group`,`modifiedby`,`modifiedby_role`,`modifiedby_group`,`createddate`,`modifieddate`,`isused`) values
-  (1,3,4,'Objective',NULL,1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (2,3,4,'Objective',NULL,1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (3,3,4,'Objective',NULL,1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (4,3,4,'Objective',NULL,1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (5,3,4,'Objective',NULL,1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (6,6,1,'Manager\'s feedback','Please provide your feedback on current role, company and environment.',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (7,4,1,'Employee\'s Feedback','Please provide your feedback on current role, company and environment.',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (8,7,2,'Integrity','- can be relied upon to do a job on time and to the specified standard \r\n- demonstrates integrity by leading by example\r\n- can be relied upon to make the right decision',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (9,7,2,'Passion','- demonstrates dedication and perseverance whenever possible \r\n- is enthusiastic about their role and the department they belong to \r\n- is able to understand the vision of the organization',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (10,7,2,'Flexibility','- seeking new challenges and adapting to change whenever possible or required\r\n- willingness to take on new challenges and opportunities \r\n- openness to receiving feedback and direction',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (11,7,2,'Team Spirit','- actively contributes to the development of team/work group goals \r\n- responding to each other and closing “the loop”\r\n- openness with others to communicate with honesty and listen to each other',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (12,7,2,'Efficiency','- sharing knowledge and skills with each other \r\n- trusting by doing what we say we will do and doing it when we said we would do it',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (13,8,3,'Overall Performance Rating','(OVERALL RATING)',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
-  (14,5,1,'Development plan','Please include  feedback on areas of improvement or type of trainings needed.',1,1,1,1,6,1,1,6,'2017-11-01 00:00:00','2017-11-01 00:00:00',1);
+  (1,3,4,'Objective',NULL,1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (2,3,4,'Objective',NULL,1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (3,3,4,'Objective',NULL,1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (4,3,4,'Objective',NULL,1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (5,3,4,'Objective',NULL,1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (6,6,1,'Manager\'s feedback','Please provide your feedback on current role, company and environment.',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (7,4,1,'Employee\'s Feedback','Please provide your feedback on current role, company and environment.',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (8,7,2,'Integrity','- can be relied upon to do a job on time and to the specified standard \r\n- demonstrates integrity by leading by example\r\n- can be relied upon to make the right decision',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (9,7,2,'Passion','- demonstrates dedication and perseverance whenever possible \r\n- is enthusiastic about their role and the department they belong to \r\n- is able to understand the vision of the organization',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (10,7,2,'Flexibility','- seeking new challenges and adapting to change whenever possible or required\r\n- willingness to take on new challenges and opportunities \r\n- openness to receiving feedback and direction',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (11,7,2,'Team Spirit','- actively contributes to the development of team/work group goals \r\n- responding to each other and closing “the loop”\r\n- openness with others to communicate with honesty and listen to each other',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (12,7,2,'Efficiency','- sharing knowledge and skills with each other \r\n- trusting by doing what we say we will do and doing it when we said we would do it',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (13,8,3,'Overall Performance Rating','(OVERALL RATING)',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1),
+  (14,5,1,'Development plan','Please include  feedback on areas of improvement or type of trainings needed.',1,1,1,1,NULL,1,1,NULL,'2017-11-01 00:00:00','2017-11-01 00:00:00',1);
 
 /*Data for the table `main_pa_questions` */
 

@@ -534,7 +534,7 @@ class Default_RolesController extends Zend_Controller_Action
             $options['message'] = $text;
 
             $options['cron'] = 'yes';
-            sapp_Global::_sendEmail($options);
+            //sapp_Global::_sendEmail($options);
         }                
     }
     public function getgroupmenuAction()

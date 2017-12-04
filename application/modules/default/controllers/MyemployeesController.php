@@ -1983,16 +1983,16 @@ class Default_MyemployeesController extends Zend_Controller_Action
 
 				$trDb->commit();
 				
-				// Send email to employee when his details are edited by other user.
-											$options['subject'] = APPLICATION_NAME.': Employee details updated';
-                                            $options['header'] = 'Employee details updated';
-                                            $options['toEmail'] = $emailaddress;  
-                                            $options['toName'] = $userfullname;
-                                            $options['message'] = 'Dear '.$userfullname.', your employee details are updated.';
-                                            $options['cron'] = 'yes';
-                                            if(!empty($id)){
-	                                            sapp_Global::_sendEmail($options);
-                                            }
+//				// Send email to employee when his details are edited by other user.
+//											$options['subject'] = APPLICATION_NAME.': Employee details updated';
+//                                            $options['header'] = 'Employee details updated';
+//                                            $options['toEmail'] = $emailaddress;
+//                                            $options['toName'] = $userfullname;
+//                                            $options['message'] = 'Dear '.$userfullname.', your employee details are updated.';
+//                                            $options['cron'] = 'yes';
+//                                            if(!empty($id)){
+//	                                            sapp_Global::_sendEmail($options);
+//                                            }
 				$this->_redirect('myemployees/edit/id/'.$user_id);
 			}
 			catch (Exception $e)

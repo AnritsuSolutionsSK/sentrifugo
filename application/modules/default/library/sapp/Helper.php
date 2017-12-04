@@ -1012,16 +1012,16 @@ class sapp_Helper
                                         <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: <strong>".$emppassword."</strong></div>
 
                                         <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your Sentrifugo account.</div>
-
-                                </div>";
-                        $options['subject'] = APPLICATION_NAME.': Login Credentials';
-                        $options['header'] = 'Greetings from Sentrifugo';
-                        $options['toEmail'] = $rowData[5];
-                        $options['toName'] = $userfullname;
-                        $options['message'] = $text;
-                        $options['cron'] = 'yes';
-                        $result = sapp_Global::_sendEmail($options);
-                        //end of mail
+                                        </div>";
+                            $options['subject'] = APPLICATION_NAME.': Login Credentials';
+                            $options['header'] = 'Greetings from '.APPLICATION_NAME;
+                            $options['toEmail'] = $rowData[5];
+                            $options['toName'] = $userfullname;
+                            $options['message'] = $text;
+                            //$options['cron'] = 'yes';
+                            $result = sapp_Global::_sendEmail($options);
+                            //end of mail
+                        }
                     }//end of for loop
                     $trDb->commit();
                     return array('status' =>"success",'msg' => 'Employees saved successfully.');

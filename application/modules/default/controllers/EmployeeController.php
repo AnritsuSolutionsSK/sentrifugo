@@ -2023,15 +2023,15 @@ public function editappraisal($id,$performanceflag,$ff_flag)
 				$trDb->commit();
 				
 				// Send email to employee when his details are edited by other user.
-				$options['subject'] = APPLICATION_NAME.': Employee details updated';
-                $options['header'] = 'Employee details updated';
-                $options['toEmail'] = $emailaddress;  
-                $options['toName'] = $userfullname;
-                $options['message'] = 'Dear '.$userfullname.', <br/> Your details has been updated.';
-                $options['cron'] = 'yes';
-                if(!empty($id)){
-                    sapp_Global::_sendEmail($options);
-                }
+//				$options['subject'] = APPLICATION_NAME.': Employee details updated';
+//                $options['header'] = 'Employee details updated';
+//                $options['toEmail'] = $emailaddress;
+//                $options['toName'] = $userfullname;
+//                $options['message'] = 'Dear '.$userfullname.', <br/> Your details has been updated.';
+//                $options['cron'] = 'yes';
+//                if(!empty($id)){
+//                    sapp_Global::_sendEmail($options);
+//                }
 				$this->_redirect('employee/edit/id/'.$user_id);
 			}
 			catch (Exception $e)

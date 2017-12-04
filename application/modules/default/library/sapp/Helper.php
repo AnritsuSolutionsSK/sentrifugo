@@ -1189,7 +1189,6 @@ class sapp_Helper
                                             <div style='padding:20px 0 0 0;color:#3b3b3b;'>If your username is incorrect, contact your HR department immediately.</div>
 
                                             <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
-
                                     </div>";
                             } else{
                                 $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
@@ -1204,13 +1203,12 @@ class sapp_Helper
 
                                     </div>";
                             }
-
                             $options['subject'] = APPLICATION_NAME.': Login Credentials';
                             $options['header'] = 'Greetings from '.APPLICATION_NAME;
                             $options['toEmail'] = $rowData[5];
                             $options['toName'] = $userfullname;
                             $options['message'] = $text;
-                            $options['cron'] = 'yes';
+                            //$options['cron'] = 'yes';
                             $result = sapp_Global::_sendEmail($options);
                             //end of mail
                         }

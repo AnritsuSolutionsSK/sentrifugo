@@ -79,20 +79,20 @@ class Default_Model_Appraisalhistory extends Zend_Db_Table_Abstract
                 
 	}
         
-        public function getTeamAppraisalHistory($sort, $by, $pageNo, $perPage,$searchQuery)
+    public function getTeamAppraisalHistory($sort, $by, $pageNo, $perPage,$searchQuery)
 	{
-                $auth = Zend_Auth::getInstance();
-                if($auth->hasIdentity())
+        $auth = Zend_Auth::getInstance();
+        if($auth->hasIdentity())
 		{
 			$loginUserId = $auth->getStorage()->read()->id;
 		}
                 
-                $where = " $loginUserId in (a.line_manager_1,a.line_manager_2,a.line_manager_3,a.line_manager_4,"
+        $where = " $loginUserId in (a.line_manager_1,a.line_manager_2,a.line_manager_3,a.line_manager_4,"
                     . "a.line_manager_5) and a.isactive = 1 and c.status=2 ";
 		if($searchQuery) {
-                   $where .= " AND ".$searchQuery;
-                }   
-                $appTeamHistoryData = $this->select()
+            $where .= " AND ".$searchQuery;
+		}
+        $appTeamHistoryData = $this->select()
                             ->setIntegrityCheck(false)	
                             ->from(array('a'=>'main_pa_employee_ratings'),array('c.id','a.pa_initialization_id','c.status as statusval',
                                 new Zend_Db_Expr("concat(c.from_year,'-',c.to_year) as fin_year"),'c.appraisal_mode',
@@ -105,9 +105,7 @@ class Default_Model_Appraisalhistory extends Zend_Db_Table_Abstract
                             ->group("c.id") 
                             ->order("$by $sort") 
                             ->limitPage($pageNo, $perPage);
-
-                return $appTeamHistoryData;
-                
+        return $appTeamHistoryData;
 	}
         
         public function getGrid($sort,$by,$perPage,$pageNo,$searchData,$call,$dashboardcall,$flag='',$b='',$c='',$d='')
@@ -169,4 +167,19 @@ class Default_Model_Appraisalhistory extends Zend_Db_Table_Abstract
 		);
 		return $dataTmp;
 	}
+
+	public function getAppraisalHistoryDates($appraisal_id,$manager_id,$employee_id,$flag){
+	    $query = "select * from main_pa_appraisalhistory ah where ah.pa_initialization_id=".$appraisal_id." AND ah.employee_id=".$employee_id." AND isactive=1";
+        $db = Zend_Db_Table::getDefaultAdapter();
+        $data = $db->query($query)->fetchAll();
+	    $result = array('employeeSubmitted' => '', 'managerSubmitted' => '');
+	    foreach($data as $row){
+	        if($row['desc_emp_id'] == $employee_id && $row['description'] == APP_TXT_EMP_SUBMIT)
+	            $result['employeeSubmitted'] = $row['createddate'];
+            else if($row['desc_emp_id'] == $manager_id && $row['description'] == APP_TXT_L1_SUBMIT)
+                $result['managerSubmitted'] = $row['createddate'];
+	        //$result['employeefinalized'] = ;
+        }
+        return $result;
+    }
 }

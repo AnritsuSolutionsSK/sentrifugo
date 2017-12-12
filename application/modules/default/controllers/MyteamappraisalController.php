@@ -699,10 +699,16 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
                 }
             }
             $data = array();
+            $historyData = array();
             if($appraisal_id != '' && $user_id != '' && $flag != '')
             {
-                $model = new Default_Model_Appraisalmanager();
+                $historyModel = new Default_Model_Appraisalhistory();
                 $data = $appraisalManagerModelObj->getempcontent($appraisal_id,$manager_id,$user_id,$flag,$app_config_id);
+                $historyData = $historyModel->getAppraisalHistoryDates($appraisal_id,$manager_id,$user_id,$flag);
+                foreach($historyData as $name => $value){
+                    $timestamp = strtotime($value);
+                    $historyData[$name] = date(DATEFORMAT_PHP, $timestamp);
+                }
 
                 if(empty($data['employee_response']))
                 {
@@ -736,6 +742,7 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
             //render view page as text
             $view = $this->getHelper('ViewRenderer')->view;
             $this->view->data = $data;
+            $this->view->historyData = $historyData;
             $this->view->key = $key;
             $this->view->flag =$flag;
             $this->view->user_id = $user_id;

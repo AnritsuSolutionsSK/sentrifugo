@@ -333,14 +333,14 @@
                 <tr>
                     <td valign="top" style="height:50px ;">
                         <input type="checkbox" <?php if($empAgreed) echo "checked='checked'"; ?>/>
-                        <font face="'Arial', sans-serif" size="2"><?php echo $this->empAppraisalData[0]['userfullname']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->empAppraisalData[0]['userfullname']." on ".$this->historyData['employeeSubmitted']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
                         </font>
                     </td>
                 </tr>
                 <tr>
                     <td valign="top" style="height:50px ;" >
                         <input type="checkbox" <?php if($manAgreed) echo "checked='checked'"; ?>/>
-                        <font face="'Arial', sans-serif" size="2"><?php echo $this->data['manager_name']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
+                        <font face="'Arial', sans-serif" size="2"><?php echo $this->data['manager_name']." on ".$this->historyData['managerSubmitted']." - ".APPRAISAL_AGREEMENT_TEXT; ?>
                         </font>
                     </td>
                 </tr>

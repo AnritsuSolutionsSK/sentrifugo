@@ -50,7 +50,7 @@ class Default_EmployeeController extends Zend_Controller_Action
                 $popConfigPermission = array();
 		if($auth->hasIdentity()){
 			$loginUserId = $auth->getStorage()->read()->id;
-                        $loginuserRole = $auth->getStorage()->read()->emprole;
+			$loginuserRole = $auth->getStorage()->read()->emprole;
 			$loginuserGroup = $auth->getStorage()->read()->group_id;
 		}
 		$employeeModel = new Default_Model_Employee();
@@ -932,8 +932,6 @@ class Default_EmployeeController extends Zend_Controller_Action
 		}
 	}
 
-
-
 	public function editAction()
 	{
 	    $popConfigPermission = array();
@@ -1112,6 +1110,8 @@ class Default_EmployeeController extends Zend_Controller_Action
 							$employeeform->setDefault('passwordtype',$data['emppassword'] == md5("ldap")?PASSWORD_TYPE_ACTIVE_DIRECTORY:PASSWORD_TYPE_LOCAL);
 							//$employeeform->setDefault('emprole',$data['emprole']."_".MANAGEMENT_GROUP);
 							$employeeform->setDefault('emprole',$data['emprole']);
+
+							$employeeform->passwordtype->setAttrib("disabled", "disabled");
 							
 							$date_of_joining = sapp_Global::change_date($data['date_of_joining'],'view');
 							$employeeform->date_of_joining->setValue($date_of_joining);
@@ -1200,12 +1200,14 @@ class Default_EmployeeController extends Zend_Controller_Action
 			}
 			else
 			{
-                            
 				$this->view->rowexist = "norows";
 			}
 
 			if($this->getRequest()->getPost()){
-				$result = $this->save($employeeform);
+			    //it's disabled, remove before validation
+			    $employeeform->removeElement('passwordtype');
+
+			    $result = $this->save($employeeform);
 				$this->view->msgarray = $result;
 				$employeeform->modeofentry->setValue($data['modeofentry']);
 				$employeeform->other_modeofentry->setValue($data['other_modeofentry']);

@@ -3681,7 +3681,7 @@ color:#fff!important;
 .employee_appraisal_view .history-info-div{ width:98%; margin:0 auto;  float:none;}
 .employee_appraisal_view .history-info-div .history-div{ border:none; width:98%;  margin-bottom: 20px; border:1px solid #dbdbdb}
 .employee_appraisal-table .appri_ques{ color:#333333; font-size:14px; font-family: 'Roboto Regular';  display:block;}
-.appri_desc{color:#333333; font-size:14px; font-family: 'Roboto Light'; display:block;  word-wrap: break-word; }
+.appri_desc{color:#333333; font-size:14px; font-family: 'Roboto Light'; display:block;  word-wrap: break-word; white-space: pre-line;}
 .employee_appraisal-table{color:#333333; font-size:14px; font-family: 'Roboto Light';}
 .employee_appraisal-table .appri_numb{color:#717171; font-size:22px; font-family: 'Roboto Regular';}
 .margin_l_1{margin-left: 1%; margin-bottom: 20px;}

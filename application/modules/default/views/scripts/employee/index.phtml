@@ -123,7 +123,7 @@ new AjaxUpload(btnUpload, {
 	    try
             {
                 var result = JSON.parse(response);
-                if(result.result == 'success')
+                if(result.status == 'success')
                 {                        
                     $('#upload_error').show();
                     $("#loaderimgprofile").hide();

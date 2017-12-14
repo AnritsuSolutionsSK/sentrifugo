@@ -577,6 +577,7 @@ class sapp_Helper
             $emps_arr = $emp_model->getEmps_emp_excel();
             $emails_arr = $emps_arr['email'];
             $emp_ids_arr = $emps_arr['ids'];
+            $all_emp_ids_arr = $emp_ids_arr; //old and new
             $emp_depts_arr = $emp_model->getEmpsDeptWise();
             $dept_bu_arr = $emp_model->getDeptBUWise();
             $pos_jt_arr = $emp_model->getPosJTWise();
@@ -588,7 +589,6 @@ class sapp_Helper
             $emp_identity_code = isset($identity_codes[0])?$identity_codes[0]['employee_code']:"";
             $trDb = Zend_Db_Table::getDefaultAdapter();
             // starting transaction
-            $trDb->beginTransaction();
             try
             {
                 //start of validations
@@ -602,7 +602,7 @@ class sapp_Helper
                 $existing_employees = array();
                 for($i=2; $i <= $sizeOfWorksheet; $i++ )
                 {
-                    $emp_ids_arr[] = strtolower($sheet->getCellByColumnAndRow(3, $i)->getValue());
+                    $all_emp_ids_arr[] = strtolower($sheet->getCellByColumnAndRow(3, $i)->getValue());
                 }
                 for($i=2; $i <= $sizeOfWorksheet; $i++ )
                 {
@@ -871,7 +871,7 @@ class sapp_Helper
                         break;
                     }
 
-                    if(!in_array(strtolower($rowData[8]),$emp_ids_arr) && !empty($rowData[8]))
+                    if(!in_array(strtolower($rowData[8]),$all_emp_ids_arr) && !empty($rowData[8]))
                     {
                         $err_msg = "Unknown reporting manager at row ".$i.".";
                         break;
@@ -1018,203 +1018,238 @@ class sapp_Helper
                     return array('status' => 'error' , 'msg' => $err_msg);
 				
                 //end of validations
-                
-                //start of saving
+
+                $groups = array();
+                $sorted = 0;
+                $sortedRows = array();
+                $user_ids_all = array_keys($users_arr);
+                $user_ids_all = array_map('strtolower', $user_ids_all);
+                $levels = 0;
+                //start create order of adding emps
+                //functionality to add all emps at once (except the one top manager/management), old functionality required each new employee's reporting manager to be already present in the system during import
                 if($tot_rec_cnt > 0)
                 {
-                    for($i=2; $i <= $sizeOfWorksheet; $i++ )
-                    {
-                        // $emp_id = $emp_identity_code.str_pad($usersModel->getMaxEmpId($emp_identity_code), 4, '0', STR_PAD_LEFT);
-                        $rowData_org = $sheet->rangeToArray('A' . $i . ':' . $highestColumn . $i, NULL, TRUE, TRUE);
-                        $rowData = $rowData_org[0];
-                        $rowData_cpy = $rowData;
-                        foreach($rowData_cpy as $rkey => $rvalue)
-                        {
-                            $rowData[$rkey] = trim($rvalue);
-                        }
-                        $employeeId_final = trim($emp_identity_code).trim($rowData[3]);
-                        
-                        if(in_array($employeeId_final, $existing_employees))
-                        {
-                            
-                            //start of saving into user table
-                            $userfullname = $rowData[1].' '.$rowData[2];
-                            $user_data = array(
-                                'emprole' =>$roles_arr[strtolower($rowData[4])],
-                                'userfullname' => $userfullname,
-                                'firstname' => $rowData[1],
-                                'lastname' => $rowData[2],
-                                'emailaddress' => $rowData[5],
-                                'jobtitle_id'=> isset($job_arr[strtolower($rowData[9])])?$job_arr[strtolower($rowData[9])]:null,
-                                'modifiedby'=> $loginUserId,
-                                'modifieddate'=> gmdate("Y-m-d H:i:s"),
-                            );
+                    while($sorted < $tot_rec_cnt) {
+                        $group = array();
+                        $user_ids_new = array();
+                        for ($i = 2; $i <= $sizeOfWorksheet; $i++) {
+                            if(!in_array($i, $sortedRows)) {
+                                $rowData_org = $sheet->rangeToArray('A' . $i . ':' . $highestColumn . $i, NULL, TRUE, TRUE);
+                                $rowData = $rowData_org[0];
+                                $rowData_cpy = $rowData;
+                                foreach ($rowData_cpy as $rkey => $rvalue) {
+                                    $rowData[$rkey] = trim($rvalue);
+                                }
+                                $employeeId_final = trim($emp_identity_code) . trim($rowData[3]);
 
-                            $user_id = $usersModel->SaveorUpdateUserData($user_data, array('employeeId=?' => $employeeId_final));
-                            //end of saving into user table.
-                            //start of saving into employee table
-                            $date_join = str_replace('/', '-', $rowData[12]);
-                            $date_of_joining = date('Y-m-d', strtotime($date_join));
-                            
-                            $user_id_real = $emp_model->getEmployeeIdByUserEmpId($employeeId_final);
-                            
-                            $data = array(  
-                                'reporting_manager'=>$users_arr[strtolower($rowData[8])],
-                                'emp_status_id'=>$emp_stat_arr[strtolower($rowData[11])],
-                                'businessunit_id'=>(!empty($rowData[5]))?$bu_arr[strtolower($rowData[6])]:0,
-                                'department_id'=>(!empty($rowData[6]))?$dep_arr[strtolower($rowData[7])]:null,
-                                'jobtitle_id'=>isset($job_arr[strtolower($rowData[9])])?$job_arr[strtolower($rowData[9])]:null, 
-                                'position_id'=>isset($positions_arr[strtolower($rowData[10])])?$positions_arr[strtolower($rowData[10])]:null, 
-                                'prefix_id'=> isset($prefix_arr[strtolower($rowData[0])])?$prefix_arr[strtolower($rowData[0])]:null,
-                                'extension_number'=>($rowData[15]!=''?$rowData[15]:NULL),
-                                'office_number'=>($rowData[16]!=''?$rowData[16]:NULL),
-                                'office_faxnumber'=>($rowData[17]!=''?$rowData[17]:NULL),
-                                'date_of_joining'=>$date_of_joining,
-                                'date_of_leaving'=>($date_of_leaving!=''?$date_of_leaving:NULL),
-                                'years_exp'=>($rowData[14]=='')?null:$rowData[14],
-                                'modifiedby'=>$loginUserId,			
-                                'modifieddate'=>gmdate("Y-m-d H:i:s")
-                            );
-
-                            $emp_model->SaveorUpdateEmployeeData($data, array('user_id=?' => $user_id_real));
-                            //end of saving into employee table
-                            //start of saving into salary details
-                            if($rowData[$column_salary_currency] !='' || $rowData[$column_salary] != '' || $rowData[$column_salary_type] != '')
-                            {
-                                $salary_data = array(
-                                    'currencyid' => isset($currency_arr[strtolower($rowData[$column_salary_currency])])?$currency_arr[strtolower($rowData[$column_salary_currency])]:null,
-                                    'salarytype' => isset($salary_type_arr[strtolower($rowData[$column_salary_type])])?$salary_type_arr[strtolower($rowData[$column_salary_type])]:null,
-                                    'salary' => !empty($rowData[$column_salary])?sapp_Global::_encrypt($rowData[$column_salary]):null,
-                                    'modifiedby'=> $loginUserId,				
-                                    'modifieddate'=> gmdate("Y-m-d H:i:s"),
-                                );
-                                $salary_model = new Default_Model_Empsalarydetails();
-                                $salary_model->SaveorUpdateEmpSalaryData($salary_data, array('user_id=?' => $user_id_real));
+                                if (array_search(strtolower($rowData[8]), $user_ids_all)) {
+                                    $group[] = $i;
+                                    $user_ids_new[] = strtolower($employeeId_final);
+                                    $sortedRows[] = $i;
+                                }
                             }
-                            //end of saving into salary details
                         }
-                        else
-                        {
-                            if($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME){
-                                $emppassword = "ldap";
+                        $groups[] = $group;
+                        $user_ids_all = array_merge($user_ids_all, $user_ids_new);
+                        $sorted += count($group);
+                        $levels++;
+                        if($levels > 10)
+                            break;
+                    }
+                    if($levels > 10)
+                        return array('status' =>'error','msg' => 'Spreadsheet contains more than 10 new levels in organizational hierarchy.');
+                }
+                //end create order of adding emps
+                //start of saving
+                if(count($groups) > 0) {
+                    foreach ($groups as $groupRows){
+                        $users_arr = $emp_model->getUsers_emp_excel();
+                        foreach($groupRows as $row) {
+                            $trDb->beginTransaction();
+                            $rowData_org = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, TRUE);
+                            $rowData = $rowData_org[0];
+                            $rowData_cpy = $rowData;
+                            foreach ($rowData_cpy as $rkey => $rvalue) {
+                                $rowData[$rkey] = trim($rvalue);
+                            }
+                            $employeeId_final = trim($emp_identity_code) . trim($rowData[3]);
+
+                            if (in_array(strtolower($employeeId_final), array_keys($users_arr))) {
+
+                                //start of saving into user table
+                                $userfullname = $rowData[1] . ' ' . $rowData[2];
+                                $user_data = array(
+                                    'emprole' => $roles_arr[strtolower($rowData[4])],
+                                    'userfullname' => $userfullname,
+                                    'firstname' => $rowData[1],
+                                    'lastname' => $rowData[2],
+                                    'emailaddress' => $rowData[5],
+                                    'jobtitle_id' => isset($job_arr[strtolower($rowData[9])]) ? $job_arr[strtolower($rowData[9])] : null,
+                                    'modifiedby' => $loginUserId,
+                                    'modifieddate' => gmdate("Y-m-d H:i:s"),
+                                );
+
+                                $user_id = $usersModel->SaveorUpdateUserData($user_data, array('employeeId=?' => $employeeId_final));
+                                //end of saving into user table.
+                                //start of saving into employee table
+                                $date_join = str_replace('/', '-', $rowData[12]);
+                                $date_of_joining = date('Y-m-d', strtotime($date_join));
+
+                                $user_id_real = $emp_model->getEmployeeIdByUserEmpId($employeeId_final);
+
+                                $data = array(
+                                    'reporting_manager' => $users_arr[strtolower($rowData[8])],
+                                    'emp_status_id' => $emp_stat_arr[strtolower($rowData[11])],
+                                    'businessunit_id' => (!empty($rowData[5])) ? $bu_arr[strtolower($rowData[6])] : 0,
+                                    'department_id' => (!empty($rowData[6])) ? $dep_arr[strtolower($rowData[7])] : null,
+                                    'jobtitle_id' => isset($job_arr[strtolower($rowData[9])]) ? $job_arr[strtolower($rowData[9])] : null,
+                                    'position_id' => isset($positions_arr[strtolower($rowData[10])]) ? $positions_arr[strtolower($rowData[10])] : null,
+                                    'prefix_id' => isset($prefix_arr[strtolower($rowData[0])]) ? $prefix_arr[strtolower($rowData[0])] : null,
+                                    'extension_number' => ($rowData[15] != '' ? $rowData[15] : NULL),
+                                    'office_number' => ($rowData[16] != '' ? $rowData[16] : NULL),
+                                    'office_faxnumber' => ($rowData[17] != '' ? $rowData[17] : NULL),
+                                    'date_of_joining' => $date_of_joining,
+                                    'date_of_leaving' => ($date_of_leaving != '' ? $date_of_leaving : NULL),
+                                    'years_exp' => ($rowData[14] == '') ? null : $rowData[14],
+                                    'modifiedby' => $loginUserId,
+                                    'modifieddate' => gmdate("Y-m-d H:i:s")
+                                );
+
+                                $emp_model->SaveorUpdateEmployeeData($data, array('user_id=?' => $user_id_real));
+                                //end of saving into employee table
+                                //start of saving into salary details
+                                if ($rowData[$column_salary_currency] != '' || $rowData[$column_salary] != '' || $rowData[$column_salary_type] != '') {
+                                    $salary_data = array(
+                                        'currencyid' => isset($currency_arr[strtolower($rowData[$column_salary_currency])]) ? $currency_arr[strtolower($rowData[$column_salary_currency])] : null,
+                                        'salarytype' => isset($salary_type_arr[strtolower($rowData[$column_salary_type])]) ? $salary_type_arr[strtolower($rowData[$column_salary_type])] : null,
+                                        'salary' => !empty($rowData[$column_salary]) ? sapp_Global::_encrypt($rowData[$column_salary]) : null,
+                                        'modifiedby' => $loginUserId,
+                                        'modifieddate' => gmdate("Y-m-d H:i:s"),
+                                    );
+                                    $salary_model = new Default_Model_Empsalarydetails();
+                                    $salary_model->SaveorUpdateEmpSalaryData($salary_data, array('user_id=?' => $user_id_real));
+                                }
+                                //end of saving into salary details
                             } else {
-                                $emppassword = sapp_Global::generatePassword();
-                            }
+                                if ($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME) {
+                                    $emppassword = "ldap";
+                                } else {
+                                    $emppassword = sapp_Global::generatePassword();
+                                }
 
-                            $date_join = str_replace('/', '-', $rowData[12]);
-                            $date_of_joining = date('Y-m-d', strtotime($date_join));
+                                $date_join = str_replace('/', '-', $rowData[12]);
+                                $date_of_joining = date('Y-m-d', strtotime($date_join));
 
-                            $date_of_leaving = "";
-                            if($rowData[13] != '')
-                            {
-                                $date_leave = str_replace('/', '-', $rowData[13]);
-                                $date_of_leaving= date('Y-m-d', strtotime($date_leave));
-                            }
-                            //start of saving into user table
-                            $userfullname = $rowData[1].' '.$rowData[2];
-                            $user_data = array(
-                                'emprole' =>$roles_arr[strtolower($rowData[4])],
-                                'userfullname' => $userfullname,
-                                'firstname' => $rowData[1],
-                                'lastname' => $rowData[2],
-                                'emailaddress' => $rowData[5],
-                                'jobtitle_id'=> isset($job_arr[strtolower($rowData[9])])?$job_arr[strtolower($rowData[9])]:null,
-                                'modifiedby'=> $loginUserId,
-                                'modifieddate'=> gmdate("Y-m-d H:i:s"),
-                                'emppassword' => md5($emppassword),
-                                'employeeId' => $employeeId_final,
-                                'modeofentry' => "Direct",
-                                'selecteddate' => $date_of_joining,
-                                'userstatus' => 'old',       
-                            );
-                            $user_data['createdby'] = $loginUserId;
-                            $user_data['createddate'] = gmdate("Y-m-d H:i:s");
-                            $user_data['isactive'] = 1;
-
-                            $user_id = $usersModel->SaveorUpdateUserData($user_data, '');
-                            //end of saving into user table.
-                            //start of saving into employee table
-                            $data = array(  
-                                'user_id'=>$user_id,
-                                'reporting_manager'=>$users_arr[strtolower($rowData[8])],
-                                'emp_status_id'=>$emp_stat_arr[strtolower($rowData[11])],
-                                'businessunit_id'=>(!empty($rowData[5]))?$bu_arr[strtolower($rowData[6])]:0,
-                                'department_id'=>(!empty($rowData[6]))?$dep_arr[strtolower($rowData[7])]:null,
-                                'jobtitle_id'=>isset($job_arr[strtolower($rowData[9])])?$job_arr[strtolower($rowData[9])]:null, 
-                                'position_id'=>isset($positions_arr[strtolower($rowData[10])])?$positions_arr[strtolower($rowData[10])]:null, 
-                                'prefix_id'=> isset($prefix_arr[strtolower($rowData[0])])?$prefix_arr[strtolower($rowData[0])]:null,
-                                'extension_number'=>($rowData[15]!=''?$rowData[15]:NULL),
-                                'office_number'=>($rowData[16]!=''?$rowData[16]:NULL),
-                                'office_faxnumber'=>($rowData[17]!=''?$rowData[17]:NULL),
-                                'date_of_joining'=>$date_of_joining,
-                                'date_of_leaving'=>($date_of_leaving!=''?$date_of_leaving:NULL),
-                                'years_exp'=>($rowData[14]=='')?null:$rowData[14],
-                                'modifiedby'=>$loginUserId,				
-                                'modifieddate'=>gmdate("Y-m-d H:i:s")
-                            );
-
-                            $data['createdby'] = $loginUserId;
-                            $data['createddate'] = gmdate("Y-m-d H:i:s");;
-                            $data['isactive'] = 1;
-                            $emp_model->SaveorUpdateEmployeeData($data, '');
-                            //end of saving into employee table
-                            //start of saving into salary details
-                            if($rowData[$column_salary_currency] !='' || $rowData[$column_salary] != '' || $rowData[$column_salary_type] != '')
-                            {
-                                $salary_data = array(
-                                    'user_id' => $user_id,
-                                    'currencyid' => isset($currency_arr[strtolower($rowData[$column_salary_currency])])?$currency_arr[strtolower($rowData[$column_salary_currency])]:null,
-                                    'salarytype' => isset($salary_type_arr[strtolower($rowData[$column_salary_type])])?$salary_type_arr[strtolower($rowData[$column_salary_type])]:null,
-                                    'salary' => !empty($rowData[$column_salary])?sapp_Global::_encrypt($rowData[$column_salary]):null,
-                                    'isactive' => 1,
-                                    'modifiedby'=> $loginUserId,				
-                                    'modifieddate'=> gmdate("Y-m-d H:i:s"),
-                                    'createdby'=> $loginUserId,				
-                                    'createddate'=> gmdate("Y-m-d H:i:s"),
+                                $date_of_leaving = "";
+                                if ($rowData[13] != '') {
+                                    $date_leave = str_replace('/', '-', $rowData[13]);
+                                    $date_of_leaving = date('Y-m-d', strtotime($date_leave));
+                                }
+                                //start of saving into user table
+                                $userfullname = $rowData[1] . ' ' . $rowData[2];
+                                $user_data = array(
+                                    'emprole' => $roles_arr[strtolower($rowData[4])],
+                                    'userfullname' => $userfullname,
+                                    'firstname' => $rowData[1],
+                                    'lastname' => $rowData[2],
+                                    'emailaddress' => $rowData[5],
+                                    'jobtitle_id' => isset($job_arr[strtolower($rowData[9])]) ? $job_arr[strtolower($rowData[9])] : null,
+                                    'modifiedby' => $loginUserId,
+                                    'modifieddate' => gmdate("Y-m-d H:i:s"),
+                                    'emppassword' => md5($emppassword),
+                                    'employeeId' => $employeeId_final,
+                                    'modeofentry' => "Direct",
+                                    'selecteddate' => $date_of_joining,
+                                    'userstatus' => 'old',
                                 );
-                                $salary_model = new Default_Model_Empsalarydetails();
-                                $salary_model->SaveorUpdateEmpSalaryData($salary_data,'');
+                                $user_data['createdby'] = $loginUserId;
+                                $user_data['createddate'] = gmdate("Y-m-d H:i:s");
+                                $user_data['isactive'] = 1;
+
+                                $user_id = $usersModel->SaveorUpdateUserData($user_data, '');
+                                //end of saving into user table.
+                                //start of saving into employee table
+                                $data = array(
+                                    'user_id' => $user_id,
+                                    'reporting_manager' => $users_arr[strtolower($rowData[8])],
+                                    'emp_status_id' => $emp_stat_arr[strtolower($rowData[11])],
+                                    'businessunit_id' => (!empty($rowData[5])) ? $bu_arr[strtolower($rowData[6])] : 0,
+                                    'department_id' => (!empty($rowData[6])) ? $dep_arr[strtolower($rowData[7])] : null,
+                                    'jobtitle_id' => isset($job_arr[strtolower($rowData[9])]) ? $job_arr[strtolower($rowData[9])] : null,
+                                    'position_id' => isset($positions_arr[strtolower($rowData[10])]) ? $positions_arr[strtolower($rowData[10])] : null,
+                                    'prefix_id' => isset($prefix_arr[strtolower($rowData[0])]) ? $prefix_arr[strtolower($rowData[0])] : null,
+                                    'extension_number' => ($rowData[15] != '' ? $rowData[15] : NULL),
+                                    'office_number' => ($rowData[16] != '' ? $rowData[16] : NULL),
+                                    'office_faxnumber' => ($rowData[17] != '' ? $rowData[17] : NULL),
+                                    'date_of_joining' => $date_of_joining,
+                                    'date_of_leaving' => ($date_of_leaving != '' ? $date_of_leaving : NULL),
+                                    'years_exp' => ($rowData[14] == '') ? null : $rowData[14],
+                                    'modifiedby' => $loginUserId,
+                                    'modifieddate' => gmdate("Y-m-d H:i:s")
+                                );
+
+                                $data['createdby'] = $loginUserId;
+                                $data['createddate'] = gmdate("Y-m-d H:i:s");;
+                                $data['isactive'] = 1;
+                                $emp_model->SaveorUpdateEmployeeData($data, '');
+                                //end of saving into employee table
+                                //start of saving into salary details
+                                if ($rowData[$column_salary_currency] != '' || $rowData[$column_salary] != '' || $rowData[$column_salary_type] != '') {
+                                    $salary_data = array(
+                                        'user_id' => $user_id,
+                                        'currencyid' => isset($currency_arr[strtolower($rowData[$column_salary_currency])]) ? $currency_arr[strtolower($rowData[$column_salary_currency])] : null,
+                                        'salarytype' => isset($salary_type_arr[strtolower($rowData[$column_salary_type])]) ? $salary_type_arr[strtolower($rowData[$column_salary_type])] : null,
+                                        'salary' => !empty($rowData[$column_salary]) ? sapp_Global::_encrypt($rowData[$column_salary]) : null,
+                                        'isactive' => 1,
+                                        'modifiedby' => $loginUserId,
+                                        'modifieddate' => gmdate("Y-m-d H:i:s"),
+                                        'createdby' => $loginUserId,
+                                        'createddate' => gmdate("Y-m-d H:i:s"),
+                                    );
+                                    $salary_model = new Default_Model_Empsalarydetails();
+                                    $salary_model->SaveorUpdateEmpSalaryData($salary_data, '');
+                                }
+                                //end of saving into salary details
+                                //start of mail
+                                if ($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME) {
+                                    $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                                <span style='color:#3b3b3b;'>Hello " . ucfirst($userfullname) . ",</span><br />
+    
+                                                <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to " . APPLICATION_NAME . ". The login credentials for your account are:</div>
+    
+                                                <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>" . $employeeId_final . "</strong></div>
+                                                <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: (your Active Directory password)</div>
+                                                
+                                                <div style='padding:20px 0 0 0;color:#3b3b3b;'>If your username is incorrect, contact your HR department immediately.</div>
+    
+                                                <div style='padding:20px 0 10px 0;'>Please <a href='" . BASE_URL . "index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
+                                        </div>";
+                                } else {
+                                    $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                                <span style='color:#3b3b3b;'>Hello " . ucfirst($userfullname) . ",</span><br />
+    
+                                                <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to " . APPLICATION_NAME . ". The login credentials for your account are:</div>
+    
+                                                <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>" . $employeeId_final . "</strong></div>
+                                                <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: <strong>" . $emppassword . "</strong></div>
+    
+                                                <div style='padding:20px 0 10px 0;'>Please <a href='" . BASE_URL . "index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
+    
+                                        </div>";
+                                }
+                                $options['subject'] = APPLICATION_NAME . ': Login Credentials';
+                                $options['header'] = 'Greetings from ' . APPLICATION_NAME;
+                                $options['toEmail'] = $rowData[5];
+                                $options['toName'] = $userfullname;
+                                $options['message'] = $text;
+                                //$options['cron'] = 'yes';
+                                $result = sapp_Global::_sendEmail($options);
+                                //end of mail
                             }
-                            //end of saving into salary details
-                            //start of mail
-                            if($rowData[21] == PASSWORD_TYPE_ACTIVE_DIRECTORY_NAME){
-                                $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                            <span style='color:#3b3b3b;'>Hello ".ucfirst($userfullname).",</span><br />
-
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to ". APPLICATION_NAME.". The login credentials for your account are:</div>
-
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>".$employeeId_final."</strong></div>
-                                            <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: (your Active Directory password)</div>
-                                            
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>If your username is incorrect, contact your HR department immediately.</div>
-
-                                            <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
-                                    </div>";
-                            } else{
-                                $text = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                            <span style='color:#3b3b3b;'>Hello ".ucfirst($userfullname).",</span><br />
-
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>You have been added to ". APPLICATION_NAME.". The login credentials for your account are:</div>
-
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Username: <strong>".$employeeId_final."</strong></div>
-                                            <div style='padding:5px 0 0 0;color:#3b3b3b;'>Password: <strong>".$emppassword."</strong></div>
-
-                                            <div style='padding:20px 0 10px 0;'>Please <a href='".BASE_URL."index/popup' target='_blank' style='color:#b3512f;'>click here</a> to login  to your account.</div>
-
-                                    </div>";
-                            }
-                            $options['subject'] = APPLICATION_NAME.': Login Credentials';
-                            $options['header'] = 'Greetings from '.APPLICATION_NAME;
-                            $options['toEmail'] = $rowData[5];
-                            $options['toName'] = $userfullname;
-                            $options['message'] = $text;
-                            //$options['cron'] = 'yes';
-                            $result = sapp_Global::_sendEmail($options);
-                            //end of mail
-                        }
-                    }//end of for loop
-                    $trDb->commit();
-                    return array('status' =>"success",'msg' => 'Employees saved successfully.');
+                            $trDb->commit();
+                        }//end of for loop
+                    }
+                    return array('status' =>'success','msg' => 'Employees saved successfully.');
                 }
                 else
                 {
@@ -1225,7 +1260,7 @@ class sapp_Helper
             catch(Exception $e)
             {
                 $trDb->rollBack();
-                return array('status' => 'error' , 'msg' => "Something went wrong,please try again");
+                return array('status' => 'error' , 'msg' => "Something went wrong, please try again");
             }            
         }
         else 

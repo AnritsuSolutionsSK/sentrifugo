@@ -243,7 +243,15 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 ?>
 					</tbody>
 				</table>
-			</div>
+                <?php if(empty($this->history_flag) && $i == count($category_arr)) { ?>
+
+                    <div class="new-form-ui-submit" style="margin-top: 20px">
+                        <input type="button" name="btn_submit_<?php echo $main_key;?>" id="idbtn_submit_<?php echo $main_key;?>" value="Submit" />
+                        <input type="button" name="btn_draft_<?php echo $main_key;?>" id="idbtn_draft_<?php echo $main_key;?>" value="Save as Draft" />
+                        <input type="button" name="btn_cancel_<?php echo $main_key;?>" id="idbtn_cancel_<?php echo $main_key;?>" value="Cancel" onclick="cancel_accordian(this.id,<?php echo $main_key;?>);"/>
+                    </div>
+                <?php } ?>
+            </div>
 <?php         
 		}
 ?>
@@ -308,13 +316,6 @@ if(count($data) > 0 && !empty($data['rating_arr']))
             </table>
         </div>
     </div>
-    <?php if(empty($this->history_flag)) { ?>            
-    <div class="new-form-ui-submit">
-        <input type="button" name="btn_submit_<?php echo $main_key;?>" id="idbtn_submit_<?php echo $main_key;?>" value="Submit" />
-        <input type="button" name="btn_draft_<?php echo $main_key;?>" id="idbtn_draft_<?php echo $main_key;?>" value="Save as Draft" />
-        <input type="button" name="btn_cancel_<?php echo $main_key;?>" id="idbtn_cancel_<?php echo $main_key;?>" value="Cancel" onclick="cancel_accordian(this.id,<?php echo $main_key;?>);"/>
-    </div>
-    <?php } ?>            
     <div class="clear"></div>
 <script type='text/javascript'>
     function validatemanagerappraisalform(key)

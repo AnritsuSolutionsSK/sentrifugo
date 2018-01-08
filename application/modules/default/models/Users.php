@@ -334,20 +334,27 @@ class Default_Model_Users extends Zend_Db_Table_Abstract
                                 FROM main_users u 
                                 INNER JOIN main_roles r ON u.emprole = r.id 
                                 INNER JOIN main_employees e ON u.id = e.user_id 
-                                left join main_jobtitles j on j.id = e.jobtitle_id 
-                                WHERE e.department_id = ".$dept_id." ";
+                                left join main_jobtitles j on j.id = e.jobtitle_id";
 
                         if($employee_id != "")
                         {
-                                $qry .= " AND  e.user_id != ".$employee_id;
+                            $qry .= " WHERE e.user_id != ".$employee_id;
                         }
                         if(isset($employee_group) && !empty($employee_group) && $employee_group == MANAGEMENT_GROUP)
                         {
-                                $qry .= " AND r.group_id IN (".MANAGEMENT_GROUP.") ";
+                            if($employee_id != "")
+                                $qry .= " AND ";
+                            else
+                                $qry .= " WHERE ";
+                            $qry .= "r.group_id IN (".MANAGEMENT_GROUP.") ";
                         }
                         else
                         {
-                                $qry .= " AND r.group_id IN (".MANAGEMENT_GROUP ."," .MANAGER_GROUP ."," .HR_GROUP .",".SYSTEMADMIN_GROUP .",".EMPLOYEE_GROUP .",".CUSTOM_GROUP.") ";
+                            if($employee_id != "")
+                                $qry .= " AND ";
+                            else
+                                $qry .= " WHERE ";
+                            $qry .= "r.group_id IN (".MANAGEMENT_GROUP ."," .MANAGER_GROUP ."," .HR_GROUP .",".SYSTEMADMIN_GROUP .",".EMPLOYEE_GROUP .",".CUSTOM_GROUP.") ";
                         }
                         $qry .= " AND u.userstatus='old' AND u.isactive=1 AND r.isactive=1) union
                         (select u.id,concat(u.userfullname,if(j.jobtitlename is null,'',concat(' , ',j.jobtitlename))) as name,u.profileimg from main_users u

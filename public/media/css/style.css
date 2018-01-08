@@ -4075,22 +4075,23 @@ color:#fff!important;
 .rating_star-10{ background:url(../images/star_rate_info/star_10.png) no-repeat left center; width:103px; height:18px; display:inline-block;}
 .rating_star_class{ width:120px; text-indent:-25879px;}
 .rating-star-class{ width:220px; text-indent:-25879px;}
-.rating_text_1{display:inline-block; color:#289b7d;}
-.rating_text_2{display:inline-block; color:#289b7d;}
-.rating_text_3{display:inline-block; color:#289b7d;}
-.rating_text_4{display:inline-block; color:#289b7d;}
-.rating_text_5{display:inline-block; color:#289b7d;}
-.rating_text_6{display:inline-block; color:#289b7d;}
-.rating_text-1{display:inline-block; color:#dc3836;}
-.rating_text-2{display:inline-block; color:#dc3836;}
-.rating_text-3{display:inline-block; color:#ff6000;}
-.rating_text-4{display:inline-block; color:#ff6000;}
-.rating_text-5{display:inline-block; color:#e3b905;}
-.rating_text-6{display:inline-block; color:#e3b905;}
-.rating_text-7{display:inline-block; color:#7bc343;}
-.rating_text-8{display:inline-block; color:#7bc343;}
-.rating_text-9{display:inline-block; color:#00a84f;}
-.rating_text-10{display:inline-block; color:#00a84f;}
+
+.rating_text_1{display:inline-block; color:black;}
+.rating_text_2{display:inline-block; color:black;}
+.rating_text_3{display:inline-block; color:black;}
+.rating_text_4{display:inline-block; color:black;}
+.rating_text_5{display:inline-block; color:black;}
+.rating_text_6{display:inline-block; color:black;}
+.rating_text-1{display:inline-block; color:black;}
+.rating_text-2{display:inline-block; color:black;}
+.rating_text-3{display:inline-block; color:black;}
+.rating_text-4{display:inline-block; color:black;}
+.rating_text-5{display:inline-block; color:black;}
+.rating_text-6{display:inline-block; color:black;}
+.rating_text-7{display:inline-block; color:black;}
+.rating_text-8{display:inline-block; color:black;}
+.rating_text-9{display:inline-block; color:black;}
+.rating_text-10{display:inline-block; color:black;}
 
 .rate_emp_1 .rating_dis{ background:#dc3836;}
 .rate_emp_2 .rating_dis{ background:#ff6000;}

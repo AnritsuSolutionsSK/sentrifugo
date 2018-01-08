@@ -147,18 +147,26 @@ if(empty($this->check_ratings_exists)) { ?>
 		});
 	}
 	function saveAppraisalDetails(flag){
-		if(validateAppraisalForm(flag)){
-            var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
-            jConfirm(msg, "Confirmation", function(r) {
-                if(r) {
-                    $.blockUI({ width:'50px',message: $("#spinner").html() });
-                    $('#flag').val(flag);
-                    $('#appraisalform').submit();
-                } else {
-                    jAlert("You must agree to continue.", "Info");
-                }
-            });
-		}
+	    if(flag !== 'later') {
+            if (validateAppraisalForm(flag)) {
+                var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
+                jConfirm(msg, "Confirmation", function (r) {
+                    if (r) {
+                        $.blockUI({width: '50px', message: $("#spinner").html()});
+                        $('#flag').val(flag);
+                        $('#appraisalform').submit();
+                    } else {
+                        jAlert("You must agree to continue.", "Info");
+                    }
+                });
+            }
+        } else {
+            if (validateAppraisalForm(flag)) {
+                $.blockUI({width: '50px', message: $("#spinner").html()});
+                $('#flag').val(flag);
+                $('#appraisalform').submit();
+            }
+        }
 	}
 </script>
 

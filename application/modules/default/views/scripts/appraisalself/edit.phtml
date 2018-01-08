@@ -145,18 +145,26 @@ if(empty($this->check_ratings_exists)) { ?>
 		});
 	}
 	function saveAppraisalDetails(flag){
-		if(validateAppraisalForm(flag)){
-            var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
-            jConfirm(msg, "Confirmation", function(r) {
-                if(r) {
-                    $.blockUI({ width:'50px',message: $("#spinner").html() });
-                    $('#flag').val(flag);
-                    $('#appraisalform').submit();
-                } else {
-                    jAlert("You must agree to continue.", "Info");
-                }
-            });
-		}
+	    if(flag !== 'later') {
+            if (validateAppraisalForm(flag)) {
+                var msg = "<?php echo APPRAISAL_AGREEMENT_TEXT;?>";
+                jConfirm(msg, "Confirmation", function (r) {
+                    if (r) {
+                        $.blockUI({width: '50px', message: $("#spinner").html()});
+                        $('#flag').val(flag);
+                        $('#appraisalform').submit();
+                    } else {
+                        jAlert("You must agree to continue.", "Info");
+                    }
+                });
+            }
+        } else {
+            if (validateAppraisalForm(flag)) {
+                $.blockUI({width: '50px', message: $("#spinner").html()});
+                $('#flag').val(flag);
+                $('#appraisalform').submit();
+            }
+        }
 	}
 </script>
 
@@ -251,7 +259,7 @@ if(empty($this->check_ratings_exists)) { ?>
 ?>				
 			 </ul>
 <?php			 
-				foreach ($catData as $cd)
+				foreach ($catData as $index => $cd)
 				{ 
 			?>
 					<div id="tabs-<?php echo $cd['id'];?>">
@@ -402,22 +410,23 @@ if(empty($this->check_ratings_exists)) { ?>
 								?>
 							</tbody>
 						</table>
+                        <?php if($index == count($catData) - 1){ ?>
+                            <div class="new-form-ui-submit" style="margin-top: 20px">
+                                <input type="hidden" name="id" id="id" value="<?php echo $empRatData[0]['id'];?>">
+                                <input type="hidden" name="employee_id" id="employee_id" value="<?php echo $empRatData[0]['employee_id'];?>">
+                                <input type="hidden" name="initialization_id" id="initialization_id" value="<?php echo $empRatData[0]['pa_initialization_id'];?>">
+                                <input type="hidden" name="config_id" id="config_id" value="<?php echo $empRatData[0]['pa_configured_id'];?>">
+                                <input type="hidden" name="flag" id="flag" value="">
+                                <input type="hidden" name="app_status" id="app_status" value="<?php echo $appStatus;?>">
+                                <input type="hidden" name="mgr_levels" id="mgr_levels" value="<?php echo $this->mgrLevels;?>">
+
+                                <input type="button" class="margin_l_1" value="Save As Draft" onclick="saveAppraisalDetails('later');"/>
+                                <input type="button" value="Send to manager" onclick="saveAppraisalDetails('submit');"/>
+                                <button onclick="window.location.href='<?php echo BASE_URL; ?>appraisalself';" type="button" >Clear</button>
+                            </div>
+                        <?php } ?>
 					</div>
 			<?php } } ?>
-			</div>		
-			
-			<div class="new-form-ui-submit">
-				<input type="hidden" name="id" id="id" value="<?php echo $empRatData[0]['id'];?>">
-				<input type="hidden" name="employee_id" id="employee_id" value="<?php echo $empRatData[0]['employee_id'];?>">
-				<input type="hidden" name="initialization_id" id="initialization_id" value="<?php echo $empRatData[0]['pa_initialization_id'];?>">
-				<input type="hidden" name="config_id" id="config_id" value="<?php echo $empRatData[0]['pa_configured_id'];?>">
-				<input type="hidden" name="flag" id="flag" value="">
-				<input type="hidden" name="app_status" id="app_status" value="<?php echo $appStatus;?>">
-				<input type="hidden" name="mgr_levels" id="mgr_levels" value="<?php echo $this->mgrLevels;?>">
-
-				<input type="button" class="margin_l_1" value="Save As Draft" onclick="saveAppraisalDetails('later');"/>
-				<input type="button" value="Send to manager" onclick="saveAppraisalDetails('submit');"/>
-				<button onclick="window.location.href='<?php echo BASE_URL; ?>appraisalself';" type="button" >Clear</button>
 			</div>
 			</div>
 		</form>			

@@ -722,9 +722,13 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
                 $historyModel = new Default_Model_Appraisalhistory();
                 $data = $appraisalManagerModelObj->getempcontent($appraisal_id,$manager_id,$user_id,$flag,$app_config_id);
                 $historyData = $historyModel->getAppraisalHistoryDates($appraisal_id,$manager_id,$user_id,$flag);
-                foreach($historyData as $name => $value){
-                    $timestamp = strtotime($value);
-                    $historyData[$name] = date(DATEFORMAT_PHP, $timestamp);
+                foreach($historyData as $name => $value) {
+                    if ($value != '') {
+                        $timestamp = strtotime($value);
+                        $historyData[$name] = date(DATEFORMAT_PHP, $timestamp);
+                    }else{
+                        $historyData[$name] = '_________';
+                    }
                 }
 
                 if(empty($data['employee_response']))

@@ -472,10 +472,10 @@ class sapp_Helper
         if($sizeOfWorksheet > 1)
         {
             $arrReqHeaders1 = array(
-                'First Name','Last Name','Employee Id','Role Type','Email','Department','Reporting manager','Date of joining'
+                'First Name','Last Name','Employee Id','Role Type','Email','Business Unit','Department','Reporting manager','Date of joining'
             );
             $arrReqHeaders2 = array(
-                'Full Name','Employee Id','Role Type','Email','Department','Reporting manager','Date of joining'
+                'Full Name','Employee Id','Role Type','Email','Business Unit','Department','Reporting manager','Date of joining'
             );
             $firstRow = $sheet->rangeToArray('A' . 1 . ':' . $highestColumn . 1, NULL, TRUE, TRUE);
             $arrGivenHeaders = $firstRow[0];
@@ -483,7 +483,7 @@ class sapp_Helper
             $diffArray1 = array_diff($arrReqHeaders1,$arrGivenHeaders);
             $diffArray2 = array_diff($arrReqHeaders2,$arrGivenHeaders);
             if(!empty($diffArray1) && !empty($diffArray2)){
-                $err_msg = "Required columns are: 'First Name', 'Last Name' (or as one - 'Full Name' in format \"Smith, John\"), 'Employee Id', 'Role Type', 'Email', 'Department', 'Reporting manager', 'Date of joining'. (Mind the capitalization)";
+                $err_msg = "Required columns are: 'First Name', 'Last Name' (or as one - 'Full Name' in format \"Smith, John\"), 'Employee Id', 'Role Type', 'Email', 'Business Unit', 'Department', 'Reporting manager', 'Date of joining'. (Mind the capitalization)";
                 return array('status' => 'error' , 'msg' => $err_msg);
             } else {
                 $data = [];

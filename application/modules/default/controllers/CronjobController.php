@@ -522,125 +522,43 @@ class Default_CronjobController extends Zend_Controller_Action
 	                 echo $e->getMessage(); exit;
 	              }
 				}
-		     }	     
-	     
-	     }    
-	    
+		     }
+	      }
 	   }
 	}
-	
+
 	public function checkperformanceduedate()
 	{
-		 $app_init_model = new Default_Model_Appraisalinit();
-		 $app_ratings_model = new Default_Model_Appraisalemployeeratings();
-         $active_appraisal_Arr = $app_init_model->getActiveAppraisals();
-         $appraisalPrivMainModel = new Default_Model_Appraisalqsmain();
-         $app_manager_model = new Default_Model_Appraisalmanager();
-         $usersmodel = new Default_Model_Users();
-         $current_day = new DateTime('now');
-         $current_day->sub(new DateInterval('P1D'));
-         if(!empty($active_appraisal_Arr))
-         {
-            foreach($active_appraisal_Arr as $appval)
-            {
-                if($appval['reporting_managers_due_date'])
-                    $manager_due_date = new DateTime($appval['reporting_managers_due_date']);
-                else
-                    $manager_due_date = '';
-                if($appval['employees_due_date'])
-                    $emp_due_date = new DateTime($appval['employees_due_date']);
-                else
-                    $emp_due_date = '';
+	    $app_init_model = new Default_Model_Appraisalinit();
+	    $app_ratings_model = new Default_Model_Appraisalemployeeratings();
+	    $active_appraisal_Arr = $app_init_model->getActiveAppraisals();
+	    $appraisalPrivMainModel = new Default_Model_Appraisalqsmain();
+	    $app_manager_model = new Default_Model_Appraisalmanager();
+	    $usersmodel = new Default_Model_Users();
+	    $current_day = new DateTime('now');
+	    $current_day->sub(new DateInterval('P1D'));
+	    if(!empty($active_appraisal_Arr))
+	    {
+	        foreach($active_appraisal_Arr as $appval)
+	        {
+	            if($appval['reporting_managers_due_date'])
+	                $reporting_manager_due_date = new DateTime($appval['reporting_managers_due_date']);
+	            else
+	                $reporting_manager_due_date = '';
+	            if($appval['employees_due_date'])
+	                $emp_due_date = new DateTime($appval['employees_due_date']);
+	            else
+	                $emp_due_date = '';
+	            if($appval['managers_due_date'])
+	                $manager_due_date = new DateTime($appval['managers_due_date']);
+	            else
+	                $manager_due_date = '';
 
-                $due_date = ($appval['enable_step'] == 2)? $emp_due_date : $manager_due_date;
-
-                $interval = $current_day->diff($due_date);
-                $interval->format('%d');
-                $interval=$interval->days;
-
-                $appIdArr = array();
-                $appIdList = '';
-                if($interval == APPRAISAL_REMINDER_DAYS)
-                {
-                    if($appval['enable_step'] == 2)
-                    {
-                        $employeePendingArr = $app_ratings_model->getEmployeeIds($appval['id'],'cron', 1); //find appraisals pending employee ratings
-                        $lineManagerPendingArr = $app_ratings_model->getEmployeeIds($appval['id'],'cron', 2); //find appraisals pending line manager ratings
-                        if(!empty($employeePendingArr))
-                        {
-                            $empIdArr = array();
-                            $empIdList = '';
-                            foreach($employeePendingArr as $empval)
-                            {
-                                array_push($empIdArr,$empval['employee_id']);
-                            }
-                            if(!empty($empIdArr))
-                            {
-                                $empIdList = implode(',',$empIdArr);
-                                $employeeDetailsArr = $app_manager_model->getUserDetailsByEmpID($empIdList); //Fetching employee details
-
-                                 if(!empty($employeeDetailsArr))
-                                 {
-                                    $empArr = array();
-                                    foreach($employeeDetailsArr as $emp)
-                                    {
-                                        array_push($empArr,$emp['emailaddress']); //preparing Bcc array
-                                    }
-
-                                    $optionArr = array('subject'=>'Performance appraisal submission reminder',
-                                                      'header'=>'Performance Appraisal',
-                                                      'toemail'=>SUPERADMIN_EMAIL,
-                                                      'toname'=>'Super Admin',
-                                                      'bcc'	  => $empArr,
-                                                      'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                                    <span style='color:#3b3b3b;'>Dear colleague, </span><br />
-                                                    <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your Self appraisal submission is pending.</div>
-                                                    <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to submit your feedback by <b>".$emp_due_date->format("d.m.")."</b></div>
-                                                    </div> ",
-                                                      'cron'=>'yes');
-                                    sapp_PerformanceHelper::saveCronMail($optionArr);
-                                }
-                            }
-                        }
-                        if(!empty($lineManagerPendingArr))
-                        {
-                            $lineManIdArr = array();
-                            $manIdList = '';
-                            foreach($lineManagerPendingArr as $empval)
-                            {
-                                array_push($lineManIdArr,$empval['line_manager_1']);
-                            }
-                            if(!empty($lineManIdArr))
-                            {
-                                $manIdList = implode(',',$lineManIdArr);
-                                $managerDetailsArr = $app_manager_model->getUserDetailsByEmpID($manIdList); //Fetching line manager details
-
-                                if(!empty($managerDetailsArr))
-                                {
-                                    $manArr = array();
-                                    foreach($managerDetailsArr as $man)
-                                    {
-                                        array_push($manArr,$man['emailaddress']); //preparing Bcc array
-                                    }
-
-                                    $optionArr = array('subject'=>'Manager appraisal submission is pending',
-                                        'header'=>'Performance Appraisal',
-                                        'toemail'=>SUPERADMIN_EMAIL,
-                                        'toname'=>'Super Admin',
-                                        'bcc'	  => $manArr,
-                                        'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
-                                            <span style='color:#3b3b3b;'>Dear manager, </span><br />
-                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal submission is pending.</div>
-                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by <b>".$manager_due_date->format("d.m.")."</b></div>
-                                            </div> ",
-                                        'cron'=>'yes');
-                                    sapp_PerformanceHelper::saveCronMail($optionArr);
-                                }
-                            }
-                        }
-
-                    }
-                    else
+                if($appval['enable_step'] == 1){
+                    $interval = $current_day->diff($manager_due_date);
+                    $interval->format('%d');
+                    $interval = $interval->days;
+                    if($interval == APPRAISAL_REMINDER_DAYS)
                     {
                         $getLine1ManagerId = $appraisalPrivMainModel->getLine1ManagerIdMain($appval['id']);
                         if(!empty($getLine1ManagerId))
@@ -648,25 +566,101 @@ class Default_CronjobController extends Zend_Controller_Action
                             $empArr = array();
                             foreach($getLine1ManagerId as $val)
                             {
-                              array_push($empArr,$val['emailaddress']); //preparing Bcc array
+                                array_push($empArr,$val['emailaddress']); //preparing Bcc array
                             }
                             $optionArr = array('subject'=>'Manager appraisal submission is pending',
-                                              'header'=>'Performance Appraisal',
-                                              'toemail'=>SUPERADMIN_EMAIL,
-                                              'toname'=>'Super Admin',
-                                              'bcc'	  => $empArr,
-                                              'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                'header'=>'Performance Appraisal',
+                                'toemail'=>SUPERADMIN_EMAIL,
+                                'toname'=>'Super Admin',
+                                'bcc'	  => $empArr,
+                                'message'=>"<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
                                             <span style='color:#3b3b3b;'>Dear manager, </span><br />
                                             <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal submission is pending.</div>
                                             <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL." target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by <b>".$manager_due_date->format("d.m.")."</b></div>
                                             </div> ",
-                                              'cron'=>'yes');
+                                'cron'=>'yes');
                             sapp_PerformanceHelper::saveCronMail($optionArr);
+                        }
+                    }
+                } else if($appval['enable_step'] == 2) {
+                    $interval = $current_day->diff($emp_due_date);
+                    $interval->format('%d');
+                    $interval = $interval->days;
+
+                    if ($interval == APPRAISAL_REMINDER_DAYS) {
+                        $employeePendingArr = $app_ratings_model->getEmployeeIds($appval['id'], 'cron', 1); //find appraisals pending employee ratings
+                        if (!empty($employeePendingArr)) {
+                            $empIdArr = array();
+                            foreach ($employeePendingArr as $empval) {
+                                array_push($empIdArr, $empval['employee_id']);
+                            }
+                            if (!empty($empIdArr)) {
+                                $empIdList = implode(',', $empIdArr);
+                                $employeeDetailsArr = $app_manager_model->getUserDetailsByEmpID($empIdList); //Fetching employee details
+
+                                if (!empty($employeeDetailsArr)) {
+                                    $empArr = array();
+                                    foreach ($employeeDetailsArr as $emp) {
+                                        array_push($empArr, $emp['emailaddress']); //preparing Bcc array
+                                    }
+
+                                    $optionArr = array('subject' => 'Performance appraisal submission reminder',
+                                        'header' => 'Performance Appraisal',
+                                        'toemail' => SUPERADMIN_EMAIL,
+                                        'toname' => 'Super Admin',
+                                        'bcc' => $empArr,
+                                        'message' => "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                                    <span style='color:#3b3b3b;'>Dear colleague, </span><br />
+                                                    <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your Self appraisal submission is pending.</div>
+                                                    <div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to submit your feedback by <b>" . $emp_due_date->format("d.m.") . "</b></div>
+                                                    </div> ",
+                                        'cron' => 'yes');
+                                    sapp_PerformanceHelper::saveCronMail($optionArr);
+                                }
+                            }
+                        }
+                    }
+
+                    $interval = $current_day->diff($reporting_manager_due_date);
+                    $interval->format('%d');
+                    $interval = $interval->days;
+
+                    if ($interval == APPRAISAL_REMINDER_DAYS) {
+                        $lineManagerPendingArr = $app_ratings_model->getEmployeeIds($appval['id'], 'cron', 2); //find appraisals pending line manager ratings
+                        if (!empty($lineManagerPendingArr)) {
+                            $lineManIdArr = array();
+                            foreach ($lineManagerPendingArr as $empval) {
+                                array_push($lineManIdArr, $empval['line_manager_1']);
+                            }
+                            if (!empty($lineManIdArr)) {
+                                $manIdList = implode(',', $lineManIdArr);
+                                $managerDetailsArr = $app_manager_model->getUserDetailsByEmpID($manIdList); //Fetching line manager details
+
+                                if (!empty($managerDetailsArr)) {
+                                    $manArr = array();
+                                    foreach ($managerDetailsArr as $man) {
+                                        array_push($manArr, $man['emailaddress']); //preparing Bcc array
+                                    }
+
+                                    $optionArr = array('subject' => 'Manager appraisal submission is pending',
+                                        'header' => 'Performance Appraisal',
+                                        'toemail' => SUPERADMIN_EMAIL,
+                                        'toname' => 'Super Admin',
+                                        'bcc' => $manArr,
+                                        'message' => "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
+                                            <span style='color:#3b3b3b;'>Dear manager, </span><br />
+                                            <div style='padding:20px 0 0 0;color:#3b3b3b;'>Your appraisal submission is pending.</div>
+                                            <div style='padding:20px 0 10px 0;'>Please <a href=" . BASE_URL . " target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance appraisal</b> account to submit your feedback by <b>" . $manager_due_date->format("d.m.") . "</b></div>
+                                            </div> ",
+                                        'cron' => 'yes');
+                                    sapp_PerformanceHelper::saveCronMail($optionArr);
+                                }
+                            }
                         }
                     }
                 }
             }
-         }
+	    }
 	}
 	
 	public function checkffduedate()

@@ -1299,6 +1299,7 @@ class Default_IndexController extends Zend_Controller_Action
 
 	public function popupAction()
 	{
+        $this->_redirect('index');
 		/*
 		 * This action will be triggered when new user is opening the application from email.
 		 * So the index page will open with Popup in a open state

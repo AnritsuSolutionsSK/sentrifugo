@@ -33,24 +33,27 @@ if(empty($this->check_ratings_exists)) { ?>
             var html = '';   
             $('.errors').remove();      
 		    $('.app_req_field').each(function(){
-		        var val = $.trim($(this).val());
-		        if(val.length == 0){
-		            req_count = req_count+1;
-		
-					if(req_count == 1){
-			    		$('a[href="#'+$(this).closest('.ui-tabs-panel').attr('id')+'"]').click();
-					}
-		            
-		            if($(this).attr('type')=='hidden')
-		            	$(this).next().addClass('borderclass');
-		            else
-		            	$(this).addClass('borderclass');
-				} else {
-					if($(this).attr('type')=='hidden')
-						$(this).next().removeClass('borderclass');
-					else
-						$(this).removeClass('borderclass');
-				}
+		        if($(this).is("div") && $(this).hasClass("select_field")){}//div parent of select, does not have any value, don't check it. Needs the app_req_field class for the select to inherit it
+		        else {
+                    var val = $.trim($(this).val());
+                    if (val.length == 0) {
+                        req_count = req_count + 1;
+
+                        if (req_count == 1) {
+                            $('a[href="#' + $(this).closest('.ui-tabs-panel').attr('id') + '"]').click();
+                        }
+
+                        if ($(this).attr('type') == 'hidden')
+                            $(this).next().addClass('borderclass');
+                        else
+                            $(this).addClass('borderclass');
+                    } else {
+                        if ($(this).attr('type') == 'hidden')
+                            $(this).next().removeClass('borderclass');
+                        else
+                            $(this).removeClass('borderclass');
+                    }
+                }
 		    });
 		    $(".app_ratings_text").each(function(){
                 var qval = $(this).val();

@@ -52,9 +52,9 @@ if($this->ermsg == '')
  ?>
     <div class="requisitions-block_ appri_view_step_1">
         <div class="total-form-controller cancel-set data-view-details" style="padding-top: 0px;">
-            
 			<div class="cofig_title" style="margin-left: 0px; padding-top: 0px;">Appraisal Details
-				<div class="new-form-ui-submit "  style="margin-top: 0px; float: right; width: auto;">
+                <a href="<?php echo BASE_URL?>myteamappraisal/downloadpdfsbyappraisal/appraisal_id/<?php echo sapp_Global::_encrypt($appraisalid);?>" class="downloadLink">Download all PDFs</a>
+                <div class="new-form-ui-submit "  style="margin-top: 0px; float: right; width: auto;">
 					<!--<div class="back-to-page" style="position: relative; float: right; top: 0px;">
 						<input type="button" onclick="window.location.href='<?php //echo BASE_URL; ?>appraisalinit';" name="Back" value="Back" style="margin-right: 0px;">
 					</div>-->

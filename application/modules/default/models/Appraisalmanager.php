@@ -309,7 +309,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         return $final_arr;
     }
     
-    public function getempcontent($appraisal_id,$manager_id,$user_id,$flag,$app_config_id)
+    public function getempcontent($appraisal_id,$manager_id,$user_id,$flag='',$app_config_id='')
     {
     	$auth = Zend_Auth::getInstance();
         if($auth->hasIdentity())
@@ -318,7 +318,7 @@ class Default_Model_Appraisalmanager extends Zend_Db_Table_Abstract
         }   
         $final_arr = array();
         $edit_flag = 'false';
-        if($appraisal_id != '' && $manager_id != '' && $user_id != '' && $flag != '')
+        if($appraisal_id != '' && $manager_id != '' && $user_id != '')
         {   
 
             $db = Zend_Db_Table::getDefaultAdapter();
@@ -570,5 +570,18 @@ public function getSearchEmpdata_managerapp($manager_id,$searchval)
     	$qry = "select line_manager_$next from main_pa_questions_privileges where pa_initialization_id = $init_id and employee_id = $employee_id and isactive=1; "; 
     	$result = $this->_db->query($qry)->fetch();
     	 return $result;
+    }
+
+    public function getEmpsByAppraisalId($appraisal_id){
+        $bunitDept = $this->getBunitDept($appraisal_id);
+        if($bunitDept && !empty($bunitDept)){
+            $qry = "select user_id, reporting_manager from main_employees where businessunit_id=".$bunitDept['businessunit_id'];
+            if($bunitDept['department_id'] != ''){
+                $qry .= " AND department_id=".$bunitDept['department_id'];
+            }
+            return $this->_db->fetchAll($qry);
+        } else {
+            return false;
+        }
     }
 }//end of class

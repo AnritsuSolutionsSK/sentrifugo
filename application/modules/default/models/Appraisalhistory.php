@@ -168,7 +168,7 @@ class Default_Model_Appraisalhistory extends Zend_Db_Table_Abstract
 		return $dataTmp;
 	}
 
-	public function getAppraisalHistoryDates($appraisal_id,$manager_id,$employee_id,$flag){
+	public function getAppraisalHistoryDates($appraisal_id,$manager_id,$employee_id,$flag=''){
 	    $query = "select * from main_pa_appraisalhistory ah where ah.pa_initialization_id=".$appraisal_id." AND ah.employee_id=".$employee_id." AND isactive=1";
         $db = Zend_Db_Table::getDefaultAdapter();
         $data = $db->query($query)->fetchAll();

@@ -658,6 +658,124 @@ class Default_MyteamappraisalController extends Zend_Controller_Action
         $view->manager_id = $loginUserId;                            
         $view->error_msg = $errorMsg;
     }
+
+    //for admin to download all appraisal PDFs for a given appraisal process
+    //added for Anritsu workflow only
+    public function downloadpdfsbyappraisalAction(){
+        $this->_helper->layout->disableLayout();
+        $auth = Zend_Auth::getInstance();
+        if($auth->hasIdentity())
+        {
+            $loginUserId = $auth->getStorage()->read()->id;
+        }
+
+        $files = array();
+
+        $appraisalManagerModelObj = new Default_Model_Appraisalmanager();
+        $historyModel = new Default_Model_Appraisalhistory();
+
+        $appraisal_id = sapp_Global::_decrypt($this->_request->getParam('appraisal_id'));
+        $appEmpRatingsModel = new Default_Model_Appraisalemployeeratings();
+        if(!is_numeric($appraisal_id))
+        {
+            return false;
+        }
+
+        $allEmpsForAppraisalProcess = $appraisalManagerModelObj->getEmpsByAppraisalId($appraisal_id);
+        foreach($allEmpsForAppraisalProcess as $emp) {
+            $manager_id = $emp['reporting_manager'];
+            $user_id = $emp['user_id'];
+            $searchval = " AND es.user_id=$user_id ";
+            $empAppraisalData = $appraisalManagerModelObj->getEmpdata_managerapp($manager_id, $searchval);
+
+            $data = $appraisalManagerModelObj->getempcontent($appraisal_id, $manager_id, $user_id);
+            $historyData = $historyModel->getAppraisalHistoryDates($appraisal_id, $manager_id, $user_id);
+            foreach ($historyData as $name => $value) {
+                if ($value != '') {
+                    $timestamp = strtotime($value);
+                    $historyData[$name] = date(DATEFORMAT_PHP, $timestamp);
+                } else {
+                    $historyData[$name] = '_________';
+                }
+            }
+
+            if (empty($data['employee_response'])) {
+                $data['category_arr'] = $this->appraisalQuestionsForDownload($appraisal_id, $user_id);
+            }
+
+            $appEmpQuesPrivData = $appEmpRatingsModel->getAppEmpQuesPrivData($appraisal_id, $user_id);
+            $hr_ques_previs = array();
+            $mgr_ques_previs = array();
+
+            if ($appEmpQuesPrivData[0]['hr_group_qs_privileges'])
+                $hr_ques_previs = json_decode($appEmpQuesPrivData[0]['hr_group_qs_privileges'], true);
+
+            if ($appEmpQuesPrivData[0]['manager_qs_privileges'])
+                $mgr_ques_previs = json_decode($appEmpQuesPrivData[0]['manager_qs_privileges'], true);
+
+            $question_previs = $hr_ques_previs + $mgr_ques_previs;
+
+            // Get 'My Team Appraisal - Employee' skills
+            $emp_skills = $appEmpRatingsModel->getAppEmpSkills($appraisal_id, $user_id);
+            //app period (Q1,H2 etc)
+            $appText = utf8_encode(substr($empAppraisalData[0]['appraisal_mode'], 0, 1)) . $empAppraisalData[0]['appraisal_period'];
+            //render view page as text
+            $view = $this->getHelper('ViewRenderer')->view;
+            $this->view->data = $data;
+            $this->view->historyData = $historyData;
+            //        $this->view->key = $key;
+            //        $this->view->flag = $flag;
+            $this->view->user_id = $user_id;
+            $this->view->emp_skills = $emp_skills;
+            $this->view->appraisal_id = $appraisal_id;
+            //        $this->view->emp_status = $emp_status;
+            //        $this->view->app_ratings = $app_ratings;
+            $this->view->question_previs = $question_previs;
+            $this->view->empAppraisalData = $empAppraisalData;
+            $this->view->loginUserId = $loginUserId;
+            $this->view->appText = $appText;
+            $text = $view->render('myteamappraisal/appraisalpdf.phtml');
+            //generating file name
+            $file_name_params_array = array($empAppraisalData[0]['userfullname'], $empAppraisalData[0]['from_year'], $empAppraisalData[0]['to_year'], $appText);
+            $file_name = $this->_helper->PdfHelper->generateFileName($file_name_params_array);
+            //mpdf
+            require_once 'MPDF57/mpdf.php';
+            $mpdf = new mPDF('', 'A4', 14, '', 10, 10, 12, 12, 6, 6);
+            $mpdf->SetDisplayMode('fullpage');
+
+            $mpdf->list_indent_first_level = 0;
+            $mpdf->SetDisplayMode('fullpage');
+            $mpdf->pagenumPrefix = str_repeat(" ", 98);
+            $mpdf->pagenumSuffix = '';
+            $mpdf->nbpgPrefix = ' of ';
+            $mpdf->nbpgSuffix = '';
+            $mpdf->SetFooter('{PAGENO}{nbpg}');
+            $mpdf->AddPage();
+            $mpdf->WriteHTML($text);
+            $mpdf->Output((!empty($file_name) ? $file_name : 'appraisal') . '.pdf', 'F');
+            $files[] = $file_name.".pdf";
+        }
+        $zipname = 'appraisals.zip';
+        if(file_exists($zipname))
+            unlink($zipname);
+        $zip = new ZipArchive;
+        $zip->open($zipname, ZipArchive::CREATE);
+        foreach ($files as $file) {
+            $zip->addFile($file);
+        }
+        $zip->close();
+        foreach ($files as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+        header('Content-Type: application/zip');
+        header('Content-disposition: attachment; filename='.$zipname);
+        header('Content-Length: ' . filesize($zipname));
+        readfile($zipname);
+        exit;
+    }
+
     //code for pdf
    //for downloading pdf
     public function downloadpdfAction()

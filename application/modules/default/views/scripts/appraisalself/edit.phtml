@@ -436,6 +436,9 @@ if(empty($this->check_ratings_exists)) { ?>
 	</div>
 <script type="text/javascript">
 $(document).ready(function(){
+    $(window).on('beforeunload', function(){
+        return 'Are you sure you want to leave? Unsaved changes will be lost.';
+    });
 	$("#tabs").tabs();
 	var tooltipvalues = <?php echo $this->ratingText;?>;
 	$(".rateit").bind('over', function (event, value) { $(this).attr('title', tooltipvalues[value - 1]); });

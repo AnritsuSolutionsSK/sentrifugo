@@ -424,6 +424,9 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 
     
     $(document).ready(function(){
+        $(window).on('beforeunload', function(){
+            return 'Are you sure you want to leave? Unsaved changes will be lost.';
+        });
         $(".tabs_<?php echo $main_key;?>").tabs();
         $('div.rateit, span.rateit').rateit();
     

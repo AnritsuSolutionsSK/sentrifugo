@@ -155,6 +155,7 @@ if(empty($this->check_ratings_exists)) { ?>
                     if (r) {
                         $.blockUI({width: '50px', message: $("#spinner").html()});
                         $('#flag').val(flag);
+                        $(window).off('beforeunload');
                         $('#appraisalform').submit();
                     } else {
                         jAlert("You must agree to continue.", "Info");

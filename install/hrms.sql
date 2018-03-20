@@ -2455,7 +2455,7 @@ CREATE TABLE `main_pa_category` (
 /*Data for the table `main_pa_category` */
 
 /*insert  into `main_pa_category`(`id`,`category_name`,`description`,`createdby`,`modifiedby`,`createddate`,`modifieddate`,`isactive`,`isused`) values (1,'KRA','Key Result Area',1,1,'2016-11-02 11:14:33','2016-11-02 11:14:33',1,1),(2,'KPI','Key Performance Index',1,1,'2016-11-02 11:14:33','2016-11-02 11:14:33',1,1);*/
-insert  into `main_pa_category`(`id`,`category_name`,`description`,`createdby`,`modifiedby`,`createddate`,`modifieddate`,`isactive`,`isused`) values  (3,'Performance against objectives',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(4,'Employee\'s feedback',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(5,'Development plan',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(6,'Manager\'s feedback',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(7,'Meeting Anritsu\'s expectations',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(8,'Overall performance rating',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1);
+insert  into `main_pa_category`(`id`,`category_name`,`description`,`createdby`,`modifiedby`,`createddate`,`modifieddate`,`isactive`,`isused`) values  (3,'Performance against objectives',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(4,'Employee\'s feedback',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(5,'Development plan',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(6,'Manager\'s feedback',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(7,'Demonstrating Anritsu\'s values',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1),(8,'Overall performance rating',NULL,1,1,'2017-11-01 00:00:00','2017-11-01 00:00:00',1,1);
 
 
 

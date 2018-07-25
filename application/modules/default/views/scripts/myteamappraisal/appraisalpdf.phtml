@@ -110,9 +110,9 @@
                             <table border="1" cellpadding="8" cellspacing="0" width="800" style="border-collapse:collapse; margin-top: 10px;">
                                 <?php if($rating && $comment && !$achievement){ ?>
                                     <tr>
-                                        <td width="300"><font face="'Arial', sans-serif" size="2"><strong>Question</strong></font></td>
-                                        <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Employee Comment</strong></font></td>
-                                        <td width="250"><font face="'Arial', sans-serif" size="2"><strong>Manager Comment</strong></font></td>
+<!--                                        <td width="300"><font face="'Arial', sans-serif" size="2"><strong>Question</strong></font></td>-->
+                                        <td width="400" align="center"><font face="'Arial', sans-serif" size="2"><strong>Manager Rating/Comment</strong></font></td>
+<!--                                        <td width="400"><font face="'Arial', sans-serif" size="2"><strong>Manager Comment</strong></font></td>-->
                                     </tr>
                                 <?php } elseif($objective){ ?>
                                     <tr>
@@ -191,25 +191,25 @@
                                                     <?php } ?>
                                                 </td>
                                         <?php }} else if($rating && $comment && !$achievement){ ?>
-                                            <td width="300"  valign="top"><font face="'Arial', sans-serif" size="2"><strong><?php echo isset($v['question'])?$v['question']:'';?></strong></font>
-                                                <br>
-                                                <br>
-                                                <font face="'Arial', sans-serif" size="1"><?php echo isset($v['description'])?$v['description']:'';?></font>
-                                            </td>
-                                            <td width="250"  valign="top">
-                                                <font face="'Arial', sans-serif" size="3"><strong><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_value'].' - ':"";?></strong></font>
-                                                <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_text']:"";?></font>
-                                                <br>
-                                                <br>
-
-                                                <font face="'Arial', sans-serif" size="1"><?php echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';?></font>
-                                            </td>
-                                            <td width="250"  valign="top">
+<!--                                            <td width="300"  valign="top"><font face="'Arial', sans-serif" size="2"><strong>--><?php //echo isset($v['question'])?$v['question']:'';?><!--</strong></font>-->
+<!--                                                <br>-->
+<!--                                                <br>-->
+<!--                                                <font face="'Arial', sans-serif" size="1">--><?php //echo isset($v['description'])?$v['description']:'';?><!--</font>-->
+<!--                                            </td>-->
+<!--                                            <td width="250"  valign="top">-->
+<!--                                                <font face="'Arial', sans-serif" size="3"><strong>--><?php //echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_value'].' - ':"";?><!--</strong></font>-->
+<!--                                                <font face="'Arial', sans-serif" size="1">--><?php //echo (isset($v['question_id']) && isset($rating_arr[$employee_response[$v['question_id']]['rating_id']]))?$rating_arr[$employee_response[$v['question_id']]['rating_id']]['rating_text']:"";?><!--</font>-->
+<!--                                                <br>-->
+<!--                                                <br>-->
+<!---->
+<!--                                                <font face="'Arial', sans-serif" size="1">--><?php //echo (isset($v['question_id']) && !empty($employee_response[$v['question_id']]['comment']))?$employee_response[$v['question_id']]['comment']:'';?><!--</font>-->
+<!--                                            </td>-->
+                                            <td valign="top" align="center">
                                                 <?php if(($this->empAppraisalData[0]['appraisal_status'] != 'Pending L1 ratings' && $this->empAppraisalData[0]['appraisal_status'] != 'Pending employee ratings')  || ($this->empAppraisalData[0]['line_manager_1'] == $this->loginUserId)) {?>
-                                                    <font face="'Arial', sans-serif" size="3"><strong><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value'].' - ':'';?></strong></font>
-                                                    <font face="'Arial', sans-serif" size="1"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$v['question_id']]['rating']]['rating_text']:"";?></font>
-                                                    <br>
-                                                    <br>
+                                                    <font face="'Arial', sans-serif" size="5"><strong><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$qrating]['rating_value'].' - ':'0';?></strong></font>
+                                                    <font face="'Arial', sans-serif" size="2"><?php echo (isset($rating_arr[$qrating]))?$rating_arr[$manager_response[$v['question_id']]['rating']]['rating_text']:'Not Rated';?></font>
+                                                    <br />
+                                                    <br />
                                                     <font face="'Arial', sans-serif" size="1"><?php echo !empty($qcomment)?$qcomment:'';?></font>
                                                 <?php } ?>
                                             </td>

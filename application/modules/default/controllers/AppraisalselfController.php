@@ -438,14 +438,15 @@ class Default_AppraisalselfController extends Zend_Controller_Action
                            {
                                $date = DateTime::createFromFormat('Y-m-d', $appraisaldata[0]['reporting_managers_due_date']);
                                $manager_due_date = $date->format('d.m.');
-                               $options['subject'] = APPLICATION_NAME.': Performance Appraisal Submitted by Employee';
+                               $options['subject'] = APPLICATION_NAME.': Performance Appraisal Submitted by '.$loginuserFullName;
                                $options['header'] = "Performance Appraisal : $to_year";
                                $options['toEmail'] = $employeeDetailsArr['emailaddress'];
                                $options['toName'] = $employeeDetailsArr['userfullname'];
                                $options['message'] = "<div style='padding: 0; text-align: left; font-size:14px; font-family:Arial, Helvetica, sans-serif;'>				
                                                             <span style='color:#3b3b3b;'>Dear Manager,</span><br />
                                                             <div style='padding:20px 0 0 0;color:#3b3b3b;'>".$loginuserFullName." has submitted the appraisal form. </div>
-                                                            <div style='padding:20px 0 10px 0;'>Please <a href=\".BASE_URL.\" target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to complete the review and enter the rating by <b>".$manager_due_date."</b>.</div>
+                                                            <div style='padding:20px 0 10px 0;'>Please <a href=".BASE_URL."
+                                                             target='_blank' style='color:#b3512f;'>click here</a> to login  to your <b>Performance Appraisal</b> account to complete the review and enter the rating by <b>".$manager_due_date."</b>.</div>
 														    </div>";
                                $mail_id =  sapp_Global::_sendEmail($options);
                            }

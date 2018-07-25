@@ -627,7 +627,7 @@ defined('REQUIRED_OBJECTIVES_COUNT') || define('REQUIRED_OBJECTIVES_COUNT', 1);
 defined('APPRAISAL_AGREEMENT_TEXT') || define('APPRAISAL_AGREEMENT_TEXT', 'I agree to the processing of my personal data included in the online performance review system for the needs of Anritsu performance appraisal process.');
 
 //link for manuals, etc...
-defined('APPRAISAL_HELP_LINK') || define('APPRAISAL_HELP_LINK', 'http://intranet2.eu.anritsu.com/Corporate/HR/General%20HR%20Documents/Forms/AllItems.aspx');
+defined('APPRAISAL_HELP_LINK') || define('APPRAISAL_HELP_LINK', 'http://intranet2.eu.anritsu.com/Corporate/HR/General%20HR%20Documents/Miscellaneous/Appraisal%20System%20User%20Guide.pdf');
 //==========================END FOR APPRAISALS CONSTANTS=============================
 /*
  * USER CONSTANTS GOES FROM HERE

@@ -129,7 +129,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                         <span class="appri_ques"><?php echo $ques['question'];?></span>
                                         <span class="appri_desc"><?php echo isset($employee_response[$ques['question_id']]['objective'])?$employee_response[$ques['question_id']]['objective']:'';?></span>
-                                    <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
+                                    <?php } else if($ques['question_type'] == QUESTION_TYPE_COMMENT_RATING) { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
                                     <?php }else { ?>
                                         <span class="appri_ques"><?php echo $ques['question']; ?></span>
@@ -139,10 +139,12 @@ if(count($data) > 0 && !empty($data['rating_arr']))
 							</td>
 							<td>
                                 <?php if($ques['question_type'] == QUESTION_TYPE_COMMENT_RATING){ ?>
-                                    <?php if($priv_data['ER'] == 1): ?>
+                                    <?php if($priv_data['ER'] == 1){ ?>
                                         <span class="rating_value"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_value']:''):"0";?></span>
                                         <span class="rating_text"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?(isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text'])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:''):"Not Rated";?></span>
-                                    <?php endif; ?>
+                                    <?php } else { ?>
+                                        <div class="rating_text">(Not available to employees)</div>
+                                    <?php } ?>
                                         <div class="rating_comments"><?php echo $employee_response[$ques['question_id']]['comment'];?></div>
                                 <?php } elseif($ques['question_type'] == QUESTION_TYPE_COMMENTONLY){ ?>
                                     <?php if($priv_data['EC'] == 1){ ?>
@@ -581,7 +583,7 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                             <?php if($ques['question_type'] == QUESTION_TYPE_OBJECTIVE){ ?>
                                 <span class="appri_ques"><?php echo $ques['question'];?></span>
                                 <span class="appri_desc"><?php echo $employee_response[$ques['question_id']]['objective']; ?></span>
-                            <?php } else if($ques['question_type'] == QUESTION_TYPE_RATINGONLY) { ?>
+                            <?php } else if($ques['question_type'] == QUESTION_TYPE_COMMENT_RATING) { ?>
                                 <span class="appri_ques"><?php echo $ques['question']; ?></span>
                             <?php } else { ?>
                                 <span class="appri_ques"><?php echo $ques['question']; ?></span>
@@ -596,7 +598,11 @@ if(count($data) > 0 && !empty($data['rating_arr']))
                                     <span class="rating_txt"><?php echo isset($rating_arr[$employee_response[$ques['question_id']]['rating_id']])?$rating_arr[$employee_response[$ques['question_id']]['rating_id']]['rating_text']:"Not Rated";?></span>
 
                                 <?php endif; ?>
-                                <br><?php echo $employee_response[$ques['question_id']]['comment'];?>
+                                <?php if($priv_data['EC'] == 1){
+                                    echo $employee_response[$ques['question_id']]['comment'];
+                                } else {
+                                    echo "(not applicable)";
+                                } ?>
                             </td>
                             <td>
                                 <?php if($priv_data['MR'] == 1): ?>
